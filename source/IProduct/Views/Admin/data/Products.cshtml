@@ -1,0 +1,113 @@
+﻿@{
+    Layout = null;
+}
+
+<div class="header" id="productsHeader">
+    Manage Products
+    <span>Add Prdoducts</span>
+</div>
+<div class="products">
+    categories
+</div>
+
+<script>
+    var products;
+
+    function Edit(item) {
+        Partial("data/AddProduct.cshtml", function (block) {
+            var dialog = $("body").dialog({
+                data: block,
+                title: "Add/Edit Products",
+                confirmText: "Save",
+                cancelText: "Cancel",
+                screan: true,
+                buttons: [{
+                    text: "Save",
+                    click: function () {
+                        var x = validateProduct();
+                        if (x != false) {
+                            $(".body").ax({
+                                url: '@Url.Action("SaveProduct", "Admin")',
+                                data: JSON.stringify(x),
+                                success: function (data) {
+                                    products.BuildData();
+                                    dialog.Hide();
+                                }
+                            });
+
+
+                        }
+                        return false;
+                    }
+                }]
+            }).Show();
+            EditProducts(item);
+        });
+    }
+
+
+    $("#productsHeader> span").click(function () {
+        Edit();
+    });
+
+        var columns = [{
+        data: "name",
+        },
+        {
+        data: "description",
+        },
+        {
+             data: "status",
+        },
+        {
+            data: "Categories",
+            value: function (item) {
+                var value = "";
+                $.each(item.productcategories, function () {
+                    value += this.category.name +",";
+                });
+                if (value.length > 2)
+                    value = value.slice(0, -1);
+                return value;
+            },
+            sortable: false
+        },
+        {
+        edit: function (item) {
+            Edit(item);
+            },
+            delete: function (item) {
+                confirm("Are you sure?", function () {
+                    $(".products").ax({
+                        url: '@Url.Action("DeleteProduct", "Admin")',
+                        data: JSON.stringify({ itemId: item.id }),
+                        async: false,
+                        success: function (data) {
+                            categories.BuildData();
+                        }
+                    });
+                }, categories);
+            },
+
+        }]
+    products = $(".products").DataTableTree({
+        data: function (settings) {
+            var result = "";
+            if (!settings)
+                return [];
+            $(".products").ax({
+                url: '@Url.Action("GetProduct", "Admin")',
+                data: JSON.stringify( settings),
+                async: false,
+                success: function (data) {
+                    settings.totalPages = data.totalpages;
+                    result = data.result;
+                }
+            })
+            return result;
+
+        },
+        pageSize: 20,
+        columns: columns,
+    });
+</script>

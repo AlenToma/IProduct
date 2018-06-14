@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="nav-no-js">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Styles.Render("~/Content/My")
+    @Styles.Render("~/Content/site")
+    @Styles.Render("~/Navigation Menu/css")
+    @Scripts.Render("~/bundles/My")
+    @Scripts.Render("~/Navigation Menu/js")
+    <script>
+        var shoppingCart;
+        var loginView;
+        function Partial(moduleName, callbeck) {
+            var item = undefined;
+            $("body").ax({
+                type: "GET",
+                url: '@Url.Action("GetModule", "Home")',
+                dataType: 'html',
+                async: (callbeck != undefined),
+                data: { partialName: "data/" + moduleName },
+                success: function (data) {
+
+                    item = $(data);
+                    if (callbeck)
+                        callbeck(data);
+                }
+            });
+            return item;
+        }
+
+        function confirm(text, onconfirm, container) {
+            if (!container)
+                container = $("body")
+            container.dialog({
+                data: $("<span class='info'></span>").html(text),
+                title:"Please confirm",
+                onConfirm: onconfirm,
+                onCancel: function () { }
+            }).Show();
+        }
+
+  
+
+    </script>
+
+</head>
+<body>
+
+    <div class="container body-content">
+        @RenderPage("~/Views/data/TopMenu.cshtml")
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

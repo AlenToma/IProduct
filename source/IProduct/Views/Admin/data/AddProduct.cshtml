@@ -1,0 +1,392 @@
+﻿
+<div class="productForm form">
+</div>
+<div id="productGeneral">
+    <div class="form-group">
+        <label>
+            Name:
+        </label>
+        <input type="text" class="form-control name" require placeholder="Enter name" name="name" />
+    </div>
+    <div class="form-group">
+        <label for="name">
+            Categories:
+        </label><ul class="categoriesContainer itemContainer"></ul>
+    </div>
+
+    <div class="form-group">
+        <label for="price">Price:</label>
+        <input type="number" class="form-control price" require placeholder="Enter price" name="price" />
+    </div>
+
+    <div class="form-group">
+        <label for="content">Content:</label>
+        <textarea id="productContent" class="content htmleditor"></textarea>
+    </div>
+
+</div>
+
+<div id="productsTabs">
+    <div class="itemContainer filebrowser">
+        <h1>Tabs<span>Add Tab</span></h1>
+        <div class="product-tabs">
+            <div class="addedTabs">
+
+            </div>
+            <div class="form">
+                <div class="form-group">
+                    <label>Name:</label>
+                    <input type="text" class="form-control name" placeholder="Tab Name" />
+                </div>
+                <div class="form-group">
+                    <label>Content:</label>
+                    <textarea id="tabEditor" class="form-control htmleditor tabContent"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="productProperties">
+    <div class="itemContainer filebrowser">
+        <h1>Images<span>Add Image</span></h1>
+        <ul class="itemContainer images files"></ul>
+    </div>
+    <div class="form-group">
+        <label>
+            Description:
+        </label>
+        <textarea rows="5" class="description form-control"></textarea>
+    </div>
+    <div class="form-group">
+        <label>
+            Search Words:
+        </label>
+        <textarea rows="5" class="keywords form-control"></textarea>
+    </div>
+    <div class="form-group">
+        <label>
+            Meta:
+        </label>
+        <textarea rows="5" class="meta form-control"></textarea>
+    </div>
+
+</div>
+
+<div id="productSettings">
+    <div class="form-group">
+        <label>
+            Available:
+        </label>
+        <input type="text" class="available form-control" />
+    </div>
+
+    <div class="radio-inline">
+        <label><input type="radio" class="status" value="Hidden" name="_status">Hidden</label>
+    </div>
+    <div class="radio-inline">
+        <label><input type="radio" class="status" value="Active" name="_status">Active</label>
+    </div>
+</div>
+
+<script>
+
+    var item;
+    var productContainer = $(".productForm");
+    var producttab = productContainer.tabs({
+        onSelect: function (tab) {
+            if (tab.onSelect)
+                tab.onSelect(tab);
+        }
+    });
+
+
+    var general = producttab.add($("#productGeneral"), "General", "General").select();
+
+    var productsTabs = producttab.add($("#productsTabs"), "Tabs", "Tabs");
+
+    var properties = producttab.add($("#productProperties"), "Properties", "Properties");
+
+    var productsettings = producttab.add($("#productSettings"), "Settings", "Settings");
+
+
+
+
+
+    function upload(form) {
+        tinymce.activeEditor.uploadImages(function (success) {
+            //form.submit();
+        });
+        return false;
+    }
+
+    general.content.find(".categoriesContainer").ax({
+        url: '@Url.Action("GetCategoriesComboBoxItems", "Admin")',
+        data: JSON.stringify({ value: "" }),
+        async: false,
+        success: function (data) {
+            function AddChildren(parent, item) {
+                if (item.categories && item.categories.length > 0) {
+                    parent.addClass("hasChildren");
+                    var ul = $("<ul></ul>");
+                    parent.append(ul);
+                    $.each(item.categories, function () {
+                        var li = $("<li></li>").append("<span><input itemId='"+this.id+"' type='checkbox' /></span>").append("<span>" + this.name + "</span>");
+                        ul.append(li);
+                        AddChildren(li, this);
+                    });
+                }
+            }
+            $.each(data, function () {
+                var li = $("<li></li>").append("<span><input itemId='" + this.id +"' type='checkbox' /></span>").append("<span>" + this.name + "</span>");
+                AddChildren(li, this);
+                general.content.find(".categoriesContainer").append(li);
+            })
+        }
+    });
+
+    function validateProduct() {
+        productContainer.getError = function (message) {
+            return $("<div></div>").addClass("error").html(message);
+        }
+
+        productContainer.clearError = function () {
+            general.content.find(".error").remove();
+            properties.content.find(".error").remove();
+            productsettings.content.find(".error").remove();
+        }
+
+        general.validate = function () {
+            var errorMessages = "";
+            var name = general.content.find(".name");
+            var price = general.content.find(".price");
+            if (name.val().length <= 0)
+                errorMessages += "<br>Name cant be empty";
+            if (price.val() =="" )
+                errorMessages += "<br>Price cant be empty";
+            if (general.content.find("ul.categoriesContainer").find("input:checked").length <= 0)
+                errorMessages += "<br>At least one Category must be selected";
+            if (errorMessages.length > 0) {
+                general.content.prepend(productContainer.getError(errorMessages));
+                return false;
+            }
+            return true;
+        }
+
+        general.getInput = function (x) {
+            tinymce.triggerSave();
+            x.name = general.content.find(".name").val();
+            x.price = parseFloat(general.content.find(".price").val());
+            //x.content = tinymce.get('productContent').getContent()
+            //x.content = general.content.find("#productContent").val();
+            $.each(x.productcategories, function () { this.object_status = "Removed" });
+            general.content.find("ul.categoriesContainer").find("input:checked").each(function () {
+                var categoryId = $(this).attr("itemId");
+                var found = $.grep(x.productcategories, function (a) { return a.category_id == categoryId });
+                if (found.length <= 0) {
+                    x.productcategories.push({ category_id: categoryId });
+                } else $.each(found, function () { this.object_status = "Added" });
+            });
+        }
+
+        properties.validate = function () {
+            return true;
+        }
+
+        properties.getInput = function (x) {
+            x.description = properties.content.find(".description").val();
+            x.keywords = properties.content.find(".keywords").val();
+            x.meta = properties.content.find(".meta").val();
+        }
+
+        productsettings.validate = function () { return true; }
+
+        productsettings.getInput = function (x) {
+            x.available = productsettings.content.find(".available").val().replace("/\//g","-");
+            x.status = productsettings.content.find(".status:checked").val();
+        }
+
+        productContainer.clearError();
+        var v = general.validate() && properties.validate() && productsettings.validate();
+        if (!v) {
+            $("body").dialog({
+                title: "Error",
+                data: "<span class='error'> please make sure all manditory fields are filled </span>",
+            }).Show();
+            return false;
+        } else {
+            general.getInput(item);
+            properties.getInput(item);
+            productsettings.getInput(item);
+            return item;
+        }
+
+    }
+
+    function EditProducts(tItem) {
+        if (!tItem)
+            item = { name: "", price: 0, description: "", productcategories: [], content: "", keywords: "", meta: "", images: [], productdiscounts: [], status: "Hidden", available: "", tabs:[] }
+        else item = tItem;
+        var currentTab = {
+            tab: {name: "", content: ""}, edit: false, content: "" }
+
+        general.content.find(".content").val(item.content)
+        //tinyMCE.DOM.setHTML('productContent', item.content);
+
+
+        function loadHtmlEditor() {
+            bindHtmlEditor(".htmleditor", '@Url.Action("FileBrowser")', function (editor) {
+                if (editor.id == "tabEditor")
+                    currentTab.content = editor.getContent();
+                else
+                    item.content = editor.getContent();
+            });
+        }
+
+
+
+        general.content.find(".name").val(item.name)
+        general.content.find(".price").val(item.price);
+        properties.content.find(".description").val(item.description);
+        properties.content.find(".keywords").val(item.keywords);
+        properties.content.find(".meta").val(item.meta);
+        productsettings.content.find(".available").val(formatDate(item.available));
+        productsettings.content.find(".available").datepicker({ dateFormat: 'dd-mm-yy' });
+
+
+        if (item.status == "Hidden")
+            productsettings.content.find(".status:first-child").click();
+        else productsettings.content.find(".status:last-child").click();
+
+
+
+        properties.content.find("div.itemContainer h1").find("span").click(function () {
+            var dialog = $("body").first().dialog({
+                title: "File browser",
+                screan: false,
+                width: 600,
+                height: 600,
+                data: Partial("FileBrowser.cshtml"),
+                onCancel: function () {
+                    loadHtmlEditor();
+                }
+            }).Show();
+            browserSettings.onSelect = function (x, src) {
+                var y = { images: x };
+                if (!item.images)
+                    item.images = [];
+
+                item.images.push(y);
+                loadProductImages();
+                }
+
+        });
+
+        productsTabs.content.find("h1").find("span").click(function () {
+            currentTab.edit = false;
+            currentTab.content = "";
+            currentTab.tab = { name: "", content: "" };
+            dialogTabs.Show();
+        });
+
+        var tabsForm = productsTabs.content.find(".form");
+        var dialogTabs = $("body").dialog({
+            data: tabsForm,
+            title: "Edit/Add tabs",
+            removable: false,
+            onShow: function () {
+                tinyMCE.remove();
+                tabsForm.find(".htmleditor").show();
+                tabsForm.find(".name").val(currentTab.tab.name);
+                tabsForm.find(".htmleditor").val(currentTab.tab.content);
+                currentTab.content = tabsForm.find(".htmleditor").val();
+                loadHtmlEditor();
+            },
+            buttons: [
+                {
+                    text: "Save",
+                    click: function () {
+                        currentTab.tab.name = tabsForm.find(".name").val();
+                        currentTab.tab.content = currentTab.content;
+                        if (!currentTab.edit)
+                            item.tabs.push(currentTab.tab);
+                        currentTab.tab = { name: "", content: "" };
+                        currentTab.content = "";
+                        currentTab.edit = false;
+                        tabs.BuildData();
+                    }
+                }]
+        });
+
+        var cols = [{ data: "name" }, {
+                edit: function (a, index) {
+                    currentTab.tab = a;
+                    currentTab.edit = true;
+                    dialogTabs.Show();
+
+                },
+                delete: function (a) {
+                    a.object_status = "Removed";
+                    tabs.BuildData();
+                }
+        }];
+
+            var tabs = productsTabs.content.find(".addedTabs").DataTableTree({
+                data: function (settings) {
+                    return $($.grep(item.tabs, function (a) { return a.object_status != "Removed" }));
+                },
+                pageSize: 1000,
+                columns: cols,
+            });
+
+
+
+
+
+        function loadProductImages() {
+            properties.content.find("ul.itemContainer").html("");
+            $.each($.grep(item.images, function (m) { return m.object_status != "Removed" }), function (i, a) {
+                var x = this;
+                var src = '@Url.Action("GetImageFile", "TinyMce", null, Request.Url.Scheme)' + "?uuid=" + this.images.id + "&&t=" + new Date().toString();
+                var li = $("<li title='" + this.images.friendlyname + "'></li>")
+                    .append("<i><span>PREVIEW</span><span class='delete'>X</span></i>")
+                    .append("<img src='" + src + "' />")
+                    .append("<span>" + this.images.friendlyname + "</span>");
+
+                li.mouseover(function (e) {
+                    li.find("i").show("fast");
+                }).mouseleave(function () {
+                    li.find("i").hide("fast");
+                });
+                properties.content.find("ul.itemContainer").append(li);
+                li.find("i").find("span").first().click(function () {
+                    $("body").dialog({
+                        title: "Image Preview",
+                        data: li.find("img").clone()
+                    }).Show();
+                });
+
+                li.find("i").find("span:last-child").click(function () {
+                    $("body").dialog({
+                        title: "Please confirm",
+                        data: "You will be deleting this file <br> Are you sure",
+                        onConfirm: function () {
+                            x.object_status = "Removed";
+                            loadProductImages();
+                        },
+                        onCancel: function () { }
+                    }).Show();
+                });
+
+
+            });
+        }
+
+        loadProductImages();
+        $.each(item.productcategories, function () {
+            general.content.find(".categoriesContainer").find("input[itemId='" + this.category_id + "']").attr("checked", "checked");
+        });
+        loadHtmlEditor();
+    }
+
+</script>

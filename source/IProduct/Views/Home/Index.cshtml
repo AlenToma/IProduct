@@ -1,0 +1,199 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="content">
+
+</div>
+<script>
+
+
+    $(document).ready(function () {
+        var container = $(".content");
+        var pageId = '@Context.Request.QueryString["Page"]';
+        function GetCurrentPage() {
+            var result = undefined;
+            container.ax({
+                url: '@Url.Action("GetPages", "Home")',
+                data: JSON.stringify({ id: pageId && !isNullOrEmpty(pageId) ? pageId : null }),
+                async: false,
+                success: function (data) {
+                    result = data[0];
+                }
+            });
+            return result;
+        }
+
+        var page = GetCurrentPage();
+        $.each(page.pagesections, function () {
+            var x = this;
+            var section = $("<ul></ul>").addClass("section");
+
+            if (this.pagetype == "Content")
+                section.html(this.content);
+            else {
+                function products() {
+                        section.addClass("products").attr("page", 1);
+                        var categories = [];
+                        $.each(x.pagecategories, function () {
+                            categories.push(this.category_id);
+                        });
+                        //section.append("<table><tbody><tr></tr></tbody></table>")
+                        function loadProducts() {
+                            var pageNr = parseInt(section.attr("page"));
+                            section.ax({
+                                url: '@Url.Action("GetProducts", "Home")',
+                                data: JSON.stringify({ categoriesId: categories, pageNr: pageNr }),
+                                success: function (data) {
+                                    if (x.productshow === "Slider" || x.productshow === "ImageGrid") {
+                                        section.addClass(x.productshow);
+                                        $.each(data, function () {
+                                            var x = this;
+                                            var src = "/Content/Image/info.png";
+                                            var description = isNullOrEmpty(this.description) ? "" : this.description;
+                                            if (this.images.length > 0)
+                                                src = '@Url.Action("GetIcon", "TinyMce", null, Request.Url.Scheme)' + "?uuid=" + this.images[0].images.id + "&&width=300&&height=150&&t=" + new Date().toString();
+                                            var icon = $("<li><div></div></li>");
+                                            icon.find("div")
+                                                .append("<div><img src='" + src + "' /></div>")
+                                                .append("<span title='" + this.description + "'> " + this.name + " </span>")
+                                                .append("<span class='description'>" + description + "</span>")
+                                                .append("<label>" + this.price + ":-</label><span class='buy btn'>Buy</span>")
+
+                                            icon.find(".btn").click(function () {
+                                                shoppingCart.add(x.id, 1);
+                                            });
+                                            //icon.append("<h3></h3>");
+                                            //icon.find("h3")
+                                            var url = '@Url.Action("Product", "Home", null, Request.Url.Scheme)';
+                                            url += "?id=" + this.id;
+                                            icon.click(function (e) {
+                                                var target = $(e.target);
+                                                if (!target.hasClass("btn"))
+                                                window.location = url;
+                                            });
+                                            section.append(icon);
+
+                                        });
+                                        if (x.productshow === "Slider") {
+                                            section.find("li > div").css({ "position": "relative", display: "block" });
+                                            section.lightSlider({
+                                                item: 4,
+                                                autoWidth: false,
+                                                loop: false,
+                                                slideMove: 1,
+                                                easing: 'cubic-bezier(0.25, 0, 0.25, 1)',
+                                                speed: 600,
+                                            });
+                                        } else {
+                                            section.css({ height: "auto" });
+                                        }
+                                    } // table
+                                    else {
+                                        section.css({ "padding-left": "13px", "overflow": "auto", height: "auto", "max-height": "700px", "min-width": 504 });
+                                        var table = $("<li><table><tbody></tbody></table></li>");
+                                        section.append(table);
+                                        section.find("li").css({ width: "100%", height: "auto" });
+                                        $.each(data, function () {
+                                            var x = this;
+                                            var src = "/Content/Image/info.png";
+                                            var description = isNullOrEmpty(this.description) ? "" : this.description;
+                                            if (this.images.length > 0)
+                                                src = '@Url.Action("GetIcon", "TinyMce", null, Request.Url.Scheme)' + "?uuid=" + this.images[0].images.id + "&&width=300&&height=150&&t=" + new Date().toString();
+                                            var tr = $("<tr></tr>");
+                                            tr.append("<td><div><img src='" + src + "' /></div></td>")
+                                                .append("<td><div><span> " + this.name + " </span><span class='description'> " + description + "</span></div></td>")
+                                                .append("<td><div><label>" + this.price + ":-</label><span class='buy btn'>Buy</span></div></td>");
+
+
+                                            table.find("tbody").append(tr);
+                                            var url = '@Url.Action("Product", "Home", null, Request.Url.Scheme)';
+                                            url += "?id=" + this.id;
+                                            tr.find(".btn").click(function () {
+                                                shoppingCart.add(x.id, 1);
+                                            });
+
+                                            tr.click(function (e) {
+                                                var target = $(e.target);
+                                                if (!target.hasClass("btn"))
+                                                window.location = url;
+                                            });
+
+                                        });
+                                        if (pageNr == 1)
+                                        section.scroll(function () {
+                                            var pageNr = parseInt(section.attr("page"));
+                                            section.attr("page", pageNr + 1);
+                                            setTimeout(loadProducts, 100)
+                                        });
+                                    }
+                                }
+                            });
+
+                    }// end products
+
+                    loadProducts();
+
+
+
+                }// end of loadProducts
+
+
+                products();
+            }
+            container.append(section);// Add to container
+        });
+
+        if (page.pagessliders.length > 0) {
+            var slider = $("<ul></ul>").addClass("section").addClass("slider");
+            $.each(page.pagessliders, function () {
+                src = '@Url.Action("GetImageFile", "TinyMce", null, Request.Url.Scheme)' + "?uuid=" + this.files_id + "&&width=300&&height=150&&t=" + new Date().toString();
+                var li = $("<li></li>").append("<img imageId='" + this.files_id+"' src='" + src + "' />");
+                slider.append(li);
+
+            });
+            container.prepend(slider);
+            var s = slider.lightSlider({
+                item: 1,
+                auto: true,
+                autoWidth: false,
+                loop: true,
+                slideMove: 1,
+                easing: 'cubic-bezier(0.25, 0, 0.25, 1)',
+                speed: 1500,
+            });
+        }
+
+
+    });
+</script>
+
+
+
+@*<div class="jumbotron">
+        <h1>ASP.NET</h1>
+        <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
+        <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <h2>Getting started</h2>
+            <p>
+                ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
+                enables a clean separation of concerns and gives you full control over markup
+                for enjoyable, agile development.
+            </p>
+            <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+        </div>
+        <div class="col-md-4">
+            <h2>Get more libraries</h2>
+            <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
+            <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+        </div>
+        <div class="col-md-4">
+            <h2>Web Hosting</h2>
+            <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
+            <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+        </div>
+    </div>*@

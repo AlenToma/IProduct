@@ -1,0 +1,363 @@
+﻿<div class="pagesForm form">
+</div>
+
+<div class="general">
+    <div class="form-group">
+        <label>Order:</label>
+        <input type="number" class="form-control order" />
+    </div>
+
+    <div class="form-group">
+        <label>Name:</label>
+        <input type="text" class="form-control name" />
+    </div>
+
+    <div class="form-group">
+        <label>Parent:</label>
+        <input type="text" class="form-control parent" />
+    </div>
+
+
+    <div class="itemContainer">
+        <h1>Sections<span>Add Section</span></h1>
+        <ul class="ulContainer"></ul>
+        <div class="sectionInput">
+            <label class="radio-inline"><input type="radio" name="pagetype" class="content rd">Content</label>
+            <label class="radio-inline"><input type="radio" name="pagetype" class="project rd">Products</label>
+            <div class="form-group">
+                <label>SectionName:</label>
+                <input type="text" class="form-control sectionName" />
+            </div>
+            <div class="radioResult">
+                <div class="form-group">
+                    <label>Content:</label>
+                    <textarea id="txt" class="content htmleditor"></textarea>
+                </div>
+                <div>
+                    <label class="radio-inline"><input type="radio" name="ProductShow" property="Slider" class="Slider ProductShow">Slider</label>
+                    <label class="radio-inline"><input type="radio" name="ProductShow" property="Table" class="Table ProductShow">Table</label>
+                    <label class="radio-inline"><input type="radio" name="ProductShow" property="ImageGrid" class="ImageGrid ProductShow">ImageGrid</label>
+                    <div class="form-group">
+                        <label>
+                            Categories:
+                        </label><ul class="categoriesContainer itemContainer"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="settings">
+    <div class="checkbox">
+        <label><input type="checkbox" class="isActive" value="">Visible</label>
+    </div>
+
+    <div class="form-group">
+        <label>Content:</label>
+        <textarea class="meta form-control" rows="4"></textarea>
+    </div>
+
+    <div class="itemContainer filebrowser">
+        <h1>Images<span>Add Image</span></h1>
+        <ul class="itemContainer images files"></ul>
+    </div>
+
+</div>
+
+<script>
+    var item;
+
+    var pagesTab = $(".pagesForm").tabs({
+        onSelect: function (tab) {
+            if (tab.onSelect)
+                tab.onSelect(tab);
+        }
+    });
+
+    var general = pagesTab.add($(".general"), "General", "General").select();
+    var settings = pagesTab.add($(".settings"), "Settings", "Settings");
+
+    general.validate = function () {
+        var errors = "";
+        item.name = general.content.find(".name").val();
+        item.order = parseInt(general.content.find(".order").val());
+        item.pagetype = general.content.find("input.content").is(":checked") ? "Content" : "Product";
+        if (isNullOrEmpty(item.name))
+            errors = "Name cannot be empty";
+
+
+        return true;
+    }
+
+    settings.validate = function () {
+        item.isactive = settings.content.find(".isActive").is(":checked");
+        item.meta = settings.content.find(".meta").val();
+    }
+
+
+    function validate() {
+        pagesTab.getError = function (message) {
+            return $("<div></div>").addClass("error").html(message);
+        }
+
+        var msg = general.validate();
+        msg += settings.validate();
+        if (!isNullOrEmpty(msg)) {
+            general.content.prepend(pagesTab.getError(errorMessages));
+            return false;
+        }
+        else return item;
+    }
+
+    function editPages(tm) {
+        if (!tm)
+            item = { name: "", meta: "", content: "", parent_id: null, children: [], pagesections: [], pagessliders: [], isactive: true };
+        else item = tm;
+        var section;
+
+
+
+        var sectionDialog = $("body").dialog({
+            title: "Add/Edit Section",
+            data: general.content.find(".itemContainer > .sectionInput"),
+            removable: false,
+            buttons: [{
+                text: "Save",
+                click: function () {
+                    if (!section.edit) {
+                        item.pagesections.push(section);
+                    }
+                    section = undefined;
+                    loadsections();
+                }
+            }],
+            onCancel: function () {
+                section: undefined;
+            },
+            onShow: function (settings) {
+                function enable() {
+                    if (section.pagetype == "Content") {
+                        sectionDialog.find(".rd").first().prop("checked", true);
+                        sectionDialog.find(".radioResult > div").first().show();
+                        sectionDialog.find(".radioResult > div").last().hide();
+                    } else {
+                        sectionDialog.find(".rd").last().prop("checked", true);
+                        sectionDialog.find(".radioResult > div").first().hide();
+                        sectionDialog.find(".radioResult > div").last().show();
+                    }
+                }
+                sectionDialog.find(".rd").unbind().change(function () {
+                    if (section.pagetype == "Content")
+                        section.pagetype = "Product";
+                    else section.pagetype = "Content";
+                    enable();
+                });
+                enable();
+                sectionDialog.find(".sectionName").change(function () {
+                    section.sectionname = sectionDialog.find(".sectionName").val();
+                })
+                sectionDialog.find(".sectionName").val(section.sectionname);
+                tinyMCE.remove();
+                sectionDialog.find("." + section.productshow).prop("checked", true);
+                sectionDialog.find(".htmleditor").val(section.content);
+                sectionDialog.find(".categoriesContainer input").prop("checked", false);
+
+                sectionDialog.find(".ProductShow").change(function () {
+                    section.productshow = $(this).attr("property");
+                });
+                $.each(section.pagecategories, function () {
+                    sectionDialog.find(".categoriesContainer input[itemId='" + this.category.id + "']").prop("checked", true);
+                });
+
+                loadHtmlEditor();
+            }
+        });
+
+
+        general.content.find(".ulContainer").sortable({
+            stop: function () {
+                var sections = Sort($.grep(item.pagesections, function (m) { return m.object_status != "Removed" }), "order", "asc")
+                general.content.find(".ulContainer").find("li").each(function () {
+                    var index = parseInt($(this).attr("index"));
+                    var x = sections[index];
+                    x.order = $(this).index();
+                });
+                loadsections();
+            }
+        });
+        general.content.find(".ulContainer").disableSelection();
+        general.content.find(".itemContainer > h1 > span").click(function () {
+            section = { sectionname: "", content: "", pagetype: "Content", pagecategories: [], order: item.pagesections.length };
+            loadsections();
+            sectionDialog.Show()
+        });
+        general.content.find(".order").val(item.order);
+        general.content.find("textarea.content").val(item.content);
+        general.content.find(".name").val(item.name);
+        settings.content.find(".isActive").prop("checked", item.isactive);
+        settings.content.find(".meta").val(item.meta);
+
+
+
+
+        general.content.find(".parent").autofill({
+            ajaxUrl: '@Url.Action("GetPagesComboBoxItems", "Admin")',
+            textField: "name",
+            valueField: "id",
+            childrenProperty: "children",
+            childTextField: "name",
+            childValueField: "id",
+            selectedValue: item.parent_id !== null ? item.parent_id : -1,
+            disabledItems: [item],
+            items: [{ name: "---No Parent---", id: -1 }],
+            onselect: function (category) {
+                if (category.id <= 0)
+                    item.parent_id = null;
+                else item.parent_id = category.id;
+            }
+        });
+
+        sectionDialog.find(".categoriesContainer").ax({
+            url: '@Url.Action("GetCategoriesComboBoxItems", "Admin")',
+            data: JSON.stringify({ value: "" }),
+            async: false,
+            success: function (data) {
+                function AddChildren(parent, category) {
+                    if (category.categories && category.categories.length > 0) {
+                        parent.addClass("hasChildren");
+                        var ul = $("<ul></ul>");
+                        parent.append(ul);
+                        $.each(category.categories, function () {
+                            var con = this;
+                            var li = $("<li></li>").append("<span><input itemId='" + this.id + "' type='checkbox' /></span>").append("<span>" + this.name + "</span>");
+                            ul.append(li);
+                            AddChildren(li, this);
+                            li.children("span:first-child").find("input").change(function () {
+                                var t = $(this);
+                                var founded = $.grep(section.pagecategories, function (a) { return a.category.id == t.attr("itemId") });
+                                if (founded && founded.length > 0) {
+                                    $.each(founded, function () {
+                                        this.object_status = t.is(":checked") ? "Added" : "Removed";
+                                    });
+                                } else if (t.is(":checked"))
+                                    section.pagecategories.push({ category: con })
+                            });
+                        });
+
+                    }
+
+                }
+                $.each(data, function () {
+                    var con = this;
+                    var li = $("<li></li>").append("<span><input itemId='" + this.id + "' type='checkbox' /></span>").append("<span>" + this.name + "</span>");
+                    AddChildren(li, this);
+                    li.children("span:first-child").find("input").change(function () {
+                        var t = $(this);
+                        var founded = $.grep(section.pagecategories, function (a) { return a.category.id == t.attr("itemId") });
+                        if (founded && founded.length > 0) {
+
+                            $.each(founded, function () {
+                                this.object_status = t.is(":checked") ? "Added" : "Removed";
+                            });
+                        } else if (t.is(":checked"))
+                            section.pagecategories.push({ category: con })
+                    });
+                    sectionDialog.find(".categoriesContainer").append(li);
+
+                });
+            }
+        });
+
+        function loadsections() {
+            general.content.find(".ulContainer").html("");
+            var sections = $.grep(item.pagesections, function (m) { return m.object_status != "Removed" })
+            $.each(Sort(sections, "order", "asc"), function (index,x) {
+                var li = $("<li index='"+index+"'></li>").html(this.sectionname +" (" + this.pagetype +")").append("<span class='delete'>Delete</span><span class='edit'>Edit</span>");
+                li.find("span").first().click(function () {
+                    x.object_status = "Removed";
+                    loadsections();
+                });
+                li.find("span").last().click(function () {
+                    section = x;
+                    section.edit = true;
+                    sectionDialog.Show();
+                });
+                general.content.find(".ulContainer").append(li);
+            });
+        }
+
+        function loadHtmlEditor() {
+            bindHtmlEditor(".htmleditor", '@Url.Action("FileBrowser")', function (editor) {
+                section.content = editor.getContent();
+            });
+        }
+
+        settings.content.find("div.itemContainer h1").find("span").click(function () {
+            var dialog = $("body").first().dialog({
+                title: "File browser",
+                screan: false,
+                width: 600,
+                height: 600,
+                data: Partial("FileBrowser.cshtml"),
+                onCancel: function () {
+                    loadHtmlEditor();
+                }
+            }).Show();
+            browserSettings.onSelect = function (x, src) {
+                var y = { files: x };
+                if (!item.files)
+                    item.files = [];
+
+                item.pagessliders.push(y);
+                loadSlider();
+            }
+
+        });
+
+        function loadSlider() {
+            settings.content.find("ul.itemContainer").html("");
+            $($.grep(item.pagessliders, function (m) { return m.object_status != "Removed" })).each(function () {
+                var x = this;
+                var src = '@Url.Action("GetImageFile", "TinyMce", null, Request.Url.Scheme)' + "?uuid=" + this.files.id + "&&t=" + new Date().toString();
+                var li = $("<li title='" + this.files.friendlyname + "'></li>")
+                    .append("<i><span>PREVIEW</span><span class='delete'>X</span></i>")
+                    .append("<img src='" + src + "' />")
+                    .append("<span>" + this.files.friendlyname + "</span>");
+
+                li.mouseover(function (e) {
+                    li.find("i").show("fast");
+                }).mouseleave(function () {
+                    li.find("i").hide("fast");
+                });
+                settings.content.find("ul.itemContainer").append(li);
+                li.find("i").find("span").first().click(function () {
+                    $("body").dialog({
+                        title: "Image Preview",
+                        data: li.find("img").clone()
+                    }).Show();
+                });
+
+                li.find("i").find("span:last-child").click(function () {
+                    $("body").dialog({
+                        title: "Please confirm",
+                        data: "You will be deleting this file <br> Are you sure",
+                        onConfirm: function () {
+                            x.object_status = "Removed";
+                            loadSlider();
+                        },
+                        onCancel: function () { }
+                    }).Show();
+                });
+
+
+            });
+        }
+
+        loadHtmlEditor();
+        loadsections();
+        loadSlider();
+    }
+
+
+</script>

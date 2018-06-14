@@ -1,0 +1,118 @@
+﻿
+<div class="header" id="pagesHeader">
+    Manage Pages
+    <span>Add Page</span>
+</div>
+<div class="pages">
+    Pages
+</div>
+
+<script>
+
+
+    function edit(item) {
+
+        Partial("data/AddPage.cshtml", function (block) {
+            var dialog = $("body").dialog({
+                title: "Edit/Add Page",
+                data: block,
+                buttons: [{
+                    text: "Save",
+                    click: function () {
+                        var result = validate();
+                        if (result != false) {
+                            $(".body").ax({
+                                url: '@Url.Action("SavePages", "Admin")',
+                                data: JSON.stringify(result),
+                                success: function (data) {
+                                    pages.BuildData();
+                                    dialog.Hide();
+                                }
+                            });
+                        }
+                        return false;
+                    }
+                }]
+        }).Show();
+            editPages(item);
+        });
+    }
+
+    $("#pagesHeader > span").click(function () {
+        edit();
+    })
+    var columns = [{
+        data: "name",
+    },
+    {
+        data: "order",
+        sortable: true
+    },
+    {
+        data: "Parent",
+        value: function (item) {
+            var result = undefined;
+            if (isNullOrEmpty(item.parent_id))
+                return "";
+            $(".pages").ax({
+                url: '@Url.Action("GetPagesComboBoxItems", "Admin")',
+                data: JSON.stringify({ value: item.parent_id }),
+                async: false,
+                success: function (data) {
+                    result = data[0];
+                }
+            });
+
+            if (result)
+                return result.name;
+        },
+        sortable: false
+        }, {
+        data: "Visible",
+        value: function (d) {
+            if (d.isactive)
+                return "YES";
+            return "NO";
+        },
+        sortable: false
+        },
+    {
+        edit: function (item) {
+            edit(item);
+        },
+        delete: function (item) {
+            confirm("Are you sure?", function () {
+                $(".pages").ax({
+                    url: '@Url.Action("DeletePages", "Admin")',
+                    data: JSON.stringify({ itemId: item.id }),
+                    async: false,
+                    success: function (data) {
+                        categories.BuildData();
+                    }
+                });
+            }, categories);
+        },
+
+        }];
+
+    var pages = $(".pages").DataTableTree({
+        data: function (settings) {
+            var result = "";
+            if (!settings)
+                return [];
+            $(".pages").ax({
+                url: '@Url.Action("GetPages", "Admin")',
+                data: JSON.stringify( settings),
+                async: false,
+                success: function (data) {
+                    settings.totalPages = data.totalpages;
+                    result = data.result;
+                }
+            })
+            return result;
+
+        },
+        pageSize: 20,
+        columns: columns,
+    });
+</script>

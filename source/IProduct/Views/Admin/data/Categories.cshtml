@@ -1,0 +1,129 @@
+﻿<div class="header" id="categoriesHeader">
+    Manage Categories
+    <span>Add Category</span>
+</div>
+<div class="categories">
+    categories
+</div>
+
+
+<script>
+    var categories;
+    function EditCategories(item) {
+        if (!item)
+            item = { name: "", description: "", parent_id: null }
+            var container = $("<div class='form'></div>");
+            container.append('<div class="form-group"><label for="name">Name:</label><input type="text" class="form-control name" placeholder="Enter name" name="name" value="' + item.name + '" /></div>');
+            container.append('<div class="form-group"><label for="Description">Description:</label><textarea rows="5" class="form-control description" placeholder="Enter Description" name="Description">' + item.description + '</textarea></div>');
+        container.append('<div class="form-group"><label for="name">Parent:</label><input type="text" class="form-control parent" placeholder="Enter name" name="parent" value="---No Parent---" /></div>');
+            container.find(".parent").autofill({
+                ajaxUrl: '@Url.Action("GetCategoriesComboBoxItems", "Admin")',
+                textField: "name",
+                valueField: "id",
+                childrenProperty: "categories",
+                childTextField: "name",
+                childValueField: "id",
+                selectedValue: item.parent_id !== null ? item.parent_id: -1,
+                disabledItems: [item],
+                items: [{ name: "---No Parent---", id: -1 }],
+                onselect: function (category) {
+                    if (categories.id <= 0)
+                        item.parent_id = null;
+                    else item.parent_id = category.id;
+                }
+            });
+           var dialog= $("body").dialog({
+                data: container,
+                title: "Add/Edit Categories",
+                confirmText: "Save",
+                cancelText: "Cancel",
+                onConfirm: function () {
+                    item.name = container.find(".name").val();
+                    item.description = container.find(".description").val();
+                    $(".categories").ax({
+                        url: '@Url.Action("SaveCategories", "Admin")',
+                        data: JSON.stringify(item),
+                        success: function (data) {
+                            categories.BuildData();
+                            dialog.Hide();
+                        }
+                    });
+                    return false;
+                },
+                onCancel: function () {
+
+                }
+            }).Show();
+
+    }
+    $("#categoriesHeader> span").click(function () {
+        EditCategories();
+    });
+
+    var columns = [{
+        data: "name",
+        },
+        {
+        data: "description",
+        },
+        {
+            data: "parent",
+            value: function (item) {
+                if (item.parent_id === null)
+                    return " ";
+                var value = "";
+                        $(".categories").ax({
+                            url: '@Url.Action("GetCategoriesComboBoxItems", "Admin")',
+                            data: JSON.stringify({ value: item.parent_id }),
+                            async: false,
+                            success: function (data) {
+                                if (data.length > 0)
+                                    value = data[0].name;
+
+                                return value;
+                        }
+                });
+                return value;
+            },
+            sortable: false
+        },
+        {
+        edit: function (item) {
+            EditCategories(item);
+            },
+            delete: function (item) {
+                confirm("Are you sure?", function () {
+                    $(".categories").ax({
+                        url: '@Url.Action("DeleteCategories", "Admin")',
+                        data: JSON.stringify({ itemId: item.id }),
+                        async: false,
+                        success: function (data) {
+                            categories.BuildData();
+                        }
+                    });
+                }, categories);
+            },
+
+        }]
+    categories= $(".categories").DataTableTree({
+        data: function (settings) {
+            var result = "";
+            if (!settings)
+                return [];
+            $(".categories").ax({
+                url: '@Url.Action("GetCategories", "Admin")',
+                data: JSON.stringify( settings),
+                async: false,
+                success: function (data) {
+                    settings.totalPages = data.totalpages;
+                    result = data.result;
+                }
+            })
+            return result;
+
+        },
+        pageSize: 20,
+        columns: columns,
+        childrenField:"categories"
+    });
+</script>

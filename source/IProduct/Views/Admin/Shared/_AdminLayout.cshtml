@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Styles.Render("~/Content/My")
+    @Scripts.Render("~/bundles/My")
+
+    <script>
+        function Partial(moduleName, callbeck) {
+            var item = undefined;
+            $("body").ax({
+                type: "GET",
+                url: '@Url.Action("GetModule", "Admin")',
+                dataType: 'html',
+                async: (callbeck != undefined),
+                data: { partialName: "Admin/" + moduleName },
+                success: function (data) {
+
+                    item = $(data);
+                    if (callbeck)
+                        callbeck(data);
+                }
+            });
+            return item;
+        }
+
+        function confirm(text, onconfirm, container) {
+            if (!container)
+                container = $("body")
+            container.dialog({
+                data: $("<span class='info'></span>").html(text),
+                title:"Please confirm",
+                onConfirm: onconfirm,
+                onCancel: function () { }
+            }).Show();
+        }
+
+    </script>
+</head>
+<body>
+    <div class="loginContainer">
+        <ul class="right">
+            <li><span class=button>Login</span></li>
+        </ul>
+    </div>
+    <div class="">
+        <div class="container" style="padding: 0;">
+            <div class="topnav" id="myTopnav">
+                <ul>
+                    <li> <a href="Index">Home</a></li>
+                    <li><a href="Products">Products</a></li>
+                    <li> <a href="Users">Users</a></li>
+                    <li> <a href="Pages">Pages</a></li>
+                    <li><a href="Language">Language Settings</a></li>
+                    <li class="icon"><a href="javascript:void(0);" onclick="$('#myTopnav').toggleClass('responsive')">&#9776;</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content centercontent">
+        @RenderBody()
+    </div>
+
+    <div class="container body-content footer">
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+
+    @RenderSection("scripts", required: false)
+    <script>
+        $.toolTipIni();
+        $(document).ready(function () {
+            var href = window.location.href.toLowerCase();
+            $("#myTopnav").find("a").each(function () {
+                if (href.indexOf($(this).attr("href").toLowerCase()) != -1)
+                    $(this).addClass("active");
+            })
+        })
+
+    </script>
+</body>
+</html>

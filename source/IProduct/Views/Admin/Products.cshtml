@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewBag.Title = "Products";
+    Layout = "~/Views/Admin/Shared/_AdminLayout.cshtml";
+}
+
+<script>
+    var tabContainer;
+    $(document).ready(function () {
+        tabContainer = $(".centercontent").tabs({
+            onSelect: function (tab) {
+                if (tab.onSelect)
+                    tab.onSelect(tab);
+            }
+        });
+        var products = tabContainer.add("", "Products", "Products").select();
+        Partial("data/Products.cshtml", function (data) { products.content.append(data) });
+        var categoriees = tabContainer.add("", "Catagories", "Catagories");
+        Partial("data/Categories.cshtml", function (data) { categoriees.content.append(data) });
+
+    });
+</script>

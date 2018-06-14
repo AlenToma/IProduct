@@ -1,0 +1,13 @@
+D:\Projects\IProduct\IProduct.Modules\bin\Release\netcoreapp2.0\IProduct.Modules.deps.json
+D:\Projects\IProduct\IProduct.Modules\bin\Release\netcoreapp2.0\IProduct.Modules.dll
+D:\Projects\IProduct\IProduct.Modules\bin\Release\netcoreapp2.0\IProduct.Modules.pdb
+D:\Projects\IProduct\IProduct.Modules\bin\Release\netcoreapp2.0\EntityWorker.Core.dll
+D:\Projects\IProduct\IProduct.Modules\bin\Release\netcoreapp2.0\EntityWorker.Core.pdb
+D:\Projects\IProduct\IProduct.Modules\bin\Release\netcoreapp2.0\EntityWorker.Core.xml
+D:\Projects\IProduct\IProduct.Modules\obj\Release\netcoreapp2.0\IProduct.Modules.csprojResolveAssemblyReference.cache
+D:\Projects\IProduct\IProduct.Modules\obj\Release\netcoreapp2.0\IProduct.Modules.csproj.CoreCompileInputs.cache
+D:\Projects\IProduct\IProduct.Modules\obj\Release\netcoreapp2.0\IProduct.Modules.AssemblyInfoInputs.cache
+D:\Projects\IProduct\IProduct.Modules\obj\Release\netcoreapp2.0\IProduct.Modules.AssemblyInfo.cs
+D:\Projects\IProduct\IProduct.Modules\obj\Release\netcoreapp2.0\IProduct.Modules.csproj.CopyComplete
+D:\Projects\IProduct\IProduct.Modules\obj\Release\netcoreapp2.0\IProduct.Modules.dll
+D:\Projects\IProduct\IProduct.Modules\obj\Release\netcoreapp2.0\IProduct.Modules.pdb

@@ -1,0 +1,108 @@
+﻿.autofill, .autofill ul {
+    list-style: none;
+    width: 300px;
+    white-space: nowrap;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    background: white;
+    padding: 0;
+}
+
+    .autofill > li:first-child {
+    }
+
+        .autofill > li:first-child input, .autofill > li:first-child input:focus {
+            border: 1px solid #CCC;
+            outline: none;
+            box-shadow: none;
+            padding: 5px;
+            border-right: none;
+            border-top-left-radius: 4px;
+            border-bottom-left-radius: 4px;
+            display: inline-block;
+        }
+
+    .autofill li ul:not(:first-child) {
+        padding-left: 30px;
+    }
+
+    .autofill li:not(:first-child) {
+        padding-left: 5px;
+    }
+
+    .autofill li:first-child > span.arrow {
+        display: inline-block;
+        background: url(data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTYuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjE2cHgiIGhlaWdodD0iMTZweCIgdmlld0JveD0iMCAwIDI1NSAyNTUiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDI1NSAyNTU7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPGc+Cgk8ZyBpZD0iYXJyb3ctZHJvcC1kb3duIj4KCQk8cG9seWdvbiBwb2ludHM9IjAsNjMuNzUgMTI3LjUsMTkxLjI1IDI1NSw2My43NSAgICIgZmlsbD0iIzAwMDAwMCIvPgoJPC9nPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+Cjwvc3ZnPgo=);
+        width: 27px;
+        height: 100%;
+        border: 1px solid #CCC;
+        padding: 2px;
+        background-repeat: no-repeat;
+        background-size: 51%;
+        position: relative;
+        top: 0px;
+        left: -2px;
+        background-position: center;
+        cursor: pointer;
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px;
+        padding: 5px;
+    }
+
+        .autofill li:first-child > span.arrow:hover {
+            background-color: #f9f9f9;
+        }
+
+
+    .autofill > li:last-child {
+        display: none;
+        width: 179px;
+        border: 1px solid #CCC !IMPORTANT;
+        padding: 0px;
+        margin: 0;
+        position: fixed;
+        overflow: hidden;
+        border-radius: 4px;
+        z-index:100;
+    }
+
+        .autofill > li:last-child span {
+            display: block;
+            width: 100%;
+            height: 100%;
+            padding: 5px;
+        }
+
+            .autofill > li:last-child span:hover, .autofill li.selected > span {
+                background: #5c5cff;
+                color: white;
+            }
+
+    .autofill ul > li {
+        width: 100%;
+        clear: both;
+        display: block;
+        cursor: pointer;
+    }
+
+
+
+
+        .autofill ul li:after {
+            border-left: 1px solid #000;
+            height: 100%;
+            width: 0px;
+            top: 2px;
+        }
+
+
+    .autofill > li:last-child {
+        max-height: 300px;
+        overflow: hidden;
+        overflow-y: auto;
+    }
+
+    .autofill li span.disabled {
+        color: #CCC;
+    }

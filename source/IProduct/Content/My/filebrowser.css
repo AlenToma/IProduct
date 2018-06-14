@@ -1,0 +1,120 @@
+﻿.filebrowser {
+    width: 99%;
+    height: 97%;
+    display: block;
+    overflow: hidden;
+    border: 1px solid #CCC;
+    /*margin: auto;*/
+    margin-top: 1%;
+    background:white;
+}
+
+    .filebrowser > .maps {
+        float: left;
+        width: 23%;
+        height: 100%;
+        list-style: none;
+        margin-top: 8px;
+    }
+
+    .filebrowser > .files {
+        float: left;
+        width: 76%;
+        list-style: none;
+        height: 85%;
+        margin: 0;
+        padding: 0;
+        padding-left: 10px;
+        margin-top: 8px;
+        overflow: auto;
+        border-left: 1px solid #CCC;
+    }
+
+        .filebrowser > .files li {
+            width: 133px;
+            height: 115px;
+            float: left;
+            border: 1px solid #00a0d0;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-left: 5px;
+            margin-bottom: 5px;
+        }
+
+
+            .filebrowser > .files li i {
+                position: absolute;
+                background: black;
+                width: 133px;
+                height: 115px;
+                opacity: 0.5;
+                display: none;
+            }
+
+        .filebrowser > .files > li > i > span {
+            color: white;
+            font-size: 9px;
+            padding: 5px;
+            display: inline-block;
+            float: left;
+            width: 47px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border: 1px solid white;
+            border-radius: 51px;
+            text-align: center;
+            margin-left: 10px;
+            top: 11%;
+            position: relative;
+            cursor: pointer;
+            font-weight: bolder;
+            margin-bottom: 5px;
+        }
+
+            .filebrowser > .files > li > i > span:nth-child(3) {
+                margin-left: 40px;
+            }
+
+            .filebrowser > .files li > img {
+                width: 100%;
+                height: 84%;
+            }
+
+        .filebrowser > .files li > span {
+            text-align: center;
+            display: block;
+            font-size: 12px;
+            background: #00a0d0;
+            color: white;
+            overflow: hidden;
+            cursor: pointer;
+            margin:0;
+        }
+
+
+    .filebrowser h1 {
+        width: 100%;
+        display: inline-block;
+        overflow: hidden;
+        background: #00a0d0;
+        height: 37px;
+    }
+
+.btn {
+    border: 1px solid #CCC;
+    padding: 5px;
+    float: left;
+    background: white;
+    cursor: pointer;
+    display: inline-block;
+    margin-top: 3px;
+    margin-left: 3px;
+    font-size: 12px;
+    font-weight: bolder;
+}
+
+    .btn:not(.disabled):hover {
+        border: 1px solid white;
+        background-color: #00a0d0;
+        color: white;
+    }

@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewBag.Title = "Pages";
+    Layout = "~/Views/Admin/Shared/_AdminLayout.cshtml";
+}
+
+<script>
+    var tabContainer;
+    $(document).ready(function () {
+        tabContainer = $(".centercontent").tabs({
+            onSelect: function (tab) {
+                if (tab.onSelect)
+                    tab.onSelect(tab);
+            }
+        });
+        var products = tabContainer.add("", "Pages", "Pages").select();
+        Partial("data/Pages.cshtml", function (data) { products.content.append(data) });
+
+    });
+</script>

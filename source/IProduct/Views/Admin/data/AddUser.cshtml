@@ -1,0 +1,159 @@
+﻿@{
+    Layout = null;
+}
+<div class="user-form form">
+    <div class="form-group">
+        <label>Email:</label>
+        <input type="text" class="form-control email required" placeholder="Email" />
+    </div>
+
+    <div class="form-group">
+        <label>Password:</label>
+        <input type="password" class="form-control password required" placeholder="Password" />
+    </div>
+
+    <div class="form-group">
+        <label>Repeat Password:</label>
+        <input type="password" class="form-control confirm required" placeholder="Repeat Password" />
+    </div>
+
+    <div class="form-group">
+        <label>FirstName:</label>
+        <input type="text" class="form-control firstName required" placeholder="FirstName" />
+    </div>
+
+    <div class="form-group">
+        <label>LastName:</label>
+        <input type="text" class="form-control lastName required" placeholder="LastName" />
+    </div>
+
+    <div class="form-group">
+        <label>Role:</label>
+        <input type="text" class="form-control role required" placeholder="Role" />
+    </div>
+
+    <div class="form-group">
+        <label>Phone:</label>
+        <input type="text" class="form-control phone" placeholder="Phone" />
+    </div>
+
+    <div class="form-group">
+        <label>Country:</label>
+        <input type="text" class="form-control country required" />
+    </div>
+
+    <div class="form-group">
+        <label>Adress:</label>
+        <textarea class="form-control address" placeholder="Adress"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label>State:</label>
+        <input type="text" class="form-control state" placeholder="State" />
+    </div>
+
+
+    <div class="form-group">
+        <label>Post Code:</label>
+        <input type="text" style="    width: 81px;" class="form-control code" placeholder="Post Code" />
+    </div>
+</div>
+
+<script>
+    var userForm = $(".user-form");
+    var userItem;
+    function validate() {
+        userItem.email = userForm.find(".email").val();
+        userItem.password = userForm.find(".password").val();
+        userItem.person.firstname = userForm.find(".firstName").val();
+        userItem.person.lastname= userForm.find(".lastName").val();
+        userItem.person.phonenumber= userForm.find(".phone").val();
+        userItem.person.address.addressline= userForm.find(".address").val();
+        userItem.person.address.code= userForm.find(".code").val();
+        userItem.person.address.state= userForm.find(".state").val();
+        var errorMessages = "";
+        if (isNullOrEmpty(userItem.email))
+            errorMessages += "Email cant be empty";
+
+        if (userForm.find(".password").val() != userForm.find(".confirm").val())
+            errorMessages += "Password and Repeat password dose not match";
+
+        if (isNullOrEmpty(userItem.person.firstname))
+            errorMessages += "FirstName cant be empty";
+
+        if (isNullOrEmpty(userItem.person.lastname))
+            errorMessages += "LastName cant be empty";
+
+        if (isNullOrEmpty(userItem.role.id))
+            errorMessages += "Role is required";
+
+
+        if (isNullOrEmpty(userItem.person.address.country.id))
+            errorMessages += "Country is required";
+
+        if (!isNullOrEmpty(errorMessages)) {
+            $("body").dialog({
+                data: $("<span class='error'></span>").html(errorMessages),
+                title: "Attantion"
+            }).Show();
+            return false;
+        } else return userItem;
+    }
+
+
+    function editUser(item) {
+        if (item)
+            userItem = item;
+        if (!userItem)
+            userItem = {
+                email: "",
+                password: "",
+                role: {
+
+                },
+                person: {
+                    firstname: "",
+                    lastname: "",
+                    phonenumber: "",
+                    address: {
+                        addressline: "",
+                        code: "",
+                        state: "",
+                        country: {}
+                    }
+                }
+            }
+
+        userForm.find(".country").autofill({
+            ajaxUrl: '@Url.Action("GetCountryComboBoxItems", "Admin")',
+            textField: "name",
+            valueField: "id",
+            selectedValue: userItem.person.address.country.id,
+            onselect: function (selecteditem) {
+                userItem.person.address.country = selecteditem;
+            }
+        });
+
+        userForm.find(".role").autofill({
+            ajaxUrl: '@Url.Action("GetRoleComboBoxItems", "Admin")',
+            textField: "name",
+            valueField: "id",
+            selectedValue: userItem.role.id,
+            onselect: function (selecteditem) {
+                userItem.role= selecteditem;
+            }
+        });
+
+
+        userForm.find(".email").val(userItem.email);
+        userForm.find(".password").val(userItem.password);
+        userForm.find(".confirm").val(userItem.password);
+        userForm.find(".firstName").val(userItem.person.firstname);
+        userForm.find(".lastName").val(userItem.person.lastname);
+        userForm.find(".phone").val(userItem.person.phonenumber);
+        userForm.find(".address").val(userItem.person.address.addressline);
+        userForm.find(".code").val(userItem.person.address.code);
+        userForm.find(".state").val(userItem.person.address.state);
+
+    }
+</script>

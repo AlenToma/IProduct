@@ -1,0 +1,95 @@
+﻿<div class="veryTop">
+    <i class="cart"></i>
+    <i class="fa fa-user" aria-hidden="true"></i>
+</div>
+<a href="#" class="nav-button">Menu</a>
+<nav class="nav">
+
+</nav>
+
+<a href="#" class="nav-close">Close Menu</a>
+
+<script>
+    $(document).ready(function () {
+        if (!shoppingCart)
+            shoppingCart = $("body").shoppingCart({
+                get: '@Url.Action("GetCart", "Home")',
+                save: '@Url.Action("AddCart", "Home")',
+                connector: $(".veryTop > .cart"),
+                image: '@Url.Action("GetIcon", "TinyMce", null, Request.Url.Scheme)',
+                display: "none"
+            });
+
+        loginView = $("<div></div>").loginView({
+            signIn: '@Url.Action("SignIn", "Home")',
+            signOut: '@Url.Action("SignOut", "Home")',
+            get: '@Url.Action("GetcurrentUser", "Home")',
+            homePage: '@Url.Action("index", "Home", null, Request.Url.Scheme)',
+            connector: ".fa-user"
+        });
+        var user = loginView.get();
+        if (user !== null && user) {
+            $(".fa-user").contextMenu({
+                action: "left",
+                dataSource: [{
+                    text: "Logout",
+                    click: function () {
+                        $("body").ax({
+                            url: '@Url.Action("SignOut", "Home")',
+                            async: false,
+                            success: function (data) {
+                                window.location = '@Url.Action("LogInView", "Home", null, Request.Url.Scheme)';
+                            }
+                        });
+                    }
+                }, {
+                    text: "Settings"
+                }
+                ]
+            });
+        }
+
+        $(".fa-user").click(function () {
+            var user = loginView.get();
+            if (user !== null && user) {
+
+            }
+             else window.location= '@Url.Action("LogInView", "Home", null, Request.Url.Scheme)';
+        });
+
+        $(".cart").click(function () {
+            window.location= '@Url.Action("ShoppingCart", "Home", null, Request.Url.Scheme)'
+        });
+        var container = $(".nav").append("<ul></ul>");
+        function renderMenu(parent, item) {
+            if (item.children && item.children.length > 0) {
+                parent.children("a").attr("href", "#");
+                var ul = $("<ul></ul>")
+                parent.addClass("nav-submenu")
+                parent.append(ul);
+                $.each(item.children, function () {
+                    var url = '@Url.Action("index","Home")'
+                    url += '?page=' + this.id;
+                    var li = $("<li></li>").append("<a href='" + url + "'>" + this.name + " </a>");
+                    ul.append(li);
+                    renderMenu(li, this);
+                });
+            }
+        }
+
+        container.ax({
+            url: '@Url.Action("Pages", "Home")',
+            async: false,
+            success: function (data) {
+                $.each(data, function () {
+                    var url = '@Url.Action("index","Home")'
+                    url += '?page=' + this.id;
+                    var li = $("<li></li>").append("<a href='" + url+"'>" + this.name + " </a>");
+                    container.children("ul").append(li);
+                    renderMenu(li, this);
+                });
+            }
+        });
+        container.nav();
+    });
+</script>

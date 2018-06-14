@@ -1,0 +1,102 @@
+﻿@{
+    Layout = null;
+}
+
+<div class="header" id="userHeader">
+    Manage Users
+    <span>Add User</span>
+</div>
+<div class="users">
+    Users
+</div>
+
+<script>
+
+    function edit(item) {
+                Partial("data/AddUser.cshtml", function (block) {
+            var dialog = $("body").dialog({
+                data: block,
+                title: "Add/Edit User",
+                confirmText: "Save",
+                cancelText: "Cancel",
+                screan: false,
+                buttons: [{
+                    text: "Save",
+                    click: function () {
+                        var x = validate();
+                        if (x != false) {
+                            $(".body").ax({
+                                url: '@Url.Action("SaveUser", "Admin")',
+                                data: JSON.stringify(x),
+                                success: function (data) {
+                                    users.BuildData();
+                                    dialog.Hide();
+                                }
+                            });
+
+
+                        }
+                        return false;
+                    }
+                }]
+            }).Show();
+            editUser(item);
+        });
+    }
+
+    $("#userHeader").find("span").click(function () {
+        edit();
+    })
+
+         var columns = [{
+             data: "name",
+             value: function (item) { return item.person.fullname },
+             sortable: false
+        },
+        {
+             data: "email",
+        },
+        {
+            data: "Role",
+            value: "role.roletype",
+            sortable: false
+        },
+        {
+        edit: function (item) {
+            edit(item);
+            },
+            delete: function (item) {
+                confirm("Are you sure?", function () {
+                    $(".users").ax({
+                        url: '@Url.Action("DeleteUser", "Admin")',
+                        data: JSON.stringify({ itemId: item.id }),
+                        async: false,
+                        success: function (data) {
+                            categories.BuildData();
+                        }
+                    });
+                }, categories);
+            },
+
+        }]
+    var users = $(".users").DataTableTree({
+        data: function (settings) {
+            var result = "";
+            if (!settings)
+                return [];
+            $(".users").ax({
+                url: '@Url.Action("GetUser", "Admin")',
+                data: JSON.stringify( settings),
+                async: false,
+                success: function (data) {
+                    settings.totalPages = data.totalpages;
+                    result = data.result;
+                }
+            })
+            return result;
+
+        },
+        pageSize: 20,
+        columns: columns,
+    });
+</script>

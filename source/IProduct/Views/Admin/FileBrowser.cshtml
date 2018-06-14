@@ -1,0 +1,285 @@
+﻿@{
+    ViewBag.Title = "FileBrowser";
+    Layout = "";
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Styles.Render("~/Content/My")
+    @Scripts.Render("~/bundles/My")
+}
+<div class="filebrowser" id="filerowserContainer">
+    <h1>
+        <span class="btn upload disabled">
+            Upload
+        </span>
+        <span class="btn create disabled">
+            Create Mapp
+        </span>
+        <span class="btn edit disabled">
+            Edit Mapp
+        </span>
+        <span class="btn deleteMapp disabled">
+            Remove Mapp
+        </span>
+    </h1>
+    <div class="maps"></div>
+    <ul class="files"></ul>
+</div>
+
+
+<script>
+
+    var browserSettings = {
+        onSelect: undefined
+    }
+
+    $(document).ready(function () {
+        var _upload = $("#filerowserContainer").find(".upload");
+        var _create = $("#filerowserContainer").find(".create");
+        var _remove = $("#filerowserContainer").find(".deleteMapp");
+        var _edit = $("#filerowserContainer").find(".edit");
+
+        _upload.click(function () {
+            if (_upload.hasClass("disabled"))
+                return false;
+            var div = $("<div class='fileUpload'> <input type='file' /></div>");
+            var id = $(".maps").find("span.selected").attr("itemId");
+            $("#filerowserContainer").dialog({
+                data: div,
+                title:"Choose File",
+                buttons:[{
+                    text: "Upload",
+                    click: function () {
+                        var files = div.find("input")[0].files;
+                        var name = div.find("input").file;
+
+                        var model = new FormData();
+                        model.append("file", files[0]);
+                        model.append("mappId", id);
+                        model.append("name", name);
+                        //var myID = 3; //uncomment this to make sure the ajax URL works
+                        if (files.length > 0) {
+                            if (window.FormData !== undefined) {
+                                $.ajax({
+                                    type: "POST",
+                                    url: '@Url.Action("TinyMceUpload", "TinyMce")',
+                                    contentType: false,
+                                    processData: false,
+                                    data: model,
+                                    success: function (result) {
+                                        loadFiles();
+                                    },
+                                    error: function (xhr, status, p3, p4) {
+                                        var err = "Error " + " " + status + " " + p3 + " " + p4;
+                                        if (xhr.responseText && xhr.responseText[0] == "{")
+                                            err = JSON.parse(xhr.responseText).Message;
+                                        console.log(err);
+                                    }
+                                });
+                            } else {
+                                alert("This browser doesn't support HTML5 file uploads!");
+                            }
+                        }
+                    }
+                }]
+            }).Show();
+
+        });
+
+        _create.click(function () {
+            if (_create.hasClass("disabled"))
+                return false;
+            createMapp();
+        });
+
+        _edit.click(function () {
+            var item = JSON.parse($(".maps").find("span.selected").attr("item"));
+            createMapp(item);
+        })
+
+        _remove.click(function () {
+            if (_remove.hasClass("disabled"))
+                return false;
+            $("body").dialog({
+                title:"Please confirm",
+                data: "You will be removing this mapp and all its data <br> This cant be undone. <br> Are you Sure",
+                onConfirm: function () {
+                    var id = $(".maps").find("span.selected").attr("itemId");
+                    $("#filerowserContainer").ax({
+                        url: '@Url.Action("DeleteMapps", "TinyMce")',
+                        data: JSON.stringify({ id: id }),
+                        success: function (data) {
+                            loadMaps();
+                        }
+                    });
+                },
+                onCancel: function () {
+
+                }
+            }).Show()
+        });
+
+
+        function enable(item) {
+            _upload.removeClass("disabled");
+            _create.removeClass("disabled");
+            _remove.removeClass("disabled");
+            _edit.removeClass("disabled");
+
+            if (item.system) {
+                _remove.addClass("disabled");
+            }
+
+        }
+
+
+        function createMapp(item) {
+            if (!item)
+                item = { name: "", description: "", children:[], parent_id: null }
+            else item.children = [];
+
+            var div = $("<div class='form'> </div>")
+                .append(' <div class="form-group"><label>Name:</label><input type="text" class="form-control mappName" /></div>')
+                .append(' <div class="form-group"><label>Description:</label><textarea type="text" class="form-control description" rows="5" ></textarea></div>')
+                .append(' <div class="form-group"><label>Parent:</label><input type="text" class="form-control mappParent" /></div>');
+            div.find(".mappName").val(item.name);
+            div.find(".description").val(item.description);
+
+
+            div.find(".mappParent").autofill({
+                ajaxUrl: '@Url.Action("GetMaps", "TinyMce")',
+                textField: "name",
+                valueField: "id",
+                childrenProperty: "children",
+                childTextField: "name",
+                childValueField: "id",
+                selectedValue: item.parent_id !== null ? item.parent_id: -1,
+                disabledItems: [item],
+                items: [{ name: "---No Parent---", id: -1 }],
+                onselect: function (mapp) {
+                    if (item.id <= 0)
+                        item.parent_id = null;
+                    else item.parent_id = mapp.id;
+                }
+            });
+
+            var dialog = $("#filerowserContainer").dialog({
+                data: div,
+                title: "Add/Edit Mapps",
+                buttons: [{
+                    text: "Save",
+                    click: function () {
+                        item.name = div.find(".mappName").val();
+                        item.description = div.find(".description").val();
+                        dialog.ax({
+                            url: '@Url.Action("SaveMapps", "TinyMce")',
+                            data: JSON.stringify(item),
+                            success: function (data) {
+                                dialog.Hide();
+                                loadMaps();
+                            }
+                        });
+
+                        return false;
+                    }
+                }]
+            }).Show();
+        }
+
+        function loadMaps() {
+            $("#filerowserContainer").ax({
+                url: '@Url.Action("GetMaps", "TinyMce")',
+                data: JSON.stringify({ value: "" }),
+                success: function (data) {
+                    $("#filerowserContainer").find(".maps").verticlaMenu({
+                        data: data,
+                        textName: "name",
+                        childName: "name",
+                        itemBinder: function (li, item) {
+                            li.attr("itemId", item.id);
+                            li.attr("item", JSON.stringify(item));
+                            li.attr("title", item.description);
+                            li.click(function () {
+                                $(".maps").find("span.selected").removeClass("selected");
+                                li.addClass("selected");
+                                enable(item);
+                                loadFiles();
+                            });
+                        }
+                    });
+                }
+            })
+        }
+
+        loadMaps();
+
+
+        function loadFiles() {
+            var file = $("#filerowserContainer").find(".files").html("");
+            var id = $(".maps").find("span.selected").attr("itemId");
+            file.ax({
+                url: '@Url.Action("GetFiles", "TinyMce")',
+                data: JSON.stringify({ mappId: id }),
+                success: function (data) {
+                    $.each(data, function () {
+                        var item = this;
+                        var src = '@Url.Action("GetImageFile", "TinyMce", null, Request.Url.Scheme)' + "?uuid=" + this.id + "&&t=" + new Date().toString();
+                        var li = $("<li title='" + item.friendlyname+ "'></li>")
+                            .append("<i><span>PREVIEW</span><span class='delete'>X</span><span>Select</span></i>")
+                            .append("<img src='" + src + "' />")
+                            .append("<span>" + this.friendlyname + "</span>");
+                        li.mouseover(function (e) {
+                                li.find("i").show("fast");
+                            }).mouseleave(function () {
+                                li.find("i").hide("fast");
+                            });
+
+                        li.find("i").find("span").first().click(function () {
+                            $("#filerowserContainer").dialog({
+                                title: "Image Preview",
+                                data: li.find("img").clone()
+                            }).Show();
+                        });
+
+                        li.find("i").find("span:last-child").click(function () {
+                            if (!browserSettings.onSelect) // its from an html editor control
+                            {
+                                item_url = src
+                                var args = top.tinymce.activeEditor.windowManager.getParams();
+                                win = (args.window);
+                                input = (args.input);
+                                win.document.getElementById(input).value = item_url;
+                                top.tinymce.activeEditor.windowManager.close();
+                            } else browserSettings.onSelect(item, src)
+
+                        });
+
+                        li.find("i").find("span:eq(1)").click(function () {
+                            $("#filerowserContainer").dialog({
+                                title: "Please confirm",
+                                data: "You will be deleting this file <br> Are you sure",
+                                onConfirm: function () {
+                                file.ax({
+                                    url: '@Url.Action("DeleteFile", "TinyMce")',
+                                    data: JSON.stringify({ id: item.id }),
+                                    success: function (data) {
+                                        if (data && data.message)
+                                            alert(data.message);
+                                        loadFiles();
+                                     }
+                                });
+                                },
+                                onCancel: function () {}
+                            }).Show();
+
+
+                        });
+                        file.append(li);
+                    });
+                }
+            });
+        }
+        $.toolTipIni();
+    });
+</script>

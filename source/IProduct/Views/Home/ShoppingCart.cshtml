@@ -1,0 +1,147 @@
+﻿<div class="wizard"></div>
+<div class="profile form-row" style="width: 52%;">
+    <div class="form-group">
+        <label required>Name:</label>
+        <input name="fullname" type="text" class="fullname form-control" />
+    </div>
+
+    <div class="form-group col-md-6">
+        <label required>Email:</label>
+        <input name="email" type="text" class="email form-control" />
+    </div>
+
+    <div class="form-group col-md-6">
+        <label required>Password:</label>
+        <input name="password" type="password" class="password form-control" />
+    </div>
+
+    <div class="form-group">
+        <label required>Phone:</label>
+        <input name="phone" type="text" class="phone form-control" />
+    </div>
+
+    <div class="form-group">
+        <label required>Shipping address:</label>
+        <input name="deliveryaddress" type="text" class="deliveryaddress form-control" />
+    </div>
+
+    <div class="form-group  col-md-6">
+        <label required>City:</label>
+        <input name="city" type="text" class="city form-control" />
+    </div>
+
+    <div class="form-group  col-md-4">
+        <label required>State:</label>
+        <input name="state" type="text" class="state form-control" />
+    </div>
+
+    <div class="form-group col-md-2">
+        <label required>ZipCode:</label>
+        <input name="zipcode" type="text" class="zipcode form-control" />
+    </div>
+
+
+    <div class="form-group">
+        <label required>Country:</label>
+        <input name="country" class="country form-control" />
+    </div>
+</div>
+
+<div class="invoice form-row">
+<iframe style="width:100%; height:100%;">
+
+</iframe>
+</div>
+
+<div class="floatRight">
+    <span class="btn">Previous</span>
+    <span class="btn">Next</span>
+</div>
+<script>
+
+    $(document).ready(function () {
+        var tabs = $(".wizard").tabs({
+            wizard: true,
+            onSelect: function (tab) {
+                if (tab.onSelect)
+                    tab.onSelect(tab);
+            }
+        });
+
+        if (shoppingCart.count() > 0) {
+            var user = loginView.get();
+            var cart = tabs.add(Partial("ManagedCart.cshtml"), "Product Cart", "ShippingCart").select();
+            var account = tabs.add($(".profile"), "Profile", "Profile");
+            var tbInvoice = tabs.add($(".invoice"), "Invoice", "Invoice").disable();
+            if (user !== null)
+                account.content.find(".password").parent().hide();
+            account.validate = function () {
+                account.content.find(".validation").remove();
+                var invoice = shoppingCart.invoice();
+                var error = "";
+                if (isNullOrEmpty(invoice.fullname))
+                    error += "Name cant be empty<br>";
+
+                if (isNullOrEmpty(invoice.email))
+                    error += "Email cant be empty<br>";
+
+                if (isNullOrEmpty(invoice.phone))
+                    error += "Phone cant be empty<br>";
+
+                if (isNullOrEmpty(invoice.deliveryaddress))
+                    error += "DeliveryAddress cant be empty<br>";
+
+                if (isNullOrEmpty(invoice.city))
+                    error += "City cant be empty<br>";
+
+                if (isNullOrEmpty(invoice.state))
+                    error += "State cant be empty<br>";
+
+                if (isNullOrEmpty(invoice.zipcode))
+                    error += "ZipCode cant be empty<br>";
+
+                if (isNullOrEmpty(invoice.country))
+                    error += "Country cant be empty<br>";
+
+                if (!isNullOrEmpty(error)) {
+                    account.content.prepend("<span class='validation'>" + error + "</span>")
+                    return false;
+                }
+                return true;
+            }
+
+
+            $(".floatRight .btn").first().click(function () {
+                if (tabs.selectedItem().id == "Profile")
+                    cart.enable().select();
+                else if (tabs.selectedItem().id == "Invoice")
+                    account.enable().select();
+            });
+
+            $(".floatRight .btn").last().click(function () {
+                if (tabs.selectedItem().id == "ShippingCart")
+                    account.enable().select();
+                else if (tabs.selectedItem().id == "Profile" && account.validate())
+                    tbInvoice.enable().select();
+            });
+
+            var invoice = shoppingCart.invoice();
+            account.content.find("input").each(function () {
+                var name = $(this).attr("name");
+                if (name == "password" && invoice.billinguser != undefined) {
+                    $(this).parent().remove();
+                }
+
+                $(this).val(invoice[name]);
+                $(this).change(function () {
+                    shoppingCart.update(name, $(this).val());
+                });
+            });
+
+        } else {
+            $(".wizard").html("<h1>Empty</h1>");
+            $(".profile").remove();
+            $(".invoice").remove();
+        }
+    });
+</script>
