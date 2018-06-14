@@ -15,7 +15,6 @@ namespace IProduct.Modules
 {
     public static class Actions
     {
-   
         /// <summary>
         /// Resize and save an image to fit under width and height like a canvas keeping things proportional
         /// </summary>
