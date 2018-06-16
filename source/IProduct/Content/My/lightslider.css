@@ -1393,6 +1393,17 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item.lg-complete .lg-object 
     list-style: none outside none;
 }
 
+.lslide .desc {
+    height: 22%;
+    width: 100%;
+    position: absolute;
+    background: #0000004d;
+    opacity: 0.8;
+    bottom: 0;
+    color: white;
+    padding: 8px;
+}
+
 .lSSlideOuter.lSrtl .lightSlider, .lSSlideOuter.lSrtl .lSPager {
     padding-right: 0;
 }

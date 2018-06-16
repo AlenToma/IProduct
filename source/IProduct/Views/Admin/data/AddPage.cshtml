@@ -54,12 +54,12 @@
     </div>
 
     <div class="form-group">
-        <label>Content:</label>
+        <label>Meta:</label>
         <textarea class="meta form-control" rows="4"></textarea>
     </div>
 
     <div class="itemContainer filebrowser">
-        <h1>Images<span>Add Image</span></h1>
+        <h1>Slider<span>Add Image</span></h1>
         <ul class="itemContainer images files"></ul>
     </div>
 
@@ -321,7 +321,7 @@
                 var x = this;
                 var src = '@Url.Action("GetImageFile", "TinyMce", null, Request.Url.Scheme)' + "?uuid=" + this.files.id + "&&t=" + new Date().toString();
                 var li = $("<li title='" + this.files.friendlyname + "'></li>")
-                    .append("<i><span>PREVIEW</span><span class='delete'>X</span></i>")
+                    .append("<i><span>PREVIEW</span><span class='delete'>X</span><span>Settings</span></i>")
                     .append("<img src='" + src + "' />")
                     .append("<span>" + this.files.friendlyname + "</span>");
 
@@ -338,7 +338,7 @@
                     }).Show();
                 });
 
-                li.find("i").find("span:last-child").click(function () {
+                li.find("i").find("span.delete").click(function () {
                     $("body").dialog({
                         title: "Please confirm",
                         data: "You will be deleting this file <br> Are you sure",
@@ -347,6 +347,26 @@
                             loadSlider();
                         },
                         onCancel: function () { }
+                    }).Show();
+                });
+
+                li.find("i").find("span:last-child").click(function () {
+                    var div = $("<div></div>")
+                        .append('<div class="form-group"><label>Click</label><input type="text" placeholder="http://" class="form-control url" /></div>')
+                        .append('<div class="form-group"><label>Description</label><textarea rows="4" class="description form-control"></textarea></div>')
+                    div.find(".url").val(x.url);
+                    div.find(".description").val(x.description);
+                    $("body").dialog({
+                        title: "Image Settings",
+                        data: div,
+                        buttons: [{
+                            text: "Save",
+                            click: function () {
+                                x.url = div.find(".url").val();
+                                x.description = div.find(".description").val();
+                                loadSlider();
+                            }
+                        }]
                     }).Show();
                 });
 

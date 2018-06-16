@@ -1,9 +1,5 @@
 ﻿using IProduct.Modules.Library.Base_Entity;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IProduct.Modules.Library
 {
@@ -14,5 +10,9 @@ namespace IProduct.Modules.Library
         public Guid Files_Id { get; set; }
 
         public Files Files { get; set; }
+
+        public string Description { get; set; }
+
+        public string Url { get; set; }
     }
 }

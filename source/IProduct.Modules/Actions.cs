@@ -7,6 +7,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -15,6 +16,23 @@ namespace IProduct.Modules
 {
     public static class Actions
     {
+        /// <summary>
+        /// Return embedded file from IProduct.Modules.SQL
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
+        public static string GetSql(string fileName)
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            var resourceName = $"IProduct.Modules.SQL.{fileName}";
+            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                string result = reader.ReadToEnd();
+                return result;
+            }
+        }
+
         /// <summary>
         /// Resize and save an image to fit under width and height like a canvas keeping things proportional
         /// </summary>

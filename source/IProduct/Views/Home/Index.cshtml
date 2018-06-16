@@ -147,14 +147,27 @@
         if (page.pagessliders.length > 0) {
             var slider = $("<ul></ul>").addClass("section").addClass("slider");
             $.each(page.pagessliders, function () {
+                var x = this;
                 src = '@Url.Action("GetImageFile", "TinyMce", null, Request.Url.Scheme)' + "?uuid=" + this.files_id + "&&width=300&&height=150&&t=" + new Date().toString();
-                var li = $("<li></li>").append("<img imageId='" + this.files_id+"' src='" + src + "' />");
+                var li = $("<li></li>")
+                    .append("<img imageId='" + this.files_id + "' src='" + src + "' />");
+
+                if (!isNullOrEmpty(this.description))
+                    li.append("<div class='desc'>" + this.description + "</div>");
+
+                if (!isNullOrEmpty(this.url))
+                    li.css({ cursor:"pointer"}).click(function () {
+                        window.open(x.url, '_blank');
+                    });
+
                 slider.append(li);
 
             });
+
             container.prepend(slider);
             var s = slider.lightSlider({
                 item: 1,
+                enableDrag: false,
                 auto: true,
                 autoWidth: false,
                 loop: true,
