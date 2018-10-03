@@ -1,0 +1,46 @@
+﻿<div class="columnContainer">
+
+
+</div>
+<script>
+    var languages = [];
+    var column;
+    var columnContainer = $(".columnContainer");
+    columnContainer.ax({
+        url: '@Url.Action("GetCountryComboBoxItems", "Admin")',
+        data: JSON.stringify({ value: "" }),
+        async: false,
+        success: function (data) {
+            languages = data;
+        }
+    });
+
+    function editColumn(col) {
+        if (col)
+            column = col;
+        else {
+            column = { key: "", columnvalues: [] };
+            $.each(languages, function () {
+                column.columnvalues.push({ country: this, value: "" });
+            });
+        }
+        columnContainer
+            .append('<div class="form-group"><label>Key</label><input type="text" class="form-control key" /></div>')
+            .find(".key").val(column.key).change(function () {
+                column.key = $(this).val();
+            });
+
+        $.each(column.columnvalues, function () {
+            if (this.country.active) {
+                var x = this;
+                var div = $('<div class="form-group"><label>' + (this.country.name +'('+ this.country.countrycode + ')') + '</label><input type="text" class="form-control" /></div>');
+                div.find("input").change(function () {
+                    x.value = $(this).val();
+                });
+                columnContainer.append(div);
+            }
+        });
+
+    }
+
+</script>

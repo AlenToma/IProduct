@@ -53,7 +53,8 @@ namespace IProduct.Controllers.Shared
         [HttpPost]
         public string GetcurrentUser()
         {
-            
+            if (Request.Cookies[FormsAuthentication.FormsCookieName] == null)
+                return "[]";
             var email = FormsAuthentication.Decrypt(Request.Cookies[FormsAuthentication.FormsCookieName].Value).Name;
             //var email = System.Web.HttpContext.Current.User.Identity.Name;
             var user= DbContext.Get<User>().Where(x => x.Email == email).LoadChildren().IgnoreChildren(x=> x.Invoices).Execute();

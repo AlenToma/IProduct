@@ -6,6 +6,7 @@
     border: 1px solid #CCC;
     background: white !important;
     overflow: hidden;
+
 }
 
     .dialog > div {
@@ -13,7 +14,9 @@
         width: 100%;
         overflow: auto;
         height: 97%;
-        padding-bottom:20px;
+        padding-bottom: 20px;
+        max-height: 93vh;
+        overflow-y: auto;
     }
 
 .dialogDim {

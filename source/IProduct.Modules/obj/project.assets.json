@@ -2,7 +2,7 @@
   "version": 3,
   "targets": {
     ".NETFramework,Version=v4.5.1": {
-      "EntityWorker.Core/2.2.4": {
+      "EntityWorker.Core/2.2.9": {
         "type": "package",
         "dependencies": {
           "System.Data.SqlClient": "4.5.0"
@@ -107,12 +107,13 @@
     }
   },
   "libraries": {
-    "EntityWorker.Core/2.2.4": {
-      "sha512": "/mS78yHXJ7xjAtY2XxQfE0gjXtsCPHwIYgIXB7ercjJfClVaaqhIvIx4sBEl8DQJz9daxQTpLTUtT1sTyKObDQ==",
+    "EntityWorker.Core/2.2.9": {
+      "sha512": "bfOGVylhcCJ56t2Y4Ki7wQX4bbPHpmt3tCU9sQtnaCoCPLbcRDUr3kOjGBC3pkq2334BlzNwGgbQbz+GC43z2Q==",
       "type": "package",
-      "path": "entityworker.core/2.2.4",
+      "path": "entityworker.core/2.2.9",
       "files": [
-        "entityworker.core.2.2.4.nupkg.sha512",
+        ".signature.p7s",
+        "entityworker.core.2.2.9.nupkg.sha512",
         "entityworker.core.nuspec",
         "lib/net451/EntityWorker.Core.dll",
         "lib/net451/EntityWorker.Core.runtimeconfig.json",
@@ -126,10 +127,11 @@
       ]
     },
     "Microsoft.AspNet.Mvc/5.2.4": {
-      "sha512": "Enl//Q98M1+A5o26GlPtbtfWiGVNrLvLSFRbfDc14CG6UQn7o4Xux4CXuMAJkDqaRfHXQWsssumsPofwJoiQVw==",
+      "sha512": "aBSENa9s0KnB/Oh9D94l/g1BQKcjX3Ra6NFmWMWFmCW7diglEHoGOpSozX4lcYdTq/HDGLHfkEFbRLD/Pu6MMQ==",
       "type": "package",
       "path": "microsoft.aspnet.mvc/5.2.4",
       "files": [
+        ".signature.p7s",
         "Content/Web.config.install.xdt",
         "Content/Web.config.uninstall.xdt",
         "lib/net45/System.Web.Mvc.dll",
@@ -139,10 +141,11 @@
       ]
     },
     "Microsoft.AspNet.Razor/3.2.4": {
-      "sha512": "yqSkHUZNjR01MO2NbpXIfjlUEFJqw3xcT57Fc5orJryZlzgAVMUluOsDW2jyGkDg8/Xv91/RQ+0NNz4kinfGhQ==",
+      "sha512": "XIqwE6RU3Wx5lzxjHakGjZ6AxePlEY8oxAt99YOjY49tzjChZGDWia807YQr1w/sTtQo1cvfcQqvMs3yKWgXrg==",
       "type": "package",
       "path": "microsoft.aspnet.razor/3.2.4",
       "files": [
+        ".signature.p7s",
         "lib/net45/System.Web.Razor.dll",
         "lib/net45/System.Web.Razor.xml",
         "microsoft.aspnet.razor.3.2.4.nupkg.sha512",
@@ -150,10 +153,11 @@
       ]
     },
     "Microsoft.AspNet.WebPages/3.2.4": {
-      "sha512": "lhYQ5ZeK/a+pgA2WN/Ci6Qb3WqnDOAJ3OmEdsLDH/pJwHqKYHYmjpl2Xeot9DUDZy4GP1MR9mYrr/3u6SAdrmQ==",
+      "sha512": "JCFFKgRDcxyVEELCx/1D8AzF0j0N+hagGXXBmp+NFffF6O0pWA9aXugJqUm0SDvgOH9RCNU0YzyoHa4X+Lsw7w==",
       "type": "package",
       "path": "microsoft.aspnet.webpages/3.2.4",
       "files": [
+        ".signature.p7s",
         "Content/Web.config.install.xdt",
         "Content/Web.config.uninstall.xdt",
         "lib/net45/System.Web.Helpers.dll",
@@ -304,12 +308,12 @@
   },
   "projectFileDependencyGroups": {
     ".NETFramework,Version=v4.5.1": [
-      "EntityWorker.Core >= 2.2.4",
+      "EntityWorker.Core >= 2.2.9",
       "Microsoft.AspNet.Mvc >= 5.2.4"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Alen.Toma\\.nuget\\packages\\": {},
+    "C:\\Users\\alent\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
@@ -318,7 +322,7 @@
       "projectUniqueName": "D:\\Projects\\IProduct\\source\\IProduct.Modules\\IProduct.Modules.csproj",
       "projectName": "IProduct.Modules",
       "projectPath": "D:\\Projects\\IProduct\\source\\IProduct.Modules\\IProduct.Modules.csproj",
-      "packagesPath": "C:\\Users\\Alen.Toma\\.nuget\\packages\\",
+      "packagesPath": "C:\\Users\\alent\\.nuget\\packages\\",
       "outputPath": "D:\\Projects\\IProduct\\source\\IProduct.Modules\\obj\\",
       "projectStyle": "PackageReference",
       "crossTargeting": true,
@@ -326,13 +330,14 @@
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\Alen.Toma\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\alent\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net451"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -351,7 +356,7 @@
         "dependencies": {
           "EntityWorker.Core": {
             "target": "Package",
-            "version": "[2.2.4, )"
+            "version": "[2.2.9, )"
           },
           "Microsoft.AspNet.Mvc": {
             "target": "Package",

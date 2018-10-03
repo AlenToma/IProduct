@@ -29,23 +29,34 @@
         });
         var user = loginView.get();
         if (user !== null && user) {
+
+            var datasource = [{
+                text: "Logout",
+                click: function () {
+                    $("body").ax({
+                        url: '@Url.Action("SignOut", "Home")',
+                        async: false,
+                        success: function (data) {
+                            window.location = '@Url.Action("LogInView", "Home", null, Request.Url.Scheme)';
+                        }
+                    });
+                }
+            }, {
+                text: "Settings"
+            }
+            ];
+            if (user.role.roletype == "Administrator") {
+                datasource.push({
+                    text: "AdminPanel",
+                    click: function () {
+                        window.location = '@Url.Action("index", "Admin", null, Request.Url.Scheme)';
+                    }
+                })
+            }
+
             $(".fa-user").contextMenu({
                 action: "left",
-                dataSource: [{
-                    text: "Logout",
-                    click: function () {
-                        $("body").ax({
-                            url: '@Url.Action("SignOut", "Home")',
-                            async: false,
-                            success: function (data) {
-                                window.location = '@Url.Action("LogInView", "Home", null, Request.Url.Scheme)';
-                            }
-                        });
-                    }
-                }, {
-                    text: "Settings"
-                }
-                ]
+                dataSource: datasource
             });
         }
 

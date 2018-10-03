@@ -2,3 +2,19 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Admin/Shared/_AdminLayout.cshtml";
 }
+
+
+<script>
+    var tabContainer;
+    $(document).ready(function () {
+        tabContainer = $(".centercontent").tabs({
+            onSelect: function (tab) {
+                if (tab.onSelect)
+                    tab.onSelect(tab);
+            }
+        });
+        var products = tabContainer.add("", "LanguageSettings", "LanguageSettings").select();
+        Partial("data/Languages.cshtml", function (data) { products.content.append(data) });
+
+    });
+</script>

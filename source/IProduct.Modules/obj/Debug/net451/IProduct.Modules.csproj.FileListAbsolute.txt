@@ -18,3 +18,4 @@ D:\Projects\IProduct\source\IProduct.Modules\bin\Debug\net451\System.Web.dll
 D:\Projects\IProduct\source\IProduct.Modules\bin\Debug\net451\EntityWorker.Core.dll
 D:\Projects\IProduct\source\IProduct.Modules\bin\Debug\net451\System.Data.Common.dll
 D:\Projects\IProduct\source\IProduct.Modules\bin\Debug\net451\System.Data.SqlClient.dll
+D:\Projects\IProduct\source\IProduct.Modules\bin\Debug\net451\System.Web.xml

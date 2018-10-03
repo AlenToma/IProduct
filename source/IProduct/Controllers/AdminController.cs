@@ -224,6 +224,84 @@ namespace IProduct.Controllers
             }
         }
 
+        [HttpPost]
+        public void SaveCountry(Country country)
+        {
+            DbContext.Save(country).SaveChanges();
+        }
+
+
+        [HttpPost]
+        public string GetCountry(TableTreeSettings settings)
+        {
+
+            var text = settings.SearchText ?? "";
+            if (settings.SelectedPage <= 0)
+                settings.SelectedPage = 1;
+            if (settings.PageSize <= 0)
+                settings.PageSize = 20;
+            var data = DbContext.Get<Country>().Where(x => x.Name.Contains(text) || x.CountryCode.Contains(text)).LoadChildren();
+            if (!string.IsNullOrEmpty(settings.SortColumn))
+            {
+                if (settings.Sort != "desc")
+                    data = data.OrderBy(settings.SortColumn);
+                else data = data.OrderByDescending(settings.SortColumn);
+            }
+            settings.TotalPages = Math.Ceiling(data.ExecuteCount().ConvertValue<decimal>() / settings.PageSize).ConvertValue<int>();
+            data = data.Skip(settings.SelectedPage / settings.PageSize).Take(settings.PageSize);
+            settings.Result = data.Execute();
+            return settings.ToJson();
+
+        }
+
+        #endregion
+
+        #region Column
+        [HttpPost]
+        public string GetColumnComboBoxItems(string value)
+        {
+            if (!value.ConvertValue<Guid?>().HasValue)
+                return DbContext.Get<Column>().Where(x => x.Key.Contains(value)).LoadChildren().Json();
+            else
+            {
+                var guid = value.ConvertValue<Guid>();
+                return DbContext.Get<Country>().Where(x => x.Id == guid).Json();
+            }
+        }
+
+        [HttpPost]
+        public void SaveColumn(Column column)
+        {
+            DbContext.Save(column).SaveChanges();
+        }
+
+        [HttpPost]
+        public void DeleteColumn(Guid itemId)
+        {
+            DbContext.Get<Column>().Where(x => x.Id == itemId).LoadChildren().Remove().SaveChanges();
+        }
+
+        [HttpPost]
+        public string GetColumn(TableTreeSettings settings)
+        {
+            var text = settings.SearchText ?? "";
+            if (settings.SelectedPage <= 0)
+                settings.SelectedPage = 1;
+            if (settings.PageSize <= 0)
+                settings.PageSize = 20;
+            var data = DbContext.Get<Column>().Where(x => x.Key.Contains(text)).LoadChildren();
+            if (!string.IsNullOrEmpty(settings.SortColumn))
+            {
+                if (settings.Sort != "desc")
+                    data = data.OrderBy(settings.SortColumn);
+                else data = data.OrderByDescending(settings.SortColumn);
+            }
+            settings.TotalPages = Math.Ceiling(data.ExecuteCount().ConvertValue<decimal>() / settings.PageSize).ConvertValue<int>();
+            data = data.Skip(settings.SelectedPage / settings.PageSize).Take(settings.PageSize);
+            settings.Result = data.Execute();
+            return settings.ToJson();
+        }
+
         #endregion
 
         #region Role

@@ -1,0 +1,83 @@
+﻿
+<div class="header" id="pagesHeader">
+    Manage Languages
+    <span>Add Column</span>
+</div>
+<div class="columns">
+    Columns
+</div>
+
+<script>
+    function edit(item) {
+        Partial("data/AddColumn.cshtml", function (block) {
+            var dialog = $("body").dialog({
+                title: "Edit/Add Column",
+                data: block,
+                buttons: [{
+                    text: "Save",
+                    click: function () {
+                        var result = validate();
+                        if (result != false) {
+                            $(".body").ax({
+                                url: '@Url.Action("SaveColumn", "Admin")',
+                                data: JSON.stringify(result),
+                                success: function (data) {
+                                    columns.BuildData();
+                                    dialog.Hide();
+                                }
+                            });
+                        }
+                        return false;
+                    }
+                }]
+        }).Show();
+            editColumn(item);
+        });
+    }
+
+    $("#pagesHeader > span").click(function () {
+        edit();
+    })
+    var columns = [{
+        data: "Key",
+    }, 
+    {
+        edit: function (item) {
+            edit(item);
+        },
+        delete: function (item) {
+            confirm("Are you sure?", function () {
+                $(".pages").ax({
+                    url: '@Url.Action("DeleteColumn", "Admin")',
+                    data: JSON.stringify({ itemId: item.id }),
+                    async: false,
+                    success: function (data) {
+                        columns.BuildData();
+                    }
+                });
+            }, categories);
+        },
+
+        }];
+
+    var columns = $(".columns").DataTableTree({
+        data: function (settings) {
+            var result = "";
+            if (!settings)
+                return [];
+            $(".pages").ax({
+                url: '@Url.Action("GetColumn", "Admin")',
+                data: JSON.stringify( settings),
+                async: false,
+                success: function (data) {
+                    settings.totalPages = data.totalpages;
+                    result = data.result;
+                }
+            })
+            return result;
+
+        },
+        pageSize: 20,
+        columns: columns,
+    });
+</script>

@@ -7,6 +7,7 @@ using IProduct.Modules.Library.Base_Entity;
 using System;
 using System.Collections;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace IProduct.Modules.Data
 {
@@ -148,7 +149,7 @@ namespace IProduct.Modules.Data
             #endregion
         }
 
-        public override IRepository Save(object entity)
+        public override IRepository Save<T>(T entity, params Expression<Func<T, object>>[] ignoredProperties)
         {
             void Prepare(object data)
             {
@@ -205,7 +206,7 @@ namespace IProduct.Modules.Data
                     return this;
                 }
             }
-            return base.Save(entity);
+            return base.Save(entity, ignoredProperties);
         }
 
 
@@ -232,7 +233,7 @@ namespace IProduct.Modules.Data
         // get the full connection string
         public static string GetConnectionString()
         {
-            return @"Server=.\SQLEXPRESS; Database=IProduct; User Id=root; Password=root;";
+            return @"Server=.\SQLEXPRESS; Database=IProduct;Trusted_Connection=True; User Id=root; Password=root;";
 
         }
     }
