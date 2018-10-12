@@ -273,7 +273,7 @@
             general.content.find(".ulContainer").html("");
             var sections = $.grep(item.pagesections, function (m) { return m.object_status != "Removed" })
             $.each(Sort(sections, "order", "asc"), function (index,x) {
-                var li = $("<li index='"+index+"'></li>").html(this.sectionname +" (" + this.pagetype +")").append("<span class='delete'>Delete</span><span class='edit'>Edit</span>");
+                var li = $("<li index='"+index+"'></li>").html(this.sectionname +" (" + this.pagetype +")").append("<span class='delete'></span><span class='edit'></span>");
                 li.find("span").first().click(function () {
                     x.object_status = "Removed";
                     loadsections();
@@ -321,7 +321,7 @@
                 var x = this;
                 var src = '@Url.Action("GetImageFile", "TinyMce", null, Request.Url.Scheme)' + "?uuid=" + this.files.id + "&&t=" + new Date().toString();
                 var li = $("<li title='" + this.files.friendlyname + "'></li>")
-                    .append("<i><span>PREVIEW</span><span class='delete'>X</span><span>Settings</span></i>")
+                    .append("<i><span>PREVIEW</span><span class='del'>X</span><span>Settings</span></i>")
                     .append("<img src='" + src + "' />")
                     .append("<span>" + this.files.friendlyname + "</span>");
 
@@ -338,7 +338,7 @@
                     }).Show();
                 });
 
-                li.find("i").find("span.delete").click(function () {
+                li.find("i").find("span.del").click(function () {
                     $("body").dialog({
                         title: "Please confirm",
                         data: "You will be deleting this file <br> Are you sure",

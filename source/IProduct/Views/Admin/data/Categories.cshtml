@@ -27,7 +27,7 @@
                 disabledItems: [item],
                 items: [{ name: "---No Parent---", id: -1 }],
                 onselect: function (category) {
-                    if (categories.id <= 0)
+                    if (category.id <= 0)
                         item.parent_id = null;
                     else item.parent_id = category.id;
                 }
@@ -44,14 +44,14 @@
                         url: '@Url.Action("SaveCategories", "Admin")',
                         data: JSON.stringify(item),
                         success: function (data) {
-                            categories.BuildData();
+                            categories.body();
                             dialog.Hide();
                         }
                     });
                     return false;
                 },
                 onCancel: function () {
-
+                    categories.body();
                 }
             }).Show();
 
@@ -62,57 +62,21 @@
 
     var columns = [{
         data: "name",
-        },
-        {
+        header:"Name"
+    },
+    {
         data: "description",
-        },
-        {
-            data: "parent",
-            value: function (item) {
-                if (item.parent_id === null)
-                    return " ";
-                var value = "";
-                        $(".categories").ax({
-                            url: '@Url.Action("GetCategoriesComboBoxItems", "Admin")',
-                            data: JSON.stringify({ value: item.parent_id }),
-                            async: false,
-                            success: function (data) {
-                                if (data.length > 0)
-                                    value = data[0].name;
-
-                                return value;
-                        }
-                });
-                return value;
-            },
-            sortable: false
-        },
-        {
-        edit: function (item) {
-            EditCategories(item);
-            },
-            delete: function (item) {
-                confirm("Are you sure?", function () {
-                    $(".categories").ax({
-                        url: '@Url.Action("DeleteCategories", "Admin")',
-                        data: JSON.stringify({ itemId: item.id }),
-                        async: false,
-                        success: function (data) {
-                            categories.BuildData();
-                        }
-                    });
-                }, categories);
-            },
-
-        }]
-    categories= $(".categories").DataTableTree({
+        header: "Description"
+    }
+    ]
+    categories = $(".categories").treeView({
         data: function (settings) {
             var result = "";
             if (!settings)
                 return [];
             $(".categories").ax({
                 url: '@Url.Action("GetCategories", "Admin")',
-                data: JSON.stringify( settings),
+                data: JSON.stringify(settings),
                 async: false,
                 success: function (data) {
                     settings.totalPages = data.totalpages;
@@ -123,7 +87,23 @@
 
         },
         pageSize: 20,
+        sortColumn: "name",
+        sort: "asc",
         columns: columns,
-        childrenField:"categories"
+        childrenField: "categories",
+        onEdit: function (item) { EditCategories(item); },
+        onDelete: function (item) {
+            confirm("Are you sure?", function () {
+                    $(".categories").ax({
+                        url: '@Url.Action("DeleteCategories", "Admin")',
+                        data: JSON.stringify({ itemId: item.id }),
+                        async: false,
+                        success: function (data) {
+                            categories.body();
+                        }
+                    });
+            }, $(".categories"));
+        }
     });
+
 </script>

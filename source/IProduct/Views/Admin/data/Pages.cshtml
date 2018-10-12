@@ -16,6 +16,7 @@
             var dialog = $("body").dialog({
                 title: "Edit/Add Page",
                 data: block,
+                onCancel: function () { pages.body(); },
                 buttons: [{
                     text: "Save",
                     click: function () {
@@ -25,7 +26,7 @@
                                 url: '@Url.Action("SavePages", "Admin")',
                                 data: JSON.stringify(result),
                                 success: function (data) {
-                                    pages.BuildData();
+                                    pages.body();
                                     dialog.Hide();
                                 }
                             });
@@ -43,14 +44,16 @@
     })
     var columns = [{
         data: "name",
+        header: "Name"
     },
     {
         data: "order",
+        header:"Order",
         sortable: true
     },
     {
-        data: "Parent",
-        value: function (item) {
+        header: "Parent",
+        data: function (item) {
             var result = undefined;
             if (isNullOrEmpty(item.parent_id))
                 return "";
@@ -68,34 +71,29 @@
         },
         sortable: false
         }, {
-        data: "Visible",
-        value: function (d) {
+        data: function (d) {
             if (d.isactive)
                 return "YES";
             return "NO";
         },
+        header: "IsVisible",
         sortable: false
-        },
-    {
-        edit: function (item) {
-            edit(item);
-        },
-        delete: function (item) {
-            confirm("Are you sure?", function () {
+        }];
+
+    var pages = $(".pages").treeView({
+        onEdit: function (item) { edit(item); },
+        onDelete: function (item) {
+             confirm("Are you sure?", function () {
                 $(".pages").ax({
                     url: '@Url.Action("DeletePages", "Admin")',
                     data: JSON.stringify({ itemId: item.id }),
                     async: false,
                     success: function (data) {
-                        categories.BuildData();
+                        pages.body();
                     }
                 });
-            }, categories);
+              }, $(".pages"));
         },
-
-        }];
-
-    var pages = $(".pages").DataTableTree({
         data: function (settings) {
             var result = "";
             if (!settings)

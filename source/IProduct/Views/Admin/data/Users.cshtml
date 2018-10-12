@@ -20,6 +20,7 @@
                 confirmText: "Save",
                 cancelText: "Cancel",
                 screan: false,
+                onCancel: function () { users.body();},
                 buttons: [{
                     text: "Save",
                     click: function () {
@@ -29,7 +30,7 @@
                                 url: '@Url.Action("SaveUser", "Admin")',
                                 data: JSON.stringify(x),
                                 success: function (data) {
-                                    users.BuildData();
+                                    users.body();
                                     dialog.Hide();
                                 }
                             });
@@ -49,37 +50,36 @@
     })
 
          var columns = [{
-             data: "name",
-             value: function (item) { return item.person.fullname },
+             data: function (item) { return item.person.fullname },
+             header:"Name",
              sortable: false
         },
         {
-             data: "email",
+            data: "email",
+            header:"Email"
         },
         {
-            data: "Role",
-            value: "role.roletype",
+            data: "role.roletype",
+            header: "Role",
             sortable: false
         },
-        {
-        edit: function (item) {
-            edit(item);
-            },
-            delete: function (item) {
-                confirm("Are you sure?", function () {
+       ]
+    var users = $(".users").treeView({
+        onDelete: function (item) {
+                 confirm("Are you sure?", function () {
                     $(".users").ax({
                         url: '@Url.Action("DeleteUser", "Admin")',
                         data: JSON.stringify({ itemId: item.id }),
                         async: false,
                         success: function (data) {
-                            categories.BuildData();
+                            categories.body();
                         }
                     });
-                }, categories);
-            },
-
-        }]
-    var users = $(".users").DataTableTree({
+              }, $(".users"));
+        },
+        onEdit: function (item) {
+            edit(item);
+        },
         data: function (settings) {
             var result = "";
             if (!settings)

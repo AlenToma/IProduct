@@ -233,7 +233,7 @@ namespace IProduct.Modules.Data
         // get the full connection string
         public static string GetConnectionString()
         {
-            return @"Server=.\SQLEXPRESS; Database=IProduct;Trusted_Connection=True; User Id=root; Password=root;";
+            return @"Server=.\SQLEXPRESS; Database=IProduct; Trusted_Connection=True; User Id=root; Password=root;";
 
         }
     }

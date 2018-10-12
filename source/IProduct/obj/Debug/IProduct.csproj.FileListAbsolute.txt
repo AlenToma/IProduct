@@ -176,7 +176,6 @@ D:\Projects\IProduct\source\IProduct\bin\System.Web.WebPages.Razor.dll
 D:\Projects\IProduct\source\IProduct\bin\WebGrease.dll
 D:\Projects\IProduct\source\IProduct\bin\IProduct.Modules.pdb
 D:\Projects\IProduct\source\IProduct\bin\Antlr3.Runtime.pdb
-D:\Projects\IProduct\source\IProduct\bin\EntityWorker.Core.xml
 D:\Projects\IProduct\source\IProduct\bin\Microsoft.AI.DependencyCollector.xml
 D:\Projects\IProduct\source\IProduct\bin\Microsoft.AI.Web.xml
 D:\Projects\IProduct\source\IProduct\bin\Microsoft.AI.WindowsServer.xml
@@ -196,3 +195,4 @@ D:\Projects\IProduct\source\IProduct\obj\Debug\IProduct.csproj.CoreCompileInputs
 D:\Projects\IProduct\source\IProduct\obj\Debug\IProduct.csproj.CopyComplete
 D:\Projects\IProduct\source\IProduct\obj\Debug\IProject.dll
 D:\Projects\IProduct\source\IProduct\obj\Debug\IProject.pdb
+D:\Projects\IProduct\source\IProduct\bin\EntityWorker.Core.xml

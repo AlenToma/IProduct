@@ -20,7 +20,7 @@
     <AssemblyName>IProject</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -53,8 +53,8 @@
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <HintPath>..\..\solution\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="EntityWorker.Core, Version=2.0.2.9, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\solution\packages\EntityWorker.Core.2.2.9\lib\net451\EntityWorker.Core.dll</HintPath>
+    <Reference Include="EntityWorker.Core, Version=2.0.3.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\solution\packages\EntityWorker.Core.2.3.3\lib\net451\EntityWorker.Core.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\solution\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.4.0\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
@@ -177,6 +177,7 @@
     <Content Include="Content\My\lightslider.css" />
     <Content Include="Content\My\Menu.css" />
     <Content Include="Content\My\ToolTip.css" />
+    <Content Include="Content\My\Treeview.css" />
     <Content Include="Content\My\verticalMenu.css" />
     <Content Include="Content\site\site.css" />
     <Content Include="Navigation Menu\css\defaults.css" />
@@ -209,7 +210,6 @@
     <Content Include="Scripts\My\ajax.js" />
     <Content Include="Content\My\autofill.css" />
     <Content Include="Content\My\dialog.css" />
-    <Content Include="Content\My\TableTree.css" />
     <Content Include="Content\My\tabs.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -257,9 +257,9 @@
     <Content Include="Scripts\My\dialog.js" />
     <Content Include="Scripts\My\lightslider.js" />
     <Content Include="Scripts\My\Login.js" />
-    <Content Include="Scripts\My\TableTree.js" />
     <Content Include="Scripts\My\tabs.js" />
     <Content Include="Scripts\My\ToolTip.js" />
+    <Content Include="Scripts\My\Treeview.js" />
     <Content Include="Scripts\My\verticalMenu.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
@@ -505,7 +505,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>63270</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:63270/</IISUrl>
+          <IISUrl>http://localhost/IProduct</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

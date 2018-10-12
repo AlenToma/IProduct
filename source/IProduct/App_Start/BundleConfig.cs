@@ -33,7 +33,6 @@ namespace IProduct
 
             bundles.Add(new StyleBundle("~/Content/My").Include(
                       "~/Content/My/tabs.css",
-                      "~/Content/My/TableTree.css",
                       "~/Content/My/dialog.css",
                       "~/Content/My/autofill.css",
                       "~/Content/My/verticalMenu.css",
@@ -41,7 +40,8 @@ namespace IProduct
                        "~/Content/My/ToolTip.css",
                        "~/Content/My/Menu.css",
                        "~/Content/My/lightslider.css",
-                       "~/Content/My/ContextMenu.css"));
+                       "~/Content/My/ContextMenu.css",
+                       "~/Content/My/Treeview.css"));
 
 
             bundles.Add(new StyleBundle("~/Navigation Menu/css").Include(
@@ -60,7 +60,6 @@ namespace IProduct
             bundles.Add(new ScriptBundle("~/bundles/My").Include(
                         "~/Scripts/My/actions.js",
                         "~/Scripts/My/tabs.js",
-                        "~/Scripts/My/TableTree.js",
                         "~/Scripts/My/dialog.js",
                         "~/Scripts/My/autofill.js",
                         "~/Scripts/My/ajax.js",
@@ -69,7 +68,8 @@ namespace IProduct
                         "~/Scripts/My/lightslider.js",
                         "~/Scripts/My/Cart.js",
                         "~/Scripts/My/ContextMenu.js",
-                        "~/Scripts/My/Login.js"));
+                        "~/Scripts/My/Login.js",
+                        "~/Scripts/My/Treeview.js"));
         }
     }
 }

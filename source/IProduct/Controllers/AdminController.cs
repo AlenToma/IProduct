@@ -45,13 +45,15 @@ namespace IProduct.Controllers
         [HttpPost]
         public string GetCategoriesComboBoxItems(string value)
         {
+            var data = DbContext.Get<Category>();
             if (!value.ConvertValue<Guid?>().HasValue)
-                return DbContext.Get<Category>().Where(x => (x.Name.Contains(value) || x.Categories.Any(a => x.Name.Contains(value))) && !x.Parent_Id.HasValue).LoadChildren().Json();
+                 data.Where(x => (x.Name.Contains(value) || x.Categories.Any(a => x.Name.Contains(value))) && !x.Parent_Id.HasValue).LoadChildren();
             else
             {
                 var guid = value.ConvertValue<Guid>();
-                return DbContext.Get<Category>().Where(x => x.Id == guid).Json();
+                 data.Where(x => x.Id == guid);
             }
+            return data.Json();
         }
 
         [HttpPost]
@@ -76,7 +78,7 @@ namespace IProduct.Controllers
                 settings.SelectedPage = 1;
             if (settings.PageSize <= 0)
                 settings.PageSize = 20;
-            var data = DbContext.Get<Category>().Where(x => (x.Name.Contains(text) || x.Categories.Any(a => x.Name.Contains(text)))).LoadChildren();
+            var data = DbContext.Get<Category>().Where(x => (x.Name.Contains(text) || x.Categories.Any(a => x.Name.Contains(text))) && !x.Parent_Id.HasValue).LoadChildren();
             if (!string.IsNullOrEmpty(settings.SortColumn))
             {
                 if (settings.Sort != "desc")
