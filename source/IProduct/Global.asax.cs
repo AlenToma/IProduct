@@ -22,7 +22,7 @@ namespace IProduct
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             EntityWorker.Core.GlobalConfiguration.DataEncode_Key = "IProduct default Encoder";
 
-            EntityWorker.Core.GlobalConfiguration.JSONParameters.SerializeToLowerCaseNames = true;
+            EntityWorker.Core.GlobalConfiguration.JSONParameters.JsonFormatting = EntityWorker.Core.Helper.JsonFormatting.LowerCase;
             EntityWorker.Core.GlobalConfiguration.JSONParameters.UseFastGuid = false;
             EntityWorker.Core.GlobalConfiguration.Log = new IProduct.Modules.Library.Base_Entity.Logger();
             GlobalConfigration.FileBasePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ConfigurationManager.AppSettings["ImagePath"]);

@@ -2,7 +2,7 @@
   "version": 3,
   "targets": {
     ".NETFramework,Version=v4.5.1": {
-      "EntityWorker.Core/2.3.4": {
+      "EntityWorker.Core/2.3.5": {
         "type": "package",
         "dependencies": {
           "System.Data.SqlClient": "4.5.0"
@@ -107,12 +107,12 @@
     }
   },
   "libraries": {
-    "EntityWorker.Core/2.3.4": {
-      "sha512": "4oWJAoTFh2aPLVFTEF21JZWXfGsWTS39C/pJ68roljWx564oaZPEF9KApVR11Mt9ZD7Yg8RLCs7169x58YjuvA==",
+    "EntityWorker.Core/2.3.5": {
+      "sha512": "BB/YPYTHB3IrcKXcgA0JzuKmwfIkacDKcKyvPUM1qoVn3xzDvlmubj6suugLX22UG9aNZ7AjY61+zqEgcdEAYg==",
       "type": "package",
-      "path": "entityworker.core/2.3.4",
+      "path": "entityworker.core/2.3.5",
       "files": [
-        "entityworker.core.2.3.4.nupkg.sha512",
+        "entityworker.core.2.3.5.nupkg.sha512",
         "entityworker.core.nuspec",
         "lib/net451/EntityWorker.Core.dll",
         "lib/net451/EntityWorker.Core.runtimeconfig.json",
@@ -307,7 +307,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETFramework,Version=v4.5.1": [
-      "EntityWorker.Core >= 2.3.4",
+      "EntityWorker.Core >= 2.3.5",
       "Microsoft.AspNet.Mvc >= 5.2.4"
     ]
   },
@@ -356,7 +356,7 @@
         "dependencies": {
           "EntityWorker.Core": {
             "target": "Package",
-            "version": "[2.3.4, )"
+            "version": "[2.3.5, )"
           },
           "Microsoft.AspNet.Mvc": {
             "target": "Package",
