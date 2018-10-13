@@ -1,9 +1,11 @@
 ﻿using EntityWorker.Core.Attributes;
+using EntityWorker.Core.Helper;
 using EntityWorker.Core.Interface;
 using EntityWorker.Core.InterFace;
 using EntityWorker.Core.Transaction;
 using IProduct.Modules.Library;
 using IProduct.Modules.Library.Base_Entity;
+using IProduct.Modules.Library.Custom;
 using IProduct.Modules.Rules;
 using System;
 using System.Collections;
@@ -57,10 +59,10 @@ namespace IProduct.Modules.Data
             #region Files
             moduleBuilder.Entity<Files>()
                 .HasForeignKey<Mapps, Guid>(x => x.Mapp_Id)
-                .ExcludeFromAbstract(x=> x.FileBytes)
-                .ExcludeFromAbstract(x=> x.FileThumpFullPath)
-                .ExcludeFromAbstract(x=> x.FileFullPath)
-                .HasJsonIgnore(x=> x.FileBytes)
+                .ExcludeFromAbstract(x => x.FileBytes)
+                .ExcludeFromAbstract(x => x.FileThumpFullPath)
+                .ExcludeFromAbstract(x => x.FileFullPath)
+                .HasJsonIgnore(x => x.FileBytes)
                 .HasRule<FileRules>();
 
             #endregion
@@ -233,6 +235,26 @@ namespace IProduct.Modules.Data
 
             // Start the migration
             InitializeMigration();
+        }
+
+        public TableTreeSettings Search<T>(TableTreeSettings settings, Expression<Predicate<T>> match)
+        {
+            settings.SearchText = settings.SearchText ?? "";
+            if (settings.SelectedPage <= 0)
+                settings.SelectedPage = 1;
+            if (settings.PageSize <= 0)
+                settings.PageSize = 20;
+            var data = this.Get<T>().Where(match).LoadChildren();
+            if (!string.IsNullOrEmpty(settings.SortColumn))
+            {
+                if (settings.Sort != "desc")
+                    data = data.OrderBy(settings.SortColumn);
+                else data = data.OrderByDescending(settings.SortColumn);
+            }
+            settings.TotalPages = Math.Ceiling(data.ExecuteCount().ConvertValue<decimal>() / settings.PageSize).ConvertValue<int>();
+            data = data.Skip(settings.SelectedPage / settings.PageSize).Take(settings.PageSize);
+            settings.Result = data.Execute();
+            return settings;
         }
 
         // get the full connection string

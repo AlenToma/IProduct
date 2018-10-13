@@ -5,6 +5,7 @@ using IProduct.Models;
 using System;
 using System.Linq;
 using System.Web.Mvc;
+using IProduct.Modules.Library.Custom;
 
 namespace IProduct.Controllers
 {
@@ -73,24 +74,7 @@ namespace IProduct.Controllers
         [HttpPost]
         public CallbackJsonResult GetCategories(TableTreeSettings settings)
         {
-
-            var text = settings.SearchText ?? "";
-            if (settings.SelectedPage <= 0)
-                settings.SelectedPage = 1;
-            if (settings.PageSize <= 0)
-                settings.PageSize = 20;
-            var data = DbContext.Get<Category>().Where(x => (x.Name.Contains(text) || x.Categories.Any(a => x.Name.Contains(text))) && !x.Parent_Id.HasValue).LoadChildren();
-            if (!string.IsNullOrEmpty(settings.SortColumn))
-            {
-                if (settings.Sort != "desc")
-                    data = data.OrderBy(settings.SortColumn);
-                else data = data.OrderByDescending(settings.SortColumn);
-            }
-            settings.TotalPages = Math.Ceiling(data.ExecuteCount().ConvertValue<decimal>() / settings.PageSize).ConvertValue<int>();
-            data = data.Skip(settings.SelectedPage / settings.PageSize).Take(settings.PageSize);
-            settings.Result = data.Execute();
-            return new CallbackJsonResult(settings);
-
+            return new CallbackJsonResult(DbContext.Search<Category>(settings, x => (x.Name.Contains(settings.SearchText) || x.Categories.Any(a => x.Name.Contains(settings.SearchText))) && !x.Parent_Id.HasValue));
         }
 
         #endregion
@@ -138,24 +122,7 @@ namespace IProduct.Controllers
         [HttpPost]
         public CallbackJsonResult GetProduct(TableTreeSettings settings)
         {
-
-            var text = settings.SearchText ?? "";
-            if (settings.SelectedPage <= 0)
-                settings.SelectedPage = 1;
-            if (settings.PageSize <= 0)
-                settings.PageSize = 20;
-            var data = DbContext.Get<Product>().Where(x => x.Name.Contains(text)).LoadChildren();
-            if (!string.IsNullOrEmpty(settings.SortColumn))
-            {
-                if (settings.Sort != "desc")
-                    data = data.OrderBy(settings.SortColumn);
-                else data = data.OrderByDescending(settings.SortColumn);
-            }
-            settings.TotalPages = Math.Ceiling(data.ExecuteCount().ConvertValue<decimal>() / settings.PageSize).ConvertValue<int>();
-            data = data.Skip(settings.SelectedPage / settings.PageSize).Take(settings.PageSize);
-            settings.Result = data.Execute();
-            return new CallbackJsonResult(settings);
-
+            return new CallbackJsonResult(DbContext.Search<Product>(settings, x => x.Name.Contains(settings.SearchText)));
         }
 
         #endregion
@@ -190,24 +157,7 @@ namespace IProduct.Controllers
         [HttpPost]
         public CallbackJsonResult GetUser(TableTreeSettings settings)
         {
-
-            var text = settings.SearchText ?? "";
-            if (settings.SelectedPage <= 0)
-                settings.SelectedPage = 1;
-            if (settings.PageSize <= 0)
-                settings.PageSize = 20;
-            var data = DbContext.Get<User>().Where(x => x.Email.Contains(text) || x.Person.FirstName.Contains(text) || x.Person.LastName.Contains(text)).LoadChildren();
-            if (!string.IsNullOrEmpty(settings.SortColumn))
-            {
-                if (settings.Sort != "desc")
-                    data = data.OrderBy(settings.SortColumn);
-                else data = data.OrderByDescending(settings.SortColumn);
-            }
-            settings.TotalPages = Math.Ceiling(data.ExecuteCount().ConvertValue<decimal>() / settings.PageSize).ConvertValue<int>();
-            data = data.Skip(settings.SelectedPage / settings.PageSize).Take(settings.PageSize);
-            settings.Result = data.Execute();
-            return new CallbackJsonResult(settings);
-
+            return new CallbackJsonResult(DbContext.Search<User>(settings, x => x.Email.Contains(settings.SearchText) || x.Person.FirstName.Contains(settings.SearchText) || x.Person.LastName.Contains(settings.SearchText)));
         }
 
 
@@ -238,23 +188,7 @@ namespace IProduct.Controllers
         [HttpPost]
         public CallbackJsonResult GetCountry(TableTreeSettings settings)
         {
-
-            var text = settings.SearchText ?? "";
-            if (settings.SelectedPage <= 0)
-                settings.SelectedPage = 1;
-            if (settings.PageSize <= 0)
-                settings.PageSize = 20;
-            var data = DbContext.Get<Country>().Where(x => x.Name.Contains(text) || x.CountryCode.Contains(text)).LoadChildren();
-            if (!string.IsNullOrEmpty(settings.SortColumn))
-            {
-                if (settings.Sort != "desc")
-                    data = data.OrderBy(settings.SortColumn);
-                else data = data.OrderByDescending(settings.SortColumn);
-            }
-            settings.TotalPages = Math.Ceiling(data.ExecuteCount().ConvertValue<decimal>() / settings.PageSize).ConvertValue<int>();
-            data = data.Skip(settings.SelectedPage / settings.PageSize).Take(settings.PageSize);
-            settings.Result = data.Execute();
-            return new CallbackJsonResult(settings);
+            return new CallbackJsonResult(DbContext.Search<Country>(settings, x => x.Name.Contains(settings.SearchText) || x.CountryCode.Contains(settings.SearchText)));
         }
 
         #endregion
@@ -288,22 +222,7 @@ namespace IProduct.Controllers
         [HttpPost]
         public CallbackJsonResult GetColumn(TableTreeSettings settings)
         {
-            var text = settings.SearchText ?? "";
-            if (settings.SelectedPage <= 0)
-                settings.SelectedPage = 1;
-            if (settings.PageSize <= 0)
-                settings.PageSize = 20;
-            var data = DbContext.Get<Column>().Where(x => x.Key.Contains(text)).LoadChildren();
-            if (!string.IsNullOrEmpty(settings.SortColumn))
-            {
-                if (settings.Sort != "desc")
-                    data = data.OrderBy(settings.SortColumn);
-                else data = data.OrderByDescending(settings.SortColumn);
-            }
-            settings.TotalPages = Math.Ceiling(data.ExecuteCount().ConvertValue<decimal>() / settings.PageSize).ConvertValue<int>();
-            data = data.Skip(settings.SelectedPage / settings.PageSize).Take(settings.PageSize);
-            settings.Result = data.Execute();
-            return new CallbackJsonResult(settings);
+            return new CallbackJsonResult(DbContext.Search<Column>(settings, x => x.Key.Contains(settings.SearchText)));
         }
 
         #endregion
@@ -357,24 +276,7 @@ namespace IProduct.Controllers
         [HttpPost]
         public CallbackJsonResult GetPages(TableTreeSettings settings)
         {
-
-            var text = settings.SearchText ?? "";
-            if (settings.SelectedPage <= 0)
-                settings.SelectedPage = 1;
-            if (settings.PageSize <= 0)
-                settings.PageSize = 20;
-            var data = DbContext.Get<Pages>().Where(x => x.Name.Contains(text) || x.Children.Any(a => a.Name.Contains(text))).LoadChildren();
-            if (!string.IsNullOrEmpty(settings.SortColumn))
-            {
-                if (settings.Sort != "desc")
-                    data = data.OrderBy(settings.SortColumn);
-                else data = data.OrderByDescending(settings.SortColumn);
-            }
-            settings.TotalPages = Math.Ceiling(data.ExecuteCount().ConvertValue<decimal>() / settings.PageSize).ConvertValue<int>();
-            data = data.Skip(settings.SelectedPage / settings.PageSize).Take(settings.PageSize);
-            settings.Result = data.Execute();
-            return new CallbackJsonResult(settings);
-
+            return new CallbackJsonResult(DbContext.Search<Pages>(settings, x => x.Name.Contains(settings.SearchText) || x.Children.Any(a => a.Name.Contains(settings.SearchText))));
         }
 
         #endregion

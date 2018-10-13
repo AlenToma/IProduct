@@ -185,7 +185,15 @@
             item.body = function () {
                 clearTimeout(timeout);
                 timeout = setTimeout(function () {
-                    var data = item.sort(settings.data(settings), settings.sortColumn, settings.sort);
+                    var tempSettings = {
+                        sort: settings.sort,
+                        sortColumn: settings.sortColumn,
+                        pageSize: settings.pageSize,
+                        totalPages: settings.totalPages,
+                        selectedPage: settings.selectedPage,
+                        searchText: settings.searchText
+                    };
+                    var data = item.sort(settings.data(tempSettings), settings.sortColumn, settings.sort);
 
                     table.children("tbody").html("");
                     function getValue(col, object, asString) {
