@@ -13,7 +13,7 @@
         }, options);
 
         var container = $("<div></div>").addClass("shoppingCart");
-        if (settings.display != "none")
+        if (settings.display !== "none")
             $(this).append(container);
         var table = $("<table><thead><tr></tr></thead><tbody></tbody><tfoot><tr><td colspan='5' style='text-align: right;'>Total:</td><td><span class='totalSum'> </span></td> </tr></tfoot></table>");
         table.find("thead > tr")
@@ -35,26 +35,26 @@
                     var total = 0;
                     var totalSum = 0;
                     $.each(data.producttotalinformations, function () {
-                        total += this.v
+                        total += this.v;
                     });
                     if (settings.connector && data.products.length > 0)
                         $(settings.connector).html("(" + total + ")");
                     settings.count = total;
-                    if (settings.display != "none")
+                    if (settings.display !== "none")
                         $.each(data.products, function () {
                             var x = this;
-                            var imageId = "";
+                            var filethumpfullpath = "";
                             if (this.images !== null)
-                                imageId = this.images[0].image_id;
-                            var info = $.grep(data.producttotalinformations, function (a) { return a.k == x.id })[0];
-                            src = settings.image + "?uuid=" + imageId + "&&width=100&&height=100&&t=" + new Date().toString();
+                                filethumpfullpath = this.images[0].images.filethumpfullpath;
+                            var info = $.grep(data.producttotalinformations, function (a) { return a.k === x.id })[0];
+                            src = settings.image + filethumpfullpath;
                             var tr = $("<tr></tr>")
-                                .append("<td style='width:16px'><span class='delete'>x</span></td>")
+                                .append("<td style='width:16px'><span class='delete'></span></td>")
                                 .append("<td style='width:100'><img src='" + src + "' /></td>")
                                 .append("<td><span> " + this.name + " </span><span class='description'>" + (isNullOrEmpty(this.description) ? "" : this.description) + " </span></td>")
-                                .append("<td><span class='btn minus'>-</span><input type='text' disabled class='quantity' value='" + info.v + "' /> <span class='btn plus'  >+</span> </td>")
-                                .append("<td><span class='price'> " + this.price + ":- </span></td>")
-                                .append("<td><span class='price'> " + (this.price * info.v) + ":- </span></td>");
+                                .append("<td><span class='btn minus'>-</span><input type='text' disabled class='quantity' value='" + info.v + "' /> <span class='btn plus'>+</span> </td>")
+                                .append("<td><span class='price'> " + this.price.formatMoney() + ":- </span></td>")
+                                .append("<td><span class='price'> " + (this.price * info.v).formatMoney() + ":- </span></td>");
                             tr.find(".minus").click(function () {
                                 container.add(x.id, -1);
                                 container.load();
@@ -67,7 +67,7 @@
                                     onConfirm: function () {
                                         container.add(x.id, -1000);
                                         container.load();
-                                    },
+                                    }
                                 }).Show();
 
                             });
@@ -80,15 +80,15 @@
 
                             totalSum += this.price * info.v;
                         });
-                    table.find(".totalSum").html(totalSum + ":-");
+                    table.find(".totalSum").html(totalSum.formatMoney() + ":-");
                 }
             });
-        }
+        };
 
         container.count = function () {
             container.load();
             return settings.count;
-        }
+        };
 
         container.invoice = function () {
             var result = undefined;
@@ -101,7 +101,7 @@
             });
 
             return result;
-        }
+        };
 
         container.update = function (field, value) {
             container.ax({
@@ -113,7 +113,7 @@
             });
 
             return result;
-        }
+        };
 
         container.add = function (productId, count) {
             if (!count)
@@ -127,8 +127,8 @@
                 }
 
             });
-        }
+        };
         container.load();
         return container;
-    }
+    };
 }(jQuery));

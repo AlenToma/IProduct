@@ -319,7 +319,7 @@
             settings.content.find("ul.itemContainer").html("");
             $($.grep(item.pagessliders, function (m) { return m.object_status != "Removed" })).each(function () {
                 var x = this;
-                var src = '@Url.Action("GetImageFile", "TinyMce", null, Request.Url.Scheme)' + "?uuid=" + this.files.id + "&&t=" + new Date().toString();
+                var src = '@Url.Action("Index", "Home", null, Request.Url.Scheme)' + this.files.filefullpath;
                 var li = $("<li title='" + this.files.friendlyname + "'></li>")
                     .append("<i><span>PREVIEW</span><span class='del'>X</span><span>Settings</span></i>")
                     .append("<img src='" + src + "' />")

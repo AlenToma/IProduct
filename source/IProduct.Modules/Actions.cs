@@ -1,4 +1,5 @@
-﻿using IProduct.Modules.Library;
+﻿using EntityWorker.Core.Helper;
+using IProduct.Modules.Library;
 using IProduct.Modules.Library.Custom;
 using System;
 using System.Collections.Generic;
@@ -33,6 +34,69 @@ namespace IProduct.Modules
             }
         }
 
+        enum ImageFileType
+        {
+            Undefined, // Unknown, None, etc. whatever you like
+            Jpeg,
+            Jpg = Jpeg,
+            Png,
+            MemoryBmp,
+            Bmp,
+            Emf,
+            Wmf,
+            Gif,
+            Tiff,
+            Exif,
+            Icon,
+            TiF
+
+        }
+
+        /// <summary>
+        /// Validate if path is a supported Image
+        /// </summary>
+        /// <param name="file"></param>
+        /// <trueValidation>Image.FromFile will be included  </trueValidation>
+        /// <returns></returns>
+        public static bool IsImage(string file, bool trueValidation = false)
+        {
+
+            var formates = Enum.GetNames(typeof(ImageFileType));
+            var valid = formates.Any(x => file.ToLower().Contains(x.ToLower()));
+            if (valid && trueValidation)
+            {
+                try
+                {
+                    Image.FromFile(file);
+                }
+                catch
+                {
+                    valid = !valid;
+                }
+            }
+            return valid;
+
+        }
+
+        /// <summary>
+        /// Validate if path is a supported Image
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        public static bool IsImage(byte[] file)
+        {
+            try
+            {
+                using (var ms = new MemoryStream(file))
+                    new Bitmap(ms);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         /// <summary>
         /// Resize and save an image to fit under width and height like a canvas keeping things proportional
         /// </summary>
@@ -42,36 +106,43 @@ namespace IProduct.Modules
         /// <param name="newHeight"></param>
         public static byte[] GenerateThumbImage(byte[] image, int newWidth, int newHeight)
         {
-            Bitmap srcBmp;
-            using (var ms = new MemoryStream(image))
-                srcBmp = new Bitmap(ms);
-            float ratio = 1;
-            float minSize = Math.Min(newHeight, newHeight);
-
-            if (srcBmp.Width > srcBmp.Height)
+            try
             {
-                ratio = minSize / (float)srcBmp.Width;
-            }
-            else
-            {
-                ratio = minSize / (float)srcBmp.Height;
-            }
+                Bitmap srcBmp;
+                using (var ms = new MemoryStream(image))
+                    srcBmp = new Bitmap(ms);
+                float ratio = 1;
+                float minSize = Math.Min(newHeight, newHeight);
 
-            SizeF newSize = new SizeF(srcBmp.Width * ratio, srcBmp.Height * ratio);
-            Bitmap target = new Bitmap((int)newSize.Width, (int)newSize.Height);
-
-            using (Graphics graphics = Graphics.FromImage(target))
-            {
-                graphics.CompositingQuality = CompositingQuality.HighSpeed;
-                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                graphics.CompositingMode = CompositingMode.SourceCopy;
-                graphics.DrawImage(srcBmp, 0, 0, newSize.Width, newSize.Height);
-
-                using (MemoryStream memoryStream = new MemoryStream())
+                if (srcBmp.Width > srcBmp.Height)
                 {
-                    target.Save(memoryStream, ImageFormat.Jpeg);
-                    return memoryStream.ToArray();
+                    ratio = minSize / (float)srcBmp.Width;
                 }
+                else
+                {
+                    ratio = minSize / (float)srcBmp.Height;
+                }
+
+                SizeF newSize = new SizeF(srcBmp.Width * ratio, srcBmp.Height * ratio);
+                Bitmap target = new Bitmap((int)newSize.Width, (int)newSize.Height);
+
+                using (Graphics graphics = Graphics.FromImage(target))
+                {
+                    graphics.CompositingQuality = CompositingQuality.HighSpeed;
+                    graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                    graphics.CompositingMode = CompositingMode.SourceCopy;
+                    graphics.DrawImage(srcBmp, 0, 0, newSize.Width, newSize.Height);
+
+                    using (MemoryStream memoryStream = new MemoryStream())
+                    {
+                        target.Save(memoryStream, ImageFormat.Jpeg);
+                        return memoryStream.ToArray();
+                    }
+                }
+            }
+            catch
+            {
+                return image;
             }
         }
     }

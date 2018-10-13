@@ -18,9 +18,13 @@
 
     .slider li > img, .slider li {
         width: 100%;
-        /*min-height:100%;*/
+       
     }
 
+    .Slider li {
+        width: 200px;
+        height:250px !important;
+    }
 
 .section {
     display: block;
@@ -31,7 +35,7 @@
     clear: both;
     margin-bottom: 15px;
     text-align: left;
-    /*min-width: 504px;*/
+    min-width: 504px;
 }
 
     .section:not(.products):not(.slider) {
@@ -52,12 +56,16 @@
 }
 
 .products > li {
-    width: 279px;
+    width: 225px;
     height: 200px;
     display: inline-block;
     float: left;
     cursor: pointer;
     overflow: hidden;
+}
+
+.ImageGrid > li {
+    height:300px;
 }
 
     .products > li > div {
@@ -68,51 +76,71 @@
         height: 100%;
     }
 
-        .products > li > div > label {
-            margin-top: 19px;
-            position: absolute;
-            bottom: 0px;
-            font-weight: bolder;
-        }
+.ImageGrid > li > div , .Slider > li > div{
+    border: 1px solid #e8e8e8;
+    background-color: white;
+}
 
-        .products > li > div > .btn {
-            width: 54px;
-            position: absolute;
-            bottom: 4px;
-            right: 1px;
-        }
+.ImageGrid > li {
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
 
-    .products li > div > span, .products > li > table > tbody > tr > td > div > span {
-        font-weight: bolder;
-        font-size: 12px;
+.products > li > div > label {
+    margin-top: 19px;
+    position: absolute;
+    bottom: 0px;
+    font-weight: bolder;
+}
+
+.products > li > div > .btn {
+    width: 54px;
+    position: absolute;
+    bottom: 4px;
+    right: 6px;
+}
+
+.products li > div > span, .products > li > table > tbody > tr > td > div > span {
+    font-weight: bolder;
+    font-size: 12px;
+    display: block;
+    word-wrap: break-word;
+    word-break: break-all;
+    overflow: hidden;
+    white-space: normal;
+    line-height: 15px;
+    padding-left: 1px;
+    margin-top: 3px;
+    width: 111%;
+}
+
+    .products li > div > span.description, .products > li > table > tbody > tr > td > div > span.description {
+        font-weight: normal;
+        font-size: 10px;
+        text-overflow: ellipsis;
+        /* Required for text-overflow to do anything */
+        /*white-space: nowrap;*/
+        font-size-adjust: 0.58;
+        max-width: 94%;
         display: block;
-        word-wrap: break-word;
-        word-break: break-all;
-        overflow: hidden;
-        white-space: normal;
-        line-height: 15px;
-        padding-left: 1px;
-        margin-top: 3px;
-        width: 111%;
     }
 
-        .products li > div > span.description, .products > li > table > tbody > tr > td > div > span.description {
-            font-weight: normal;
-            font-size: 10px;
-            text-overflow: ellipsis;
-            /* Required for text-overflow to do anything */
-            white-space: nowrap;
-        }
+.products > li > div > div > img {
+    /*height: 86%;*/
+    width: unset !important;
+    margin:auto;
+}
 
-    .products > li > div > div > img {
-        /*height: 86%;*/
-        width: 100%;
-    }
+.ImageGrid > li > div > div > img {
+    /*height: 86%;*/
+    width: unset !important;
+}
 
-    .products > li > div > div {
-        /*height: 86%;*/
-        width: 102%;
-    }
+.products > li > div > div {
+    /*height: 86%;*/
+    width: 102%;
+    display:flex;
+}
 
 .lSSlideOuter .lSPager:not(.lSGallery) {
     display: none !important;
@@ -175,12 +203,14 @@
     padding: 12px;
     float: left;
     display: inline-block;
+    border: 1px solid #d0d0d0;
 }
 
     .productdetali .detali > .btn {
         width: 150px;
         float: none;
         clear: both;
+        margin-top: 10px;
     }
 
 
@@ -192,7 +222,7 @@
         word-break: break-all;
         overflow: hidden;
         white-space: normal;
-        /*line-height: 15px;*/
+        color: #4a4a4a;
         padding-left: 1px;
         margin-top: 3px;
         width: 111%;
@@ -306,9 +336,12 @@
             font-size: 10px;
             text-overflow: ellipsis;
             /* Required for text-overflow to do anything */
-            white-space: nowrap;
+            /*white-space: nowrap;*/
             padding-top: 0;
             margin: 0;
+            max-width: 94%;
+            display: block;
+            font-size-adjust: 0.58;
         }
 
 .shoppingCart .delete {

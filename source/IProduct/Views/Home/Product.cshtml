@@ -21,7 +21,7 @@
         var product = GetCurrentProduct();
         container.append("<h1>" + product.name + "</h1>").append("<span class='description'>" + (isNullOrEmpty(product.description) ? "" : product.description) + "</span>");
         var table = $("<table><tbody></tbody></table>");
-        var tr = $("<tr></tr>").append('<td> <ul class="productImages slider"></ul><div class="detali"><span class="price">' + product.price + ':-</span> <span class="btn clearfix">Buy</span></div></td>')
+        var tr = $("<tr></tr>").append('<td> <ul class="productImages slider"></ul><div class="detali"><span class="price">' + product.price.formatMoney() + ':-</span> <span class="btn clearfix">Buy</span></div></td>')
         table.find("tbody").append(tr);
         tr = $("<tr></tr>").append("<td><div class='htmlContent'></div></td>");
         table.find("tbody").append(tr);
@@ -33,8 +33,8 @@
         var src = "/Content/Image/info.png";
         if (product.images && product.images.length > 0) {
             $.each(product.images, function (i, x) {
-                var th =  '@Url.Action("GetIcon", "TinyMce", null, Request.Url.Scheme)' + "?uuid=" + this.images.id + "&&width=200&&height=150&&t=" + new Date().toString();
-                src = '@Url.Action("GetImageFile", "TinyMce", null, Request.Url.Scheme)' + "?uuid=" + this.images.id + "&&width=300&&height=150&&t=" + new Date().toString();
+                var th = '@Url.Action("Index", "Home", null, Request.Url.Scheme)' + this.images.filethumpfullpath 
+                src = '@Url.Action("Index", "Home", null, Request.Url.Scheme)' + this.images.filefullpath 
                 var li = $("<li data-thumb='" + th + "' data-src='"+src+"' ></li> ").append("<img imageId = '" + this.images.id + "' src = '" + src + "' /> ");
                 container.find(".productImages").append(li);
 
@@ -72,6 +72,7 @@
             var tabs = $("<div></div>");
             container.append(tabs);
             tabs = tabs.tabs({
+                autoHeight: true,
                 onSelect: function (tab) {
                     if (tab.onSelect)
                         tab.onSelect(tab);

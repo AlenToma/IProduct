@@ -54,13 +54,15 @@ namespace IProduct.Controllers
         #endregion
 
         #region Products
+
         [HttpPost]
         public async Task<string> GetProducts(List<Guid> categoriesId, int pageNr)
         {
             if (pageNr <= 0)
                 pageNr = 1;
-            return await DbContext.Get<Product>().Where(x => x.ProductCategories.Any(a => categoriesId.Contains(a.Category_Id))).LoadChildren(x=> x.Images, x=> x.Images.Select(a=> a.Images.File)).Skip((pageNr -1) * 20).Take(20).JsonAsync();
+            return await DbContext.Get<Product>().Where(x => x.ProductCategories.Any(a => categoriesId.Contains(a.Category_Id))).LoadChildren(x=> x.Images, x=> x.Images.Select(a=> a.Images)).Skip((pageNr -1) * 20).Take(20).JsonAsync();
         }
+
         [HttpPost]
         public async Task<string> GetProduct(Guid id)
         {
@@ -70,6 +72,7 @@ namespace IProduct.Controllers
         #endregion
 
         #region Cart
+
         [HttpPost]
         public string GetCart()
         {
@@ -82,10 +85,11 @@ namespace IProduct.Controllers
             SessionHelper.Cart.Update(field, value);
         }
 
+
         [HttpPost]
         public void AddCart(Guid productid, int count)
         {
-            var product = DbContext.Get<Product>().Where(x => x.Id == productid).LoadChildren(x=> x.Images).ExecuteFirstOrDefault();
+            var product = DbContext.Get<Product>().Where(x => x.Id == productid).LoadChildren(x=> x.Images, x=> x.Images.Select(a=> a.Images)).ExecuteFirstOrDefault();
             SessionHelper.Cart.Add(product, count);
         }
 

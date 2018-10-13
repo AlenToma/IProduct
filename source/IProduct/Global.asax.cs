@@ -2,6 +2,8 @@
 using IProduct.Modules;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -23,7 +25,10 @@ namespace IProduct
             EntityWorker.Core.GlobalConfiguration.JSONParameters.SerializeToLowerCaseNames = true;
             EntityWorker.Core.GlobalConfiguration.JSONParameters.UseFastGuid = false;
             EntityWorker.Core.GlobalConfiguration.Log = new IProduct.Modules.Library.Base_Entity.Logger();
+            GlobalConfigration.FileBasePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ConfigurationManager.AppSettings["ImagePath"]);
+            GlobalConfigration.ImageMapp = ConfigurationManager.AppSettings["ImagePath"];
             GlobalConfigration.LoadSettings(new IProduct.Modules.Data.DbContext());
+           
         }
 
         protected void Application_End()

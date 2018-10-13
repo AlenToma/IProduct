@@ -8,7 +8,8 @@
             data: [],
             onSelect: function () { },
             selectedTab: undefined,
-            wizard: false
+            wizard: false,
+            autoHeight: false
         }, options);
 
         var container = $(this);
@@ -76,7 +77,8 @@
                 disable: function () { container.disable(tabId); return container.findItem(tabId) },
                 enable: function () { container.enable(tabId); return container.findItem(tabId) }
             };
-
+            if (settings.autoHeight)
+                item.content.css("max-height", "100%");
             if (container.findItem(tabId)) {
                 item = container.findItem(tabId);
                 return item;

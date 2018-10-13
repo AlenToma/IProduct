@@ -1,7 +1,4 @@
-﻿<div class="header" id="categoriesHeader">
-    Manage Categories
-    <span>Add Category</span>
-</div>
+﻿
 <div class="categories">
     categories
 </div>
@@ -56,9 +53,6 @@
             }).Show();
 
     }
-    $("#categoriesHeader> span").click(function () {
-        EditCategories();
-    });
 
     var columns = [{
         data: "name",
@@ -70,6 +64,13 @@
     }
     ]
     categories = $(".categories").treeView({
+        header: "Manage Categories",
+        buttons: [{
+            text: "Add category",
+            click: function () {
+                EditCategories();
+            }
+        }],
         data: function (settings) {
             var result = "";
             if (!settings)

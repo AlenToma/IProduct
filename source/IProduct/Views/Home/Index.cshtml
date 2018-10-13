@@ -52,14 +52,14 @@
                                             var src = "/Content/Image/info.png";
                                             var description = isNullOrEmpty(this.description) ? "" : this.description;
                                             if (this.images.length > 0)
-                                                src = '@Url.Action("GetIcon", "TinyMce", null, Request.Url.Scheme)' + "?uuid=" + this.images[0].images.id + "&&width=300&&height=150&&t=" + new Date().toString();
+                                                src = '@Url.Action("index", "Home", null, Request.Url.Scheme)' + this.images[0].images.filethumpfullpath
                                             var icon = $("<li><div></div></li>");
                                             icon.find("div")
                                                 .append("<div><img src='" + src + "' /></div>")
                                                 .append("<span title='" + this.description + "'> " + this.name + " </span>")
                                                 .append("<span class='description'>" + description + "</span>")
-                                                .append("<label>" + this.price + ":-</label><span class='buy btn'>Buy</span>")
-
+                                                .append("<label>" + this.price.formatMoney()  + ":-</label><span class='buy btn'>Buy</span>")
+                                            icon.find(".description").fitText(1.2, { minFontSize: '10', maxFontSize: '12' });
                                             icon.find(".btn").click(function () {
                                                 shoppingCart.add(x.id, 1);
                                             });
@@ -79,7 +79,7 @@
                                             section.find("li > div").css({ "position": "relative", display: "block" });
                                             section.lightSlider({
                                                 item: 4,
-                                                autoWidth: false,
+                                                autoWidth: true,
                                                 loop: false,
                                                 slideMove: 1,
                                                 easing: 'cubic-bezier(0.25, 0, 0.25, 1)',
@@ -99,13 +99,13 @@
                                             var src = "/Content/Image/info.png";
                                             var description = isNullOrEmpty(this.description) ? "" : this.description;
                                             if (this.images.length > 0)
-                                                src = '@Url.Action("GetIcon", "TinyMce", null, Request.Url.Scheme)' + "?uuid=" + this.images[0].images.id + "&&width=300&&height=150&&t=" + new Date().toString();
+                                                src = '@Url.Action("index", "Home", null, Request.Url.Scheme)' + this.images[0].images.filethumpfullpath
                                             var tr = $("<tr></tr>");
                                             tr.append("<td><div><img src='" + src + "' /></div></td>")
                                                 .append("<td><div><span> " + this.name + " </span><span class='description'> " + description + "</span></div></td>")
-                                                .append("<td><div><label>" + this.price + ":-</label><span class='buy btn'>Buy</span></div></td>");
+                                                .append("<td><div><label>" + this.price.formatMoney()  + ":-</label><span class='buy btn'>Buy</span></div></td>");
 
-
+                                            tr.find(".description").fitText(1.2, { minFontSize: '10', maxFontSize: '12' });
                                             table.find("tbody").append(tr);
                                             var url = '@Url.Action("Product", "Home", null, Request.Url.Scheme)';
                                             url += "?id=" + this.id;
@@ -148,7 +148,7 @@
             var slider = $("<ul></ul>").addClass("section").addClass("slider");
             $.each(page.pagessliders, function () {
                 var x = this;
-                src = '@Url.Action("GetImageFile", "TinyMce", null, Request.Url.Scheme)' + "?uuid=" + this.files_id + "&&width=300&&height=150&&t=" + new Date().toString();
+                src = '@Url.Action("index", "Home", null, Request.Url.Scheme)' + this.files.filefullpath
                 var li = $("<li></li>")
                     .append("<img imageId='" + this.files_id + "' src='" + src + "' />");
 
@@ -172,6 +172,16 @@
                 autoWidth: false,
                 loop: true,
                 slideMove: 1,
+                onSliderLoad: function (el) {
+                    //var firstImgHeight = 0,
+                    //    $this = $(el),
+                    //    children = $this.children();
+
+                    //firstImgHeight = children.first().find('img').height();
+                    //// console.log(firstImgHeight);
+                    //$this.find('img').height(firstImgHeight);
+                    //$this.find('li').width('auto');
+                },
                 easing: 'cubic-bezier(0.25, 0, 0.25, 1)',
                 speed: 1500,
             });

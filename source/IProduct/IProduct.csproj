@@ -156,6 +156,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CallbackJsonResult.cs" />
+    <Compile Include="Models\ErrorHandlerAttribute.cs" />
+    <Compile Include="Models\JsonNetResult.cs" />
     <Compile Include="Models\SessionHelper.cs" />
     <Compile Include="Models\TableTreeSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -465,6 +468,7 @@
     <Content Include="Views\Home\LogInView.cshtml" />
     <Content Include="Views\Admin\data\Languages.cshtml" />
     <Content Include="Views\Admin\data\AddColumn.cshtml" />
+    <Content Include="Scripts\My\jquery.fittext.js" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

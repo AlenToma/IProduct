@@ -2,10 +2,6 @@
     Layout = null;
 }
 
-<div class="header" id="userHeader">
-    Manage Users
-    <span>Add User</span>
-</div>
 <div class="users">
     Users
 </div>
@@ -45,10 +41,6 @@
         });
     }
 
-    $("#userHeader").find("span").click(function () {
-        edit();
-    })
-
          var columns = [{
              data: function (item) { return item.person.fullname },
              header:"Name",
@@ -65,6 +57,13 @@
         },
        ]
     var users = $(".users").treeView({
+        header: "Manage Users",
+        buttons: [{
+            text: "Add users",
+            click: function () {
+                edit();
+            }
+        }],
         onDelete: function (item) {
                  confirm("Are you sure?", function () {
                     $(".users").ax({

@@ -4,6 +4,7 @@ using EntityWorker.Core.InterFace;
 using EntityWorker.Core.Transaction;
 using IProduct.Modules.Library;
 using IProduct.Modules.Library.Base_Entity;
+using IProduct.Modules.Rules;
 using System;
 using System.Collections;
 using System.Linq;
@@ -56,13 +57,18 @@ namespace IProduct.Modules.Data
             #region Files
             moduleBuilder.Entity<Files>()
                 .HasForeignKey<Mapps, Guid>(x => x.Mapp_Id)
-                .HasJsonIgnore(x => x.File);
+                .ExcludeFromAbstract(x=> x.FileBytes)
+                .ExcludeFromAbstract(x=> x.FileThumpFullPath)
+                .ExcludeFromAbstract(x=> x.FileFullPath)
+                .HasJsonIgnore(x=> x.FileBytes)
+                .HasRule<FileRules>();
 
             #endregion
 
             #region Mapps
             moduleBuilder.Entity<Mapps>()
-                .HasForeignKey<Mapps, Guid?>(x => x.Parent_Id);
+                .HasForeignKey<Mapps, Guid?>(x => x.Parent_Id)
+                .HasRule<MappRules>();
 
             #endregion
 
@@ -208,7 +214,6 @@ namespace IProduct.Modules.Data
             }
             return base.Save(entity, ignoredProperties);
         }
-
 
         protected override void OnModuleStart()
         {

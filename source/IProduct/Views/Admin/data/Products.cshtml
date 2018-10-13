@@ -2,19 +2,12 @@
     Layout = null;
 }
 
-<div class="header" id="productsHeader">
-    Manage Products
-    <span>Add Prdoducts</span>
-</div>
 <div class="products">
     categories
 </div>
 
 <script>
     var products;
-
-
-
     function Edit(item) {
         Partial("data/AddProduct.cshtml", function (block) {
             var dialog = $("body").dialog({
@@ -51,9 +44,6 @@
     }
 
 
-    $("#productsHeader> span").click(function () {
-        Edit();
-    });
     var columns = [{ data: "name", header: "Name" },
         { data: "description", header: "Description" },
         { data: "status", header: "Status" },
@@ -77,6 +67,8 @@
         columns: columns,
         sort: "desc",
         sortColumn: "name",
+        buttons: [{ text: "Add new product", click: function () { Edit(); } }],
+        header:"Manage Products",
         onDelete: function (item) {
             confirm("Are you sure?", function () {
                 $(".products").ax({

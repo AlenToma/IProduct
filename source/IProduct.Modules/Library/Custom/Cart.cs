@@ -54,7 +54,7 @@ namespace IProduct.Modules.Library.Custom
                     _provider.Save(_user);
                     _provider.SaveChanges();
                 }
-                var items = _provider.Clone(invoice.ProductTotalInformations, EntityWorker.Core.FastDeepCloner.CloneLevel.Hierarki);
+                var items = _provider.Clone(invoice.ProductTotalInformations, CloneLevel.Hierarki);
                 foreach (var product in items)
                 {
 
@@ -94,7 +94,7 @@ namespace IProduct.Modules.Library.Custom
                 invoice.Products.Add(userCart);
                 invoice.ProductTotalInformations.Add(userCart.Id.Value, total);
             }
-            var items = _provider.Clone(invoice.ProductTotalInformations, EntityWorker.Core.FastDeepCloner.CloneLevel.Hierarki);
+            var items = _provider.Clone(invoice.ProductTotalInformations, CloneLevel.Hierarki);
 
             foreach (var item in items)
             {

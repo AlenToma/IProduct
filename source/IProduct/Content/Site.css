@@ -144,6 +144,7 @@ textarea {
     list-style: none;
     padding-left: 6px;
     min-width: 213px;
+    position:relative;
 }
 
 div.itemContainer {

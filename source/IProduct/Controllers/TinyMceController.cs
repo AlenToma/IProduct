@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using IProduct.Models;
 
 namespace IProduct.Controllers
 {
@@ -53,28 +54,31 @@ namespace IProduct.Controllers
 
         #endregion
         #region Files 
-
+        [ErrorHandler]
         [HttpPost]
-        public string DeleteFile(Guid id)
+        public ActionResult DeleteFile(Guid id)
         {
-            try
-            {
-                DbContext.Get<Files>().Where(x => x.Id == id).Remove().SaveChanges();
-                return "";
-            }
-            catch (Exception ex)
-            {
-                return ex.ToJson();
-            }
+            var file = DbContext.Get<Files>().Where(x => x.Id == id).ExecuteFirstOrDefault();
+            var mapp = DbContext.Get<Mapps>().Where(x => x.Id == file.Mapp_Id).ExecuteFirstOrDefault();
+            var path = Path.Combine(GlobalConfigration.FileBasePath, mapp.Name, file.FilePath);
+            var thumpPath = Path.Combine(GlobalConfigration.FileBasePath, "Thumps", file.FilePath);
+            DbContext.Get<Files>().Where(x => x.Id == id).Remove().SaveChanges();
+            if (System.IO.File.Exists(path))
+                System.IO.File.Delete(path);
+
+            if (System.IO.File.Exists(thumpPath))
+                System.IO.File.Delete(thumpPath);
+            return null;
         }
 
+        [ErrorHandler]
         [HttpPost]
         public async Task<string> GetFiles(Guid mappId)
         {
             return await DbContext.Get<Files>().Where(x => x.Mapp_Id == mappId).JsonAsync();
         }
 
-
+        [ErrorHandler]
         [HttpGet]
         public ActionResult GetImageFile(string uuid)
         {
@@ -83,32 +87,34 @@ namespace IProduct.Controllers
             var fileImage = DbContext.Get<Files>().Where(x => x.Id == imageId).ExecuteFirstOrDefault();
             if (fileImage != null)
             {
-                actionResult = new FileContentResult(fileImage.File, fileImage.Type);
+                actionResult = new FileContentResult(fileImage.FileBytes, fileImage.Type);
             }
             return actionResult;
         }
 
 
         [HttpGet]
+        [ErrorHandler]
         public ActionResult GetIcon(string uuid, int width, int height)
         {
             ActionResult actionResult = null;
             var imageId = uuid.ConvertValue<Guid>();
             var fileImage = DbContext.Get<Files>().Where(x => x.Id == imageId).ExecuteFirstOrDefault();
             if (fileImage != null)
-                actionResult = new FileContentResult(Actions.GenerateThumbImage(fileImage.File, width, height), fileImage.Type);
+                actionResult = new FileContentResult(Actions.GenerateThumbImage(fileImage.FileBytes, width, height), fileImage.Type);
 
             return actionResult;
         }
 
+        [ErrorHandler]
         [HttpPost]
-        public ActionResult TinyMceUpload(HttpPostedFileBase file, Guid mappId)
+        public string TinyMceUpload(HttpPostedFileBase file, Guid mappId)
         {
-            //Response.AppendHeader("Access-Control-Allow-Origin", "*");
 
             var location = SaveFile(file, mappId);
 
-            return Json(new { location }, JsonRequestBehavior.AllowGet);
+            return location;
+
         }
 
         /// <summary>
@@ -148,15 +154,17 @@ namespace IProduct.Controllers
             var img = DbContext.Get<Files>().Where(x => x.FriendlyName == fileName && x.Mapp_Id == mappId).ExecuteFirstOrDefault();
             if (img == null)
             {
+
                 img = new Files()
                 {
-                    File = image,
+                    FileBytes = image,
                     Type = extension,
                     FriendlyName = fileName,
+                    FilePath = fileName,
                     Mapp_Id = mappId
                 };
             }
-            else img.File = image;
+            else img.FileBytes = image;
             DbContext.Save(img);
             DbContext.SaveChanges();
 

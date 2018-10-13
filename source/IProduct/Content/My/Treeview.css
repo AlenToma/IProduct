@@ -1,6 +1,6 @@
 ﻿.tableView {
     width: 99%;
-    table-layout: fixed;
+    /*table-layout: fixed;*/
     margin: auto;
     border: 1px solid #CCC;
     background: #f6f7f8;
@@ -8,7 +8,7 @@
     font-weight: normal;
 }
 
-    .tableView > thead > tr:first-child > th {
+    .tableView > thead > tr:nth-child(2) > th {
         min-width: 20px;
         background-color: #586980;
         padding: 5px;
@@ -105,7 +105,7 @@
         width: 100%;
     }
 
-        .tableView > tbody > tr > td table span{
+        .tableView > tbody > tr > td table span {
             padding-left: 4px;
         }
 
@@ -140,15 +140,15 @@
         }
 
 
-    .tableView > tfoot  ul.pager li {
-        min-width: 30px;
-        cursor: pointer;
-        text-align: center;
-        margin-top: 5px;
-        margin-bottom: 5px;
-        font-size: 12px;
-        float:left;
-    }
+        .tableView > tfoot ul.pager li {
+            min-width: 30px;
+            cursor: pointer;
+            text-align: center;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            font-size: 12px;
+            float: left;
+        }
 
     .tableView .disabled {
         color: #dcdcdc;
@@ -214,4 +214,68 @@ span.delete {
     width: 16px;
     margin-right: 5px;
     cursor: pointer;
+}
+
+.tableView .tableBtn {
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    padding: 6px 20px;
+    margin: 0;
+    cursor: pointer;
+    border: 1px solid #bbb;
+    overflow: visible;
+    font: bold 13px arial, helvetica, sans-serif;
+    text-decoration: none;
+    white-space: nowrap;
+    color: #555;
+    background-color: #ddd;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255,255,255,1)), to(rgba(255,255,255,0)));
+    background-image: -webkit-linear-gradient(top, rgba(255,255,255,1), rgba(255,255,255,0));
+    background-image: -moz-linear-gradient(top, rgba(255,255,255,1), rgba(255,255,255,0));
+    background-image: -ms-linear-gradient(top, rgba(255,255,255,1), rgba(255,255,255,0));
+    background-image: -o-linear-gradient(top, rgba(255,255,255,1), rgba(255,255,255,0));
+    background-image: linear-gradient(top, rgba(255,255,255,1), rgba(255,255,255,0));
+    -webkit-transition: background-color .2s ease-out;
+    -moz-transition: background-color .2s ease-out;
+    -ms-transition: background-color .2s ease-out;
+    -o-transition: background-color .2s ease-out;
+    transition: background-color .2s ease-out;
+    background-clip: padding-box; /* Fix bleeding */
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, .3), 0 2px 2px -1px rgba(0, 0, 0, .5), 0 1px 0 rgba(255, 255, 255, .3) inset;
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, .3), 0 2px 2px -1px rgba(0, 0, 0, .5), 0 1px 0 rgba(255, 255, 255, .3) inset;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, .3), 0 2px 2px -1px rgba(0, 0, 0, .5), 0 1px 0 rgba(255, 255, 255, .3) inset;
+    text-shadow: 0 1px 0 rgba(255,255,255, .9);
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    float: right;
+    padding: 4px 12px;
+    margin-top: 5px;
+    margin-right: 11px;
+}
+
+    .tableView .tableBtn:hover {
+        background-color: #70B9E8;
+        color: #555;
+    }
+
+
+.tableView thead > tr > th > h1 {
+    min-width: 100%;
+    height: 36px;
+    border-bottom: 1px solid #CCC;
+    background-color: #0177be;
+    padding-left: 10px;
+    color: white;
+    font: 24px/32px Arial, Helvetica, sans-serif;
+    margin: 0;
+    overflow: initial;
+    display: block;
 }

@@ -28,7 +28,6 @@
 
 <div id="productsTabs">
     <div class="itemContainer filebrowser">
-        <h1>Tabs<span>Add Tab</span></h1>
         <div class="product-tabs">
             <div class="addedTabs">
 
@@ -282,12 +281,7 @@
 
         });
 
-        productsTabs.content.find("h1").find("span").click(function () {
-            currentTab.edit = false;
-            currentTab.content = "";
-            currentTab.tab = { name: "", content: "" };
-            dialogTabs.Show();
-        });
+
 
         var tabsForm = productsTabs.content.find(".form");
         var dialogTabs = $("body").dialog({
@@ -313,41 +307,44 @@
                         currentTab.tab = { name: "", content: "" };
                         currentTab.content = "";
                         currentTab.edit = false;
-                        tabs.BuildData();
+                        tabs.body();
                     }
                 }]
         });
 
-        var cols = [{ data: "name" }, {
-                edit: function (a, index) {
-                    currentTab.tab = a;
-                    currentTab.edit = true;
+
+        var tabs = productsTabs.content.find(".addedTabs").treeView({
+            buttons: [{
+                text: "Add tab", click: function () {
+                    currentTab.edit = false;
+                    currentTab.content = "";
+                    currentTab.tab = { name: "", content: "" };
                     dialogTabs.Show();
-
-                },
-                delete: function (a) {
-                    a.object_status = "Removed";
-                    tabs.BuildData();
                 }
-        }];
-
-            var tabs = productsTabs.content.find(".addedTabs").DataTableTree({
-                data: function (settings) {
-                    return $($.grep(item.tabs, function (a) { return a.object_status != "Removed" }));
-                },
-                pageSize: 1000,
-                columns: cols,
+            }],
+            searchEnable: false,
+            header: "Manage tabs",
+            onEdit: function (a) {
+                currentTab.tab = a;
+                currentTab.edit = true;
+                dialogTabs.Show();
+            },
+            onDelete: function (a) {
+                a.object_status = "Removed";
+                tabs.body();
+            },
+            data: function (settings) {
+                return $($.grep(item.tabs, function (a) { return a.object_status != "Removed" }));
+            },
+            pageSize: 1000,
+            columns: [{ data: "name", header: "Name" }]
             });
-
-
-
-
 
         function loadProductImages() {
             properties.content.find("ul.itemContainer").html("");
             $.each($.grep(item.images, function (m) { return m.object_status != "Removed" }), function (i, a) {
                 var x = this;
-                var src = '@Url.Action("GetImageFile", "TinyMce", null, Request.Url.Scheme)' + "?uuid=" + this.images.id + "&&t=" + new Date().toString();
+                var src = '@Url.Action("Index", "Home", null, Request.Url.Scheme)' + this.images.filefullpath
                 var li = $("<li title='" + this.images.friendlyname + "'></li>")
                     .append("<i><span>PREVIEW</span><span class='delete'>X</span></i>")
                     .append("<img src='" + src + "' />")

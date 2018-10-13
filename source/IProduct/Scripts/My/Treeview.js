@@ -11,13 +11,16 @@
             sort: "asc",
             sortColumn: "",
             pageSize: 20,
-            totalPages: undefined,
+            totalPages: 1,
             selectedPage: 1,
             searchText: "",
             childrenField: "children",
             primaryKey: "id",
             onEdit: function () { },
-            onDelete: function () { }
+            onDelete: function () { },
+            buttons: [],// dynamic buttons,
+            header: "",
+            searchEnable: true
         }, options);
         var visibleColumns = 0;
         var lastColumn;
@@ -33,7 +36,7 @@
             }
             delete(key) {
                 if (this.has(key)) {
-                    delete this.items[key]
+                    delete this.items[key];
                     return true;
                 }
                 return false;
@@ -42,8 +45,21 @@
         var expandedItems = {};
         $(this).html("");
         var item = {};
-        var table = $("<table class='tableView'><thead><tr></tr><tr></tr></thead><tbody></tbody><tfoot></tfoot></table>");
+        var table = $("<table class='tableView'><thead><tr></tr><tr></tr><tr></tr></thead><tbody></tbody><tfoot></tfoot></table>");
         $(this).append(table);
+
+
+        item.sort = function (data, column, direction) {
+            if (direction === "none" || !direction || direction === "" || !column || column.length <= 1)
+                return data;
+            return data.sort(function (row, rowb) {
+                var textA = row[column];
+                var textB = rowb[column];
+                if (direction === "desc")
+                    return textA < textB ? -1 : 1;
+                else return textA < textB ? 1 : -1;
+            });
+        };
 
         item.expanded = function (bg) {
             var keyString = bg.attr("key");
@@ -88,7 +104,6 @@
                 table.children("tbody").find("span").attr("style", "");
                 $(this).css("background-color", "rgba(204, 204, 204, 0.38)");
             });
-
         };
 
         item.pager = function () {
@@ -170,10 +185,10 @@
             item.body = function () {
                 clearTimeout(timeout);
                 timeout = setTimeout(function () {
-                    var data = settings.data(settings);
+                    var data = item.sort(settings.data(settings), settings.sortColumn, settings.sort);
 
                     table.children("tbody").html("");
-                    function getValue(col, object) {
+                    function getValue(col, object, asString) {
                         var v = undefined;
                         if (typeof col === "string") {
                             var colSplitter = col.split(".");
@@ -194,7 +209,7 @@
                         }
                         else v = col(object);
 
-                        return v === undefined || v === null ? "" : v;
+                        return v === undefined || v === null || v === "" ? (asString ? "&#160;" : "") : v;
                     }
 
                     $.each(data, function () {
@@ -204,7 +219,7 @@
                         tr.prepend("<td key='" + this[settings.primaryKey] + "' class='bg'><i></i></td>");
                         $.each(settings.columns, function () {
                             var column = this;
-                            var td = $("<td/>").append("<span>" + getValue(column.data, value) + "</span>");
+                            var td = $("<td/>").append("<span>" + getValue(column.data, value, true) + "</span>");
                             var getChildren = function (parent, data) {
                                 var children = undefined;
                                 var col = column.child ? column.child : column.data;
@@ -218,7 +233,7 @@
                                         var object = this;
                                         padding += 4;
                                         var subTr = $("<tr/>");
-                                        var subTd = $("<td><span>" + getValue(col, this) + "</span></td>");
+                                        var subTd = $("<td><span>" + getValue(col, this, true) + "</span></td>");
                                         subTr.append(subTd);
                                         var subChildren = getValue(settings.childrenField, this);
                                         if (subChildren && subChildren.length > 0) {
@@ -304,19 +319,33 @@
 
                         });
                         if (visibleColumns <= 1) {
-                            table.find("thead>tr:first-child").append("<th class='bg'><i></i></th>");
+                            table.children("thead").find("tr:eq(1)").append("<th class='bg'><i></i></th>");
                             visibleColumns++;
                         }
-                        table.find("thead>tr:first-child").append(th);
+                        table.children("thead").find("tr:eq(1)").append(th);
                     });
                     if (settings.onEdit || settings.onDelete) {
-                        table.find("thead>tr:first-child").append("<th class='haction'></th>");
+                        table.children("thead").find("tr:eq(1)").append("<th class='haction'></th>");
                         visibleColumns++;
                     }
-                    //table.find("thead>tr:first-child").append("<th></th>");
                     var searchView = $("<th colspan='" + (visibleColumns) + "'></th>").append("<input type='text' placeholder='Search' value='" + settings.searchText + "' />");
-                    table.find("thead>tr:last-child").append(searchView);
+                    table.children("thead").children("tr:last-child").append(searchView);
+
+                    if (!settings.searchEnable)
+                        table.children("thead").children("tr:last-child").hide();
+                    if (settings.header.length > 0 || settings.buttons.length > 0) {
+                        var tableHeader = $("<th colspan='" + (visibleColumns) + "'><h1>" + settings.header + "</h1></th>");
+                        $.each(settings.buttons, function () {
+                            var btn = $("<button class='tableBtn'>" + this.text + " </button>");
+                            btn.click(this.click);
+                            tableHeader.prepend(btn);
+                        });
+                        table.children("thead").children("tr:first-child").append(tableHeader);
+                    } else table.children("thead").children("tr:first-child").hide();
                 }
+
+
+
                 item.body();
 
                 table.children("thead").find("input").keyup(function (e) {

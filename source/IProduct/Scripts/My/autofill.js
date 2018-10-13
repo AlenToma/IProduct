@@ -63,6 +63,8 @@
                         dataType: "json",
                         contentType: "application/json; charset=utf-8",
                         success: function (data) {
+                            if (data && data.success && data.success === true)
+                                data = data.data;
                             if (data.length > 0)
                                 container.find("input").val(data[0][settings.textField]);
                         },
@@ -84,6 +86,8 @@
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
+                    if (data && data.success && data.success === true)
+                        data = data.data;
                     callback(data);
                 },
                 error: function () {

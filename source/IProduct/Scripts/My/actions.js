@@ -1,4 +1,20 @@
-﻿function formatDate(date, incTime) {
+﻿// Extend the default Number object with a formatMoney() method:
+// usage: someVar.formatMoney(decimalPlaces, symbol, thousandsSeparator, decimalSeparator)
+// defaults: (2, "$", ",", ".")
+Number.prototype.formatMoney = function (places, symbol, thousand, decimal) {
+    var number = this || 0;
+    places = !isNaN(places = Math.abs(places)) ? places : 0;
+    symbol = symbol !== undefined ? symbol : "";
+    thousand = thousand || ",";
+    decimal = decimal || ".";
+    var negative = number < 0 ? "-" : "",
+        i = parseInt(number = Math.abs(+number || 0).toFixed(places), 10) + "",
+        j = (j = i.length) > 3 ? j % 3 : 0;
+    return symbol + negative + (j ? i.substr(0, j) + thousand : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousand) + (places ? decimal + Math.abs(number - i).toFixed(places).slice(2) : "");
+};;
+
+
+function formatDate(date, incTime) {
     if (date === null)
         return "";
 
@@ -44,6 +60,7 @@ function bindHtmlEditor(selector, browserUrl, change) {
     $(".mce-tinymce").remove();
     $(selector).show();
     selector = 'textarea' + selector;
+
     tinymce.init({
         selector: selector,
         //textareas: selector,
@@ -69,7 +86,7 @@ function bindHtmlEditor(selector, browserUrl, change) {
             editor.on('Change', function (e) {
                 if (change)
                     change(editor);
-              
+
             });
         },
         file_browser_callback: function (field_name, url, type, win) {
@@ -96,6 +113,6 @@ function bindHtmlEditor(selector, browserUrl, change) {
         var id = $(this).attr("id");
         var html = $(this).val();
         if (!isNullOrEmpty(id))
-            tinyMCE.DOM.setHTML(id, html );
-    })
+            tinyMCE.DOM.setHTML(id, html);
+    });
 }

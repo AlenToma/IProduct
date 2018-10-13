@@ -1,8 +1,4 @@
 ﻿
-<div class="header" id="pagesHeader">
-    Manage Pages
-    <span>Add Page</span>
-</div>
 <div class="pages">
     Pages
 </div>
@@ -39,9 +35,6 @@
         });
     }
 
-    $("#pagesHeader > span").click(function () {
-        edit();
-    })
     var columns = [{
         data: "name",
         header: "Name"
@@ -81,6 +74,13 @@
         }];
 
     var pages = $(".pages").treeView({
+        header: "Manage Pages",
+        buttons: [{
+            text: "Add page",
+            click: function () {
+                edit();
+            }
+        }],
         onEdit: function (item) { edit(item); },
         onDelete: function (item) {
              confirm("Are you sure?", function () {

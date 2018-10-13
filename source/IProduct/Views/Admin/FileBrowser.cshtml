@@ -59,7 +59,7 @@
                         //var myID = 3; //uncomment this to make sure the ajax URL works
                         if (files.length > 0) {
                             if (window.FormData !== undefined) {
-                                $.ajax({
+                                $("#filerowserContainer").ax({
                                     type: "POST",
                                     url: '@Url.Action("TinyMceUpload", "TinyMce")',
                                     contentType: false,
@@ -68,12 +68,7 @@
                                     success: function (result) {
                                         loadFiles();
                                     },
-                                    error: function (xhr, status, p3, p4) {
-                                        var err = "Error " + " " + status + " " + p3 + " " + p4;
-                                        if (xhr.responseText && xhr.responseText[0] == "{")
-                                            err = JSON.parse(xhr.responseText).Message;
-                                        console.log(err);
-                                    }
+
                                 });
                             } else {
                                 alert("This browser doesn't support HTML5 file uploads!");
@@ -109,7 +104,8 @@
                         data: JSON.stringify({ id: id }),
                         success: function (data) {
                             loadMaps();
-                        }
+                        },
+
                     });
                 },
                 onCancel: function () {
@@ -170,7 +166,7 @@
                     click: function () {
                         item.name = div.find(".mappName").val();
                         item.description = div.find(".description").val();
-                        dialog.ax({
+                        $("#filerowserContainer").ax({
                             url: '@Url.Action("SaveMapps", "TinyMce")',
                             data: JSON.stringify(item),
                             success: function (data) {
@@ -222,7 +218,7 @@
                 success: function (data) {
                     $.each(data, function () {
                         var item = this;
-                        var src = '@Url.Action("GetImageFile", "TinyMce", null, Request.Url.Scheme)' + "?uuid=" + this.id + "&&t=" + new Date().toString();
+                        var src = '@Url.Action("Index", "Home", null, Request.Url.Scheme)' + this.filefullpath;
                         var li = $("<li title='" + item.friendlyname+ "'></li>")
                             .append("<i><span>PREVIEW</span><span class='delete'>X</span><span>Select</span></i>")
                             .append("<img src='" + src + "' />")
@@ -262,10 +258,9 @@
                                     url: '@Url.Action("DeleteFile", "TinyMce")',
                                     data: JSON.stringify({ id: item.id }),
                                     success: function (data) {
-                                        if (data && data.message)
-                                            alert(data.message);
                                         loadFiles();
-                                     }
+                                    },
+
                                 });
                                 },
                                 onCancel: function () {}

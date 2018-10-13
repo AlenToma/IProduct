@@ -43,34 +43,35 @@ namespace IProduct.Controllers
         #region Category
 
         [HttpPost]
-        public string GetCategoriesComboBoxItems(string value)
+        [ErrorHandler]
+        public CallbackJsonResult GetCategoriesComboBoxItems(string value)
         {
             var data = DbContext.Get<Category>();
             if (!value.ConvertValue<Guid?>().HasValue)
-                 data.Where(x => (x.Name.Contains(value) || x.Categories.Any(a => x.Name.Contains(value))) && !x.Parent_Id.HasValue).LoadChildren();
+                data.Where(x => (x.Name.Contains(value) || x.Categories.Any(a => x.Name.Contains(value))) && !x.Parent_Id.HasValue).LoadChildren();
             else
             {
                 var guid = value.ConvertValue<Guid>();
-                 data.Where(x => x.Id == guid);
+                data.Where(x => x.Id == guid);
             }
-            return data.Json();
+            return new CallbackJsonResult(data.Execute());
         }
-
+        [ErrorHandler]
         [HttpPost]
         public void SaveCategories(Category category)
         {
             DbContext.Save(category).SaveChanges();
         }
 
-
+        [ErrorHandler]
         [HttpPost]
         public void DeleteCategories(Guid itemId)
         {
             DbContext.Get<Category>().Where(x => x.Id == itemId).LoadChildren().Remove().SaveChanges();
         }
-
+        [ErrorHandler]
         [HttpPost]
-        public string GetCategories(TableTreeSettings settings)
+        public CallbackJsonResult GetCategories(TableTreeSettings settings)
         {
 
             var text = settings.SearchText ?? "";
@@ -88,26 +89,26 @@ namespace IProduct.Controllers
             settings.TotalPages = Math.Ceiling(data.ExecuteCount().ConvertValue<decimal>() / settings.PageSize).ConvertValue<int>();
             data = data.Skip(settings.SelectedPage / settings.PageSize).Take(settings.PageSize);
             settings.Result = data.Execute();
-            return settings.ToJson();
+            return new CallbackJsonResult(settings);
 
         }
 
         #endregion
 
         #region Products
-
+        [ErrorHandler]
         [HttpPost]
-        public string GetProductsComboBoxItems(string value)
+        public CallbackJsonResult GetProductsComboBoxItems(string value)
         {
             if (!value.ConvertValue<Guid?>().HasValue)
-                return DbContext.Get<Product>().Where(x => x.Name.Contains(value)).LoadChildren().Json();
+                return new CallbackJsonResult(DbContext.Get<Product>().Where(x => x.Name.Contains(value)).LoadChildren().Execute());
             else
             {
                 var guid = value.ConvertValue<Guid>();
-                return DbContext.Get<Product>().Where(x => x.Id == guid).Json();
+                return new CallbackJsonResult(DbContext.Get<Product>().Where(x => x.Id == guid).Execute());
             }
         }
-
+        [ErrorHandler]
         [HttpPost]
         public void SaveProduct(Product product)
         {
@@ -121,21 +122,21 @@ namespace IProduct.Controllers
             DbContext.SaveChanges();
         }
 
-
+        [ErrorHandler]
         [HttpPost]
         public void DeleteProduct(Guid itemId)
         {
             DbContext.Get<Product>().Where(x => x.Id == itemId).LoadChildren().Remove().SaveChanges();
         }
-
+        [ErrorHandler]
         [HttpPost]
         public void DeleteProductImage(Guid id)
         {
             DbContext.Get<ProductImages>().Where(x => x.Id == id).LoadChildren().Remove().SaveChanges();
         }
-
+        [ErrorHandler]
         [HttpPost]
-        public string GetProduct(TableTreeSettings settings)
+        public CallbackJsonResult GetProduct(TableTreeSettings settings)
         {
 
             var text = settings.SearchText ?? "";
@@ -153,40 +154,41 @@ namespace IProduct.Controllers
             settings.TotalPages = Math.Ceiling(data.ExecuteCount().ConvertValue<decimal>() / settings.PageSize).ConvertValue<int>();
             data = data.Skip(settings.SelectedPage / settings.PageSize).Take(settings.PageSize);
             settings.Result = data.Execute();
-            return settings.ToJson();
+            return new CallbackJsonResult(settings);
 
         }
 
         #endregion
 
         #region Users
+        [ErrorHandler]
         [HttpPost]
-        public string GetUsersComboBoxItems(string value)
+        public CallbackJsonResult GetUsersComboBoxItems(string value)
         {
             if (!value.ConvertValue<Guid?>().HasValue)
-                return DbContext.Get<User>().Where(x => x.Email.Contains(value) || x.Person.FirstName.Contains(value) || x.Person.LastName.Contains(value)).LoadChildren().Json();
+                return new CallbackJsonResult(DbContext.Get<User>().Where(x => x.Email.Contains(value) || x.Person.FirstName.Contains(value) || x.Person.LastName.Contains(value)).LoadChildren().Execute());
             else
             {
                 var guid = value.ConvertValue<Guid>();
-                return DbContext.Get<User>().Where(x => x.Id == guid).Json();
+                return new CallbackJsonResult(DbContext.Get<User>().Where(x => x.Id == guid).Execute());
             }
         }
-
+        [ErrorHandler]
         [HttpPost]
         public void SaveUser(User user)
         {
             DbContext.Save(user).SaveChanges();
         }
 
-
+        [ErrorHandler]
         [HttpPost]
         public void DeleteUser(Guid itemId)
         {
             DbContext.Get<User>().Where(x => x.Id == itemId).LoadChildren().Remove().SaveChanges();
         }
-
+        [ErrorHandler]
         [HttpPost]
-        public string GetUser(TableTreeSettings settings)
+        public CallbackJsonResult GetUser(TableTreeSettings settings)
         {
 
             var text = settings.SearchText ?? "";
@@ -204,7 +206,7 @@ namespace IProduct.Controllers
             settings.TotalPages = Math.Ceiling(data.ExecuteCount().ConvertValue<decimal>() / settings.PageSize).ConvertValue<int>();
             data = data.Skip(settings.SelectedPage / settings.PageSize).Take(settings.PageSize);
             settings.Result = data.Execute();
-            return settings.ToJson();
+            return new CallbackJsonResult(settings);
 
         }
 
@@ -213,19 +215,19 @@ namespace IProduct.Controllers
 
         #region Country
 
-
+        [ErrorHandler]
         [HttpPost]
-        public string GetCountryComboBoxItems(string value)
+        public CallbackJsonResult GetCountryComboBoxItems(string value)
         {
             if (!value.ConvertValue<Guid?>().HasValue)
-                return DbContext.Get<Country>().Where(x => x.Name.Contains(value)).LoadChildren().Json();
+                return new CallbackJsonResult(DbContext.Get<Country>().Where(x => x.Name.Contains(value)).LoadChildren().Execute());
             else
             {
                 var guid = value.ConvertValue<Guid>();
-                return DbContext.Get<Country>().Where(x => x.Id == guid).Json();
+                return new CallbackJsonResult(DbContext.Get<Country>().Where(x => x.Id == guid).Execute());
             }
         }
-
+        [ErrorHandler]
         [HttpPost]
         public void SaveCountry(Country country)
         {
@@ -234,7 +236,7 @@ namespace IProduct.Controllers
 
 
         [HttpPost]
-        public string GetCountry(TableTreeSettings settings)
+        public CallbackJsonResult GetCountry(TableTreeSettings settings)
         {
 
             var text = settings.SearchText ?? "";
@@ -252,39 +254,39 @@ namespace IProduct.Controllers
             settings.TotalPages = Math.Ceiling(data.ExecuteCount().ConvertValue<decimal>() / settings.PageSize).ConvertValue<int>();
             data = data.Skip(settings.SelectedPage / settings.PageSize).Take(settings.PageSize);
             settings.Result = data.Execute();
-            return settings.ToJson();
-
+            return new CallbackJsonResult(settings);
         }
 
         #endregion
 
         #region Column
+        [ErrorHandler]
         [HttpPost]
-        public string GetColumnComboBoxItems(string value)
+        public CallbackJsonResult GetColumnComboBoxItems(string value)
         {
             if (!value.ConvertValue<Guid?>().HasValue)
-                return DbContext.Get<Column>().Where(x => x.Key.Contains(value)).LoadChildren().Json();
+                return new CallbackJsonResult(DbContext.Get<Column>().Where(x => x.Key.Contains(value)).LoadChildren().Execute());
             else
             {
                 var guid = value.ConvertValue<Guid>();
-                return DbContext.Get<Country>().Where(x => x.Id == guid).Json();
+                return new CallbackJsonResult(DbContext.Get<Country>().Where(x => x.Id == guid).Execute());
             }
         }
-
+        [ErrorHandler]
         [HttpPost]
         public void SaveColumn(Column column)
         {
             DbContext.Save(column).SaveChanges();
         }
-
+        [ErrorHandler]
         [HttpPost]
         public void DeleteColumn(Guid itemId)
         {
             DbContext.Get<Column>().Where(x => x.Id == itemId).LoadChildren().Remove().SaveChanges();
         }
-
+        [ErrorHandler]
         [HttpPost]
-        public string GetColumn(TableTreeSettings settings)
+        public CallbackJsonResult GetColumn(TableTreeSettings settings)
         {
             var text = settings.SearchText ?? "";
             if (settings.SelectedPage <= 0)
@@ -301,62 +303,59 @@ namespace IProduct.Controllers
             settings.TotalPages = Math.Ceiling(data.ExecuteCount().ConvertValue<decimal>() / settings.PageSize).ConvertValue<int>();
             data = data.Skip(settings.SelectedPage / settings.PageSize).Take(settings.PageSize);
             settings.Result = data.Execute();
-            return settings.ToJson();
+            return new CallbackJsonResult(settings);
         }
 
         #endregion
 
         #region Role
 
-
+        [ErrorHandler]
         [HttpPost]
-        public string GetRoleComboBoxItems(string value)
+        public CallbackJsonResult GetRoleComboBoxItems(string value)
         {
             if (!value.ConvertValue<Guid?>().HasValue)
-                return DbContext.Get<Role>().Where(x => x.Name.Contains(value)).LoadChildren().Json();
+                return new CallbackJsonResult(DbContext.Get<Role>().Where(x => x.Name.Contains(value)).LoadChildren().Execute());
             else
             {
                 var guid = value.ConvertValue<Guid>();
-                return DbContext.Get<Role>().Where(x => x.Id == guid).Json();
+                return new CallbackJsonResult(DbContext.Get<Role>().Where(x => x.Id == guid).Execute());
             }
         }
 
         #endregion
 
         #region Pages
+
+        [ErrorHandler]
         [HttpPost]
-        public string GetPagesComboBoxItems(string value)
+        public CallbackJsonResult GetPagesComboBoxItems(string value)
         {
             if (!value.ConvertValue<Guid?>().HasValue)
-                return DbContext.Get<Pages>().Where(x => !x.Parent_Id.HasValue && (x.Name.Contains(value) || x.Children.Any(a => a.Name.Contains(value)))).LoadChildren().Json();
+                return new CallbackJsonResult(DbContext.Get<Pages>().Where(x => !x.Parent_Id.HasValue && (x.Name.Contains(value) || x.Children.Any(a => a.Name.Contains(value)))).LoadChildren().Execute());
             else
             {
                 var guid = value.ConvertValue<Guid>();
-                return DbContext.Get<Pages>().Where(x => x.Id == guid).Json();
+                return new CallbackJsonResult(DbContext.Get<Pages>().Where(x => x.Id == guid));
             }
         }
-
+        [ErrorHandler]
         [HttpPost]
         public void SavePages(Pages page)
         {
-            page.PagesSliders?.ForEach(x =>
-            {
-                var id = x.Files.Id;
-                x.Files.File = DbContext.Get<Files>().Where(a => a.Id == id).ExecuteFirstOrDefault().File;
-            });
-
             DbContext.Save(page).SaveChanges();
         }
 
-
+        [ErrorHandler]
         [HttpPost]
         public void DeletePages(Guid itemId)
         {
             DbContext.Get<Pages>().Where(x => x.Id == itemId).LoadChildren().Remove().SaveChanges();
         }
 
+        [ErrorHandler]
         [HttpPost]
-        public string GetPages(TableTreeSettings settings)
+        public CallbackJsonResult GetPages(TableTreeSettings settings)
         {
 
             var text = settings.SearchText ?? "";
@@ -374,7 +373,7 @@ namespace IProduct.Controllers
             settings.TotalPages = Math.Ceiling(data.ExecuteCount().ConvertValue<decimal>() / settings.PageSize).ConvertValue<int>();
             data = data.Skip(settings.SelectedPage / settings.PageSize).Take(settings.PageSize);
             settings.Result = data.Execute();
-            return settings.ToJson();
+            return new CallbackJsonResult(settings);
 
         }
 

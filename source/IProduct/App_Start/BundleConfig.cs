@@ -69,7 +69,8 @@ namespace IProduct
                         "~/Scripts/My/Cart.js",
                         "~/Scripts/My/ContextMenu.js",
                         "~/Scripts/My/Login.js",
-                        "~/Scripts/My/Treeview.js"));
+                        "~/Scripts/My/Treeview.js",
+                        "~/Scripts/My/jquery.fittext.js"));
         }
     }
 }
