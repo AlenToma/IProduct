@@ -182,7 +182,7 @@ namespace IProduct.Modules.Data
                         {
                             var e = ilist[i] as Entity;
                             i--;
-                            if (e.Object_Status == EnumHelper.ObjectStatus.Removed)
+                            if (e.Object_Status == ObjectStatus.Removed)
                             {
                                 Delete(e);
                             }
@@ -194,7 +194,7 @@ namespace IProduct.Modules.Data
                     else
                     {
                         var e = value as Entity;
-                        if (e.Object_Status == EnumHelper.ObjectStatus.Removed)
+                        if (e.Object_Status == ObjectStatus.Removed)
                         {
                             Delete(e);
                             prop.SetValue(data, null);
@@ -206,7 +206,7 @@ namespace IProduct.Modules.Data
 
             if (entity as Entity != null)
             {
-                if ((entity as Entity).Object_Status != EnumHelper.ObjectStatus.Removed)
+                if ((entity as Entity).Object_Status != ObjectStatus.Removed)
                     Prepare(entity);
                 else
                 {
@@ -260,8 +260,7 @@ namespace IProduct.Modules.Data
         // get the full connection string
         public static string GetConnectionString()
         {
-            return @"Server=.\SQLEXPRESS; Database=IProduct; Trusted_Connection=True; User Id=root; Password=root;";
-
+            return @"Server=.\mssql; Database=IProduct; Trusted_Connection=false; User Id=root; Password=root;";
         }
     }
 }

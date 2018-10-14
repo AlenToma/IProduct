@@ -12,9 +12,9 @@ namespace IProduct.Modules.Library
         [AllowHtml]
         public string Content { get; set; }
 
-        public EnumHelper.PageType PageType { get; set; }
+        public PageType PageType { get; set; }
 
-        public EnumHelper.ProductShow ProductShow { get; set; }
+        public ProductShow ProductShow { get; set; }
 
         public List<PageCategories> PageCategories { get; set; }
 

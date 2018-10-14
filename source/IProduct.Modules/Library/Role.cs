@@ -9,7 +9,7 @@ namespace IProduct.Modules.Library
 
         public string Name { get; set; }
 
-        public EnumHelper.Roles RoleType { get; set; }
+        public Roles RoleType { get; set; }
 
         public bool System { get; set; }
     }

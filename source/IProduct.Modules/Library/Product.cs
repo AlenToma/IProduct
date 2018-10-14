@@ -28,7 +28,7 @@ namespace IProduct.Modules.Library
 
         public DateTime? Available { get; set; }
 
-        public EnumHelper.Status Status { get; set; }
+        public Status Status { get; set; }
 
         public List<ProductImages> Images { get; set; }
 

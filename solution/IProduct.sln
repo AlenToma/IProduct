@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IProduct", "..\source\IProd
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IProduct.Modules", "..\source\IProduct.Modules\IProduct.Modules.csproj", "{450F8DE8-1160-41B6-8E4A-EB4FF1D42784}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OAuth.Security", "..\source\OAuth.Security\OAuth.Security.csproj", "{00F090BA-6886-4AD2-A4D0-52EA0DA3644D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OAuth.Security.Modules", "..\source\OAuth.Security.Modules\OAuth.Security.Modules.csproj", "{1C337B51-F159-4C06-AC01-9ABDA6A14F28}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{450F8DE8-1160-41B6-8E4A-EB4FF1D42784}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{450F8DE8-1160-41B6-8E4A-EB4FF1D42784}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{450F8DE8-1160-41B6-8E4A-EB4FF1D42784}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00F090BA-6886-4AD2-A4D0-52EA0DA3644D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00F090BA-6886-4AD2-A4D0-52EA0DA3644D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00F090BA-6886-4AD2-A4D0-52EA0DA3644D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00F090BA-6886-4AD2-A4D0-52EA0DA3644D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C337B51-F159-4C06-AC01-9ABDA6A14F28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C337B51-F159-4C06-AC01-9ABDA6A14F28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C337B51-F159-4C06-AC01-9ABDA6A14F28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C337B51-F159-4C06-AC01-9ABDA6A14F28}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

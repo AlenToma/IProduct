@@ -38,7 +38,7 @@ namespace IProduct.Modules.Library
 
         public string Country { get; set; }
 
-        public EnumHelper.InvoiceState InvoiceState { get; set; }
+        public InvoiceState InvoiceState { get; set; }
 
         public decimal Total
         {
