@@ -39,5 +39,17 @@ namespace IProduct.Controllers
         }
         #endregion
 
+        #region Facebook
+        // we may need to add some changes here later as if now, the google provider take care of the login
+        [AllowAnonymous]
+        public ActionResult Facebook(string error)
+        {
+            if(Request.IsAuthenticated)
+                return Redirect("~/Home");
+
+            return Redirect("Index");
+        }
+        #endregion
+
     }
 }

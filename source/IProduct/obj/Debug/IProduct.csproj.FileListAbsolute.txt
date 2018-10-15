@@ -112,3 +112,6 @@ D:\Projects\IProduct\source\IProduct\obj\Debug\IProduct.csproj.CoreCompileInputs
 D:\Projects\IProduct\source\IProduct\obj\Debug\IProduct.csproj.CopyComplete
 D:\Projects\IProduct\source\IProduct\obj\Debug\IProject.dll
 D:\Projects\IProduct\source\IProduct\obj\Debug\IProject.pdb
+D:\Projects\IProduct\source\IProduct\bin\Microsoft.Owin.Security.Facebook.dll
+D:\Projects\IProduct\source\IProduct\bin\Microsoft.Owin.Security.Facebook.xml
+D:\Projects\IProduct\source\IProduct\obj\Debug\IProduct.csprojAssemblyReference.cache

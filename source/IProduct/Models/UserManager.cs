@@ -4,6 +4,7 @@ using IProduct.Modules.Data;
 using IProduct.Modules.Library;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
+using Microsoft.Owin.Security.Facebook;
 using Microsoft.Owin.Security.Google;
 using System;
 using System.Linq;
@@ -24,6 +25,7 @@ namespace IProduct.Models
                     break;
 
                 case SignInApplication.Facebook:
+                    HttpContext.Current.GetOwinContext().Authentication.Challenge(new AuthenticationProperties { IsPersistent = true, RedirectUri = "Account/Facebook" }, "Facebook");
                     break;
 
                 case SignInApplication.Google:
@@ -32,6 +34,39 @@ namespace IProduct.Models
             }
         }
 
+        // For facebook
+        public void Create(FacebookAuthenticatedContext context)
+        {
+
+            if(string.IsNullOrEmpty(context.Email))
+                return;
+            var email = context.Email;
+            var user = _dbContext.Get<User>().Where(x => x.Email == email).ExecuteFirstOrDefault();
+            if(user == null)
+            {
+                user = new User
+                {
+                    Email = email,
+                    Password = "xxxxxxx", // User have to change it later
+                    Person = new Person()
+                    {
+                        FirstName = context.Name,
+                        LastName = "",
+                        Address = new Address()
+                        {
+                            AddressLine = string.Empty,
+                            Country_Id = _dbContext.Get<Country>().Where(x => x.CountryCode.Contains("sv-se")).ExecuteFirstOrDefault().Id.Value
+                        }
+                    },
+                    Role = _dbContext.Get<Role>().Where(x => x.RoleType == Roles.Customers).ExecuteFirstOrDefault()
+
+                };
+                _dbContext.Save(user).SaveChanges();
+                Authorize(user);
+            }
+        }
+
+        // For Google
         public void Create(GoogleOAuth2AuthenticatedContext context)
         {
 

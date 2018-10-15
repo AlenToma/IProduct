@@ -7,3 +7,4 @@ Error:10/15/2018 6:58:25 AM - The view 'Google' or its master was not found or n
 ~/Views/Account/Google.vbhtml
 ~/Views/Shared/Google.cshtml
 ~/Views/Shared/Google.vbhtml
+Error:2018-10-15 07:53:53 - The controller for path '/IProduct/About/Privacy_Policy' was not found or does not implement IController.
