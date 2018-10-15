@@ -202,6 +202,8 @@
     <Compile Include="Models\CustomAssemblyResolver.cs" />
     <Compile Include="Models\Enums.cs" />
     <Compile Include="Models\ErrorHandlerAttribute.cs" />
+    <Compile Include="Models\Extensions.cs" />
+    <Compile Include="Models\GenericView.cs" />
     <Compile Include="Models\JsonNetResult.cs" />
     <Compile Include="Models\OAuthProviders\CookieProvider.cs" />
     <Compile Include="Models\OAuthProviders\FacebookProvider.cs" />
@@ -253,6 +255,7 @@
     <Content Include="Navigation Menu\js\rem.min.js" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
@@ -272,6 +275,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\My\autofill.js" />
     <Content Include="Scripts\My\Cart.js" />
+    <Content Include="Scripts\My\checkbox.js" />
     <Content Include="Scripts\My\ContextMenu.js" />
     <Content Include="Scripts\My\dialog.js" />
     <Content Include="Scripts\My\lightslider.js" />
@@ -466,6 +470,8 @@
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-mobile.woff" />
     <Content Include="Scripts\tinymce\langs\readme.md" />
     <Content Include="Views\About\Privacy_Policy.cshtml" />
+    <Content Include="Views\Account\SignUp.cshtml" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

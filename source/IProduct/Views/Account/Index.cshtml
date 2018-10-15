@@ -41,13 +41,19 @@
                     <input type="password" name="password" class="form-control" placeholder="Username" />
                 </div>
 
-                <button type="submit" class="loginBtn loginBtn--signin">
-                    Sign In
-                </button>
+                <div class="form-group">
+                    <input label="Remember Me" boxClass="float-left" name="isPersistent" type="checkbox" />
+                    <a class="float-right">Forgot Password?</a>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="loginBtn loginBtn--signin">
+                        Sign In
+                    </button>
 
-                <button type="submit" class="loginBtn loginBtn--signup">
-                    Sign Up
-                </button>
+                    <button class="loginBtn loginBtn--signup">
+                        Sign Up
+                    </button>
+                </div>
 
             </div>
         </div>
@@ -61,8 +67,22 @@
         }
     }
 </div>
+@Html.Action("SignUp")
 
 <script>
+
+    var signupDialog = $("body").dialog(
+        {
+            data: $(".signupForm"),
+            title: "Sign Up",
+            removable: false
+        });
+    $(".loginBtn--signup").click(function ()
+    {
+        signupDialog.Show();
+        return false;
+    });
+
     /// make a button act like a link
     function toLocation(item)
     {
@@ -79,6 +99,7 @@
 
     $(document).ready(function ()
     {
+        $(".login input[type=checkbox]").checkBox();
         $(window).resize(function ()
         {
             $(".login").center();

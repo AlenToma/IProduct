@@ -44,15 +44,15 @@
             return data.sort(function (row, rowb) {
                 var textA = row[column];
                 var textB = rowb[column];
-                if (direction == "desc")
+                if (direction === "desc")
                     return textA < textB ? -1 : 1;
                 else return textA < textB ? 1 : -1;
             });
         };
 
         function SetSelectedValue() {
-            if (settings.selectedValue && settings.selectedValue !== null && settings.selectedValue != "") {
-                var found = $.grep(settings.items, function (a) { return a[settings.valueField] == settings.selectedValue });
+            if (settings.selectedValue && settings.selectedValue !== null && settings.selectedValue !== "") {
+                var found = $.grep(settings.items, function (a) { return a[settings.valueField] === settings.selectedValue });
                 if (found.length > 0) {
                     container.find("input").val(found[0][settings.textField]);
                 } else
@@ -77,7 +77,7 @@
 
         container.getData = function (callback, focus) {
             if (!settings.ajaxUrl)
-                return callback($.grep(settings.data, function (a) { return focus == true || a[settings.textField].toLowerCase().indexOf(container.find("input").val().toLowerCase()) != -1 }));
+                return callback($.grep(settings.data, function (a) { return focus === true || a[settings.textField].toLowerCase().indexOf(container.find("input").val().toLowerCase()) !== -1 }));
 
             $.ajax({
                 url: settings.ajaxUrl,
@@ -267,7 +267,8 @@
             });
 
         SetSelectedValue();
-        setTimeout(container.ajust, 100);
+		setTimeout(container.ajust, 100);
+		setTimeout(container.ajust, 1200);
         return container;
     }
 }(jQuery));

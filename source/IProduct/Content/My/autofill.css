@@ -65,6 +65,7 @@
         overflow: hidden;
         border-radius: 4px;
         z-index:100;
+        background:white;
     }
 
         .autofill > li:last-child span {

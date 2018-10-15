@@ -1,6 +1,6 @@
 ﻿.login {
     width: 332px;
-    height: 400px;
+    height: 450px;
     border: 1px solid #CCC;
     display: block;
     border-radius: 5px;
@@ -8,9 +8,12 @@
     position: relative;
     background: white;
 }
+    .login .form-group {
+        clear: both;
+    }
 
     .login .view {
-        height: 38%;
+        height: 39%;
         width: 100%;
         display: block;
         position: relative;
@@ -21,6 +24,8 @@
             margin: auto;
             position: relative;
             top: 26%;
+            font-size: 13px;
+            color: #949494;
         }
 
 /* Shared */
@@ -138,3 +143,26 @@
         padding: 4px;
         font-size: 10px;
     }
+
+
+
+    /*Sign sup Forms----------------------------------------------------------------------------------------------*/
+
+.user-form {
+    width: 581px;
+    display: block;
+    position: relative;
+    overflow: hidden;
+}
+
+    .user-form .form-control {
+        max-width: 100% !important;
+    }
+
+    .user-form .autofill, .user-form .autofill input, .autofill ul {
+        width: 97.5% !important;
+        max-width: 97.5% !important;
+    }
+
+
+} 

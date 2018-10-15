@@ -2,6 +2,7 @@
 using IProduct.Controllers.Shared;
 using IProduct.Models;
 using IProduct.Modules;
+using IProduct.Modules.Library;
 using IProduct.Modules.Library.Custom;
 using System;
 using System.Web.Mvc;
@@ -14,7 +15,7 @@ namespace IProduct.Controllers
         {
             if(Request.IsAuthenticated)
                 return Redirect("~/Home");
-            else if (type.ConvertValue<SignInApplication?>().HasValue)
+            else if(type.ConvertValue<SignInApplication?>().HasValue)
             {
                 using(var manager = new UserManager())
                 {
@@ -28,6 +29,15 @@ namespace IProduct.Controllers
                     return View(new JsonData { Success = false, Data = "Email or Password could not be found in our system" });
             }
             return View();
+        }
+
+        [AllowAnonymous]
+        public ActionResult SignUp(GenericView<User> user, Guid? user_Id)
+        {
+            if(Request.IsAuthenticated)
+                return Redirect("~/Home");
+
+            return PartialView(new GenericView<User>(user_Id.HasValue ? DbContext.Get<User>().Where(x => x.Id == user_Id).LoadChildren().IgnoreChildren(x => x.Invoices).ExecuteFirstOrDefault() : new User()));
         }
 
         #region Google

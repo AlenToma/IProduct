@@ -9,10 +9,11 @@ namespace IProduct
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js").Include(
-                        "~/Scripts/jqUi.js").Include(
-                        "~/Scripts/tinymce/tinymce.js").Include(
-                        "~/Scripts/tinymce/jquery.tinymce.min.js"));
+                        "~/Scripts/jquery-{version}.js",
+                        "~/Scripts/jquery.unobtrusive-ajax.js",
+                         "~/Scripts/jqUi.js",
+                         "~/Scripts/tinymce/tinymce.js",
+                         "~/Scripts/tinymce/jquery.tinymce.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
@@ -23,8 +24,7 @@ namespace IProduct
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js",
-                      "~/Scripts/respond.js"));
+                      "~/Scripts/bootstrap.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
@@ -42,7 +42,8 @@ namespace IProduct
                        "~/Content/My/lightslider.css",
                        "~/Content/My/ContextMenu.css",
                        "~/Content/My/Treeview.css",
-                       "~/Content/My/login.css"));
+                       "~/Content/My/login.css",
+                       "~/Content/My/checkbox.css"));
 
 
             bundles.Add(new StyleBundle("~/Navigation Menu/css").Include(
@@ -71,6 +72,7 @@ namespace IProduct
                         "~/Scripts/My/ContextMenu.js",
                         "~/Scripts/My/Login.js",
                         "~/Scripts/My/Treeview.js",
+                        "~/Scripts/My/checkbox.js",
                         "~/Scripts/My/jquery.fittext.js"));
         }
     }

@@ -69,3 +69,11 @@ Error:10/15/2018 2:31:49 PM - Incorrect syntax near '<'.
 Invalid usage of the option NEXT in the FETCH statement.
 Error:10/15/2018 2:31:55 PM - Incorrect syntax near '<'.
 Invalid usage of the option NEXT in the FETCH statement.
+Error:2018-10-15 16:16:57 - A public action method 'signUp' was not found on controller 'IProduct.Controllers.AccountController'.
+Error:2018-10-15 16:17:11 - A public action method 'SignUp' was not found on controller 'IProduct.Controllers.AccountController'.
+Error:10/15/2018 5:22:22 PM - Error executing child request for handler 'System.Web.Mvc.HttpHandlerUtil+ServerExecuteHttpHandlerAsyncWrapper'.
+Error:10/15/2018 5:22:46 PM - Error executing child request for handler 'System.Web.Mvc.HttpHandlerUtil+ServerExecuteHttpHandlerAsyncWrapper'.
+Error:10/15/2018 5:35:19 PM - Error executing child request for handler 'System.Web.Mvc.HttpHandlerUtil+ServerExecuteHttpHandlerAsyncWrapper'.
+Error:10/15/2018 6:43:43 PM - Error executing child request for handler 'System.Web.Mvc.HttpHandlerUtil+ServerExecuteHttpHandlerAsyncWrapper'.
+Error:10/15/2018 7:46:19 PM - Error executing child request for handler 'System.Web.Mvc.HttpHandlerUtil+ServerExecuteHttpHandlerAsyncWrapper'.
+Error:10/15/2018 7:46:58 PM - Error executing child request for handler 'System.Web.Mvc.HttpHandlerUtil+ServerExecuteHttpHandlerAsyncWrapper'.

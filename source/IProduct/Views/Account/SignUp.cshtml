@@ -1,0 +1,103 @@
+﻿@model IProduct.Models.GenericView<IProduct.Modules.Library.User>
+@{
+    Layout = "";
+}
+
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@Styles.Render("~/Content/My")
+@Styles.Render("~/Content/site")
+@Styles.Render("~/Navigation Menu/css")
+@Scripts.Render("~/bundles/My")
+
+<div id="signupForm" class="signupForm">
+
+    @if(Model.Errors != null && Model.Errors.Count > 0)
+    {
+        <div class="error"> @string.Join("</ br>", Model.Errors) </div>
+    }
+
+    @if(Model.Warnings != null && Model.Warnings.Count > 0)
+    {
+        <div class="warning"> @string.Join("</ br>", Model.Warnings) </div>
+    }
+
+    @using(Ajax.BeginForm("SignUp", "Account", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "signupForm" }))
+    {
+        <div class="user-form form">
+            <div class="form-group">
+                @Html.LabelFor(model => model.View.Email)
+                @Html.TextBoxFor(model => model.View.Email, new { @class = "form-control", placeholder = "Email", required = true })
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    @Html.LabelFor(model => model.View.Password)
+                    @Html.PasswordFor(model => model.View.Password, new { @class = "form-control", placeholder = "Password", required = true })
+                </div>
+                <div class="form-group col-md-6">
+
+                    @Html.Label("Confirm Password")
+                    @Html.TextBoxFor(model => model.Option_1, new { @class = "form-control", placeholder = "Confirm Password", required = true })
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    @Html.LabelFor(model => model.View.Person.FirstName)
+                    @Html.TextBoxFor(model => model.View.Person.FirstName, new { @class = "form-control", placeholder = "FirstName", required = true })
+                </div>
+
+                <div class="form-group col-md-3">
+                    @Html.LabelFor(model => model.View.Person.LastName)
+                    @Html.TextBoxFor(model => model.View.Person.LastName, new { @class = "form-control", placeholder = "LastName", required = true })
+                </div>
+
+                <div class="form-group col-md-6">
+                    @Html.LabelFor(model => model.View.Person.PhoneNumber)
+                    @Html.TextBoxFor(model => model.View.Person.LastName, new { @class = "form-control", placeholder = "PhoneNumber" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Address")
+                @Html.TextBoxFor(model => model.View.Person.Address.AddressLine, new { @class = "form-control", placeholder = "Address", required = true })
+            </div>
+
+            <div class="form-group">
+                @Html.Label("AddressLine 2")
+                @Html.TextBoxFor(model => model.View.Person.Address.AddressLine2, new { @class = "form-control", placeholder = "AddressLine 2", required = true })
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Country")
+                @(IProduct.Models.Extensions.GetAutoFill<IProduct.Modules.Library.Country>(null, "name", "id", "CountryId", Model.View.Person?.Address?.Country?.Id?.ToString(), true))
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    @Html.Label("City")
+                    @Html.TextBoxFor(model => model.View.Person.Address.City, new { @class = "form-control", placeholder = "City" })
+                </div>
+
+                <div class="form-group col-md-3 required">
+                    @Html.LabelFor(model => model.View.Person.Address.State)
+                    @Html.TextBoxFor(model => model.View.Person.Address.State, new { @class = "form-control", placeholder = "State" })
+                </div>
+
+                <div class="form-group col-md-3 ">
+                    @Html.Label("Zip")
+                    @Html.TextBoxFor(model => model.View.Person.Address.Code, new { @class = "form-control", placeholder = "Zip" })
+                </div>
+            </div>
+        </div>
+        <hr />
+        <button type="submit" class="loginBtn loginBtn--signin float-lg-right">
+            Register
+        </button>
+    }
+
+
+</div>
+

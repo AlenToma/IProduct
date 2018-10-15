@@ -1,2 +1,82 @@
-﻿body {
+﻿.lightDataCheckBox {
+    /*width: 16px;*/
+    height: 16px;
+    margin-bottom: 12px;
+    position: relative;
+    top: 4px;
 }
+
+
+
+    .lightDataCheckBox input {
+        display: none;
+    }
+    .lightDataCheckBox span.text {
+        float: left;
+        display: inline-block;
+        padding-left: 3px;
+        position: relative;
+        top: -2px;
+        font-size: 13px;
+        color: #949494;
+    }
+    .lightDataCheckBox span.box {
+        display: inline-block;
+        border: 1px solid #CCC;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        width: 16px;
+        height: 16px;
+        cursor: pointer;
+        background-color: white;
+        float: left;
+    }
+
+        .lightDataCheckBox span.box.checked {
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAADsUlEQVRoQ+2YXU7jMBSFbTcpBSSmgNoXXigboCM20CV0B1NWMGIHMztgB5QdMDtgAwgPUpGoBHSQygMVaioEKg2JRydKqv44ifMDpBJ+tu/9Tu7xzU0oWfBFF5yffAn4qAru7e19I4ScCiGqQojt8/Pzf8i9EBUAvG3bp4SQKqCFEIec84OFEAB4y7LG8G7FOef8e+YFAN40zVl4R4Ou68Wzs7NBZi3kwcPzsntGKW1cXFwcZ1IA4F9fX6VP3hMjhGi2Wq39zAkA/HA4DIR3RXRarVYlUwJ2dna+FQoFFXhHw+XlJc2MAMDrun5KKZV6fvYeoJVeXV0dZEKAB+/1eYWXIzdNs3Zzc/P5XQjwmqYp24YQYhBCau12+++nvwcAn8vlosATtM92u33sVenTLAR4xlgkeLTO6+vr/UmLKQuoVCq7lNK6EOLk9vbWKV/cBXgMZhE8j1Qc1oHvIwsAvJuw6HkwrgjACyGiwju+l+UMrQDg3YSA95ZBKZUGDKoK4CenyggVbHQ6nbHvlSsAeDfhJPxYBGNMWQTgJVNlqAb4/u7ubsr3SgK2trZ23Usmg/didHRdr876cpYK8G9vb87HSCjxxAZKKdc0bc73oQIATymFT4PgvTg8n8/7JgH8aDSK6nnENoQQtW63G9gw5u4A4CcurOoD40tLS3MiAB82VQYkaHS7XanvfSsAeMmFVRXRvL+/H3sV8IpTpSz+VKwggHEF1tfXMQmi126rEkv2wSonQogi3pgxY/Hl5eVA30srUC6Xj9ykCfgTH3V8//DwoPyiHFegXC73FS9tYkq/AEKIRq/XC/W9tAKlUukHIaT5bnThgZu9Xs+33/sdn+pCpVLpJz4UwnOlvoNbllXr9/tTc45Klrk2urm5eUQIwQX8qGVYllU1DMP50xZ1SWehjY2NI/gxarA4+xlj9cfHxz9xzuKM7zBXLBY/ohKHhmE4vwjjrsBpdG1t7T1bKx8MBs7vwSQrdJyGiHe4EwZjLLbvpW006Cmsrq6mWgl82T09PcX2fWQBOAARKVXi8Pn5OZHvYwnAoZWVlaQi+MvLS2LfxxbgiYjZYjHnVIfDYax+72fx0EssO1goFCJXwrbt+mg0SsX3iSrgHc7n88oiMJ6Yppma71MRgCC6rquIwH/MVH2fmgAEyuVyQS3W0DQtdd+nKsAT4dNi65Zlpe771AUgIGNs1k6/bNv+nWRMUDkbqwsFBPZE4MMo8seJCvDsnrQFxGFIdOZLQKLHl8Lh/51VgECHxbTCAAAAAElFTkSuQmCC');
+            background-size: 100% 100%;
+        }
+
+    .lightDataCheckBox span.customBox {
+        height: 24px;
+        border: 1px solid #CCC;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        display: block;
+        background-color: white;
+    }
+
+        .lightDataCheckBox span.customBox > span.val {
+            width: 25px;
+            height: 85%;
+            display: inline-block;
+            float: left;
+            text-align: center;
+            padding-left: 4px;
+            padding-right: 4px;
+            padding-top: 5px;
+            position: relative;
+            cursor: pointer;
+        }
+
+
+            .lightDataCheckBox span.customBox > span.val:last-child {
+                border-top-right-radius: 5px;
+                border-bottom-right-radius: 5px;
+            }
+
+            .lightDataCheckBox span.customBox > span.val:first-child {
+                border-top-left-radius: 5px;
+                border-bottom-left-radius: 5px;
+            }
+
+
+            .lightDataCheckBox span.customBox > span.val.checked {
+                background: #337ab7;
+                color: #FFFFFF;
+            }
+
+    .lightDataCheckBox > span[disabled='disabled'] {
+        background-color: rgba(6, 6, 6, 0.02) !important;
+        opacity: 0.6;
+    }

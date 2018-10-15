@@ -7,6 +7,8 @@ namespace IProduct.Modules.Library
     {
         public string AddressLine { get; set; }
 
+        public string AddressLine2 { get; set; }
+
         public string Code { get; set; }
 
         public string State { get; set; }
