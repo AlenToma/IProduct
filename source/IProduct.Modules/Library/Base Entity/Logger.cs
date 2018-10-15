@@ -1,6 +1,7 @@
 ﻿using EntityWorker.Core.Helper;
 using EntityWorker.Core.Interface;
 using System;
+using System.Configuration;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,18 +13,19 @@ namespace IProduct.Modules.Library.Base_Entity
         private string logIdentifier = $"{DateTime.Now.ToString("yyyy-MM-dd")} Ilog.txt";
         private string logPath = AppDomain.CurrentDomain.BaseDirectory;
         private StringBuilder text = new StringBuilder();
+        private LogLevel _logLevel = ConfigurationManager.AppSettings["LogLevel"].ConvertValue<LogLevel>();
         public Logger()
         {
             DirectoryInfo dinfo = new DirectoryInfo(logPath);
             var files = dinfo.GetFiles("*.txt");
-            foreach (FileInfo file in files)
+            foreach(FileInfo file in files)
             {
 
                 var name = file.Name.Split(' ')[0];
-                if (name.ConvertValue<DateTime?>().HasValue && file.Name.Contains("Ilog"))
+                if(name.ConvertValue<DateTime?>().HasValue && file.Name.Contains("Ilog"))
                 {
 
-                    if (name.ConvertValue<DateTime>().Date == DateTime.Now.Date)
+                    if(name.ConvertValue<DateTime>().Date == DateTime.Now.Date)
                     {
                         logIdentifier = file.Name;
                         break;
@@ -32,7 +34,8 @@ namespace IProduct.Modules.Library.Base_Entity
             }
 
             logIdentifier = Path.Combine(logPath, logIdentifier);
-            using (var stream = File.Open(logIdentifier, FileMode.OpenOrCreate)) { }
+            using(var stream = File.Open(logIdentifier, FileMode.OpenOrCreate))
+            { }
 
         }
 
@@ -42,9 +45,9 @@ namespace IProduct.Modules.Library.Base_Entity
 
         public void Error(Exception exception)
         {
-            lock (this)
+            lock(this)
             {
-                using (StreamWriter stream = new StreamWriter(logIdentifier, append: true))
+                using(StreamWriter stream = new StreamWriter(logIdentifier, append: true))
                     stream.WriteLine($"Error:{DateTime.Now} - {exception.Message}");
             }
 
@@ -52,10 +55,12 @@ namespace IProduct.Modules.Library.Base_Entity
 
         public void Info(string message, object infoData)
         {
+            if(_logLevel != LogLevel.All)
+                return;
 #if DEBUG
-            lock (this)
+            lock(this)
             {
-                using (StreamWriter stream = new StreamWriter(logIdentifier, append: true))
+                using(StreamWriter stream = new StreamWriter(logIdentifier, append: true))
                     stream.WriteLine($"Info:{DateTime.Now} - {message} - \n {infoData}");
             }
 #endif

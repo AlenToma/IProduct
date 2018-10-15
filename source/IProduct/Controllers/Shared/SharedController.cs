@@ -16,7 +16,7 @@ namespace IProduct.Controllers.Shared
     {
         private DbContext dbContext;
 
-        public DbContext DbContext
+        protected DbContext DbContext
         {
             get
             {

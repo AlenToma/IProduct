@@ -21,4 +21,6 @@ namespace IProduct.Modules
 
     public enum SignInApplication { Cookie, Google, Facebook }
 
+    public enum LogLevel { Low, All }
+
 }

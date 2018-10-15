@@ -38,7 +38,7 @@ namespace IProduct
                 CallbackPath = new PathString("/Google"),
                 Provider = new GoogleProvider(),
                 
-                //SignInAsAuthenticationType = DefaultAuthenticationTypes.ExternalCookie
+                SignInAsAuthenticationType = DefaultAuthenticationTypes.ExternalCookie
             };
 
             app.UseGoogleAuthentication(googleOption);

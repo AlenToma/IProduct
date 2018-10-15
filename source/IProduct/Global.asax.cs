@@ -36,5 +36,13 @@ namespace IProduct
         {
             EntityWorker.Core.GlobalConfiguration.Log.Dispose();
         }
+
+        void Application_Error(object sender, EventArgs e)
+        {
+            Exception exc = Server.GetLastError();
+
+            EntityWorker.Core.GlobalConfiguration.Log.Error(exc);
+
+        }
     }
 }

@@ -32,11 +32,11 @@ namespace IProduct.Models
             }
         }
 
-        public bool Create(GoogleOAuth2AuthenticatedContext context)
+        public void Create(GoogleOAuth2AuthenticatedContext context)
         {
 
             if(string.IsNullOrEmpty(context.Email))
-                return false;
+                return;
             var email = context.Email;
             var user = _dbContext.Get<User>().Where(x => x.Email == email).ExecuteFirstOrDefault();
             if(user == null)
@@ -44,7 +44,7 @@ namespace IProduct.Models
                 user = new User
                 {
                     Email = email,
-                    Password = "xxxxxxx",
+                    Password = "xxxxxxx", // User have to change it later
                     Person = new Person()
                     {
                         FirstName = context.Name,
@@ -58,21 +58,23 @@ namespace IProduct.Models
                     Role = _dbContext.Get<Role>().Where(x => x.RoleType == Roles.Customers).ExecuteFirstOrDefault()
 
                 };
-
                 _dbContext.Save(user).SaveChanges();
-
+                Authorize(user);
             }
-            var ident = new ClaimsIdentity(
-         new[] {
+        }
+
+
+        private void Authorize(User user)
+        {
+            var ident = new ClaimsIdentity(new[] {
               new Claim(ClaimTypes.NameIdentifier, user.Email),
               new Claim("http://schemas.microsoft.com/accesscontrolservice/2010/07/claims/identityprovider","ASP.NET Identity","http://www.w3.org/2001/XMLSchema#string"),
               new Claim(ClaimTypes.Name, user.Person.FullName),
               new Claim(ClaimTypes.Email, user.Email),
               new Claim(ClaimTypes.Role, user.Role.Name)
-         },
-             CookieAuthenticationDefaults.AuthenticationType);
+            }, CookieAuthenticationDefaults.AuthenticationType);
+            /// write to Cookie
             HttpContext.Current.GetOwinContext().Authentication.SignIn(new AuthenticationProperties { IsPersistent = false }, ident);
-            return true;
         }
 
         public void SignOut()

@@ -18,5 +18,15 @@ namespace IProduct.Models.OAuthProviders
             return base.Authenticated(context);
         }
 
+        public override void ApplyRedirect(GoogleOAuth2ApplyRedirectContext context)
+        {
+            base.ApplyRedirect(context);
+        }
+
+        public override Task ReturnEndpoint(GoogleOAuth2ReturnEndpointContext context)
+        {
+            return base.ReturnEndpoint(context);
+        }
+
     }
 }

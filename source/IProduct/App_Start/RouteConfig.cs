@@ -20,7 +20,7 @@ namespace IProduct
             );
 
             // the google cant call back to a controller this should fix the problem by redirect it to the currect path
-            routes.MapRoute(name: "Google", url: "Google", defaults: new { controller = "Account", action = "Google" });
+            //routes.MapRoute(name: "Google", url: "Google", defaults: new { controller = "Account", action = "Google" });
         }
     }
 }
