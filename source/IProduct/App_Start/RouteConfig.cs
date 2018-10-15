@@ -18,6 +18,9 @@ namespace IProduct
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
+
+            // the google cant call back to a controller this should fix the problem by redirect it to the currect path
+            routes.MapRoute(name: "Google", url: "Google", defaults: new { controller = "Account", action = "Google" });
         }
     }
 }

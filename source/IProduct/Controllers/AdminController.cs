@@ -9,7 +9,7 @@ using IProduct.Modules.Library.Custom;
 
 namespace IProduct.Controllers
 {
-    public class AdminController : SharedController
+    public class AdminController : ProtectedController
     {
         #region Action
 

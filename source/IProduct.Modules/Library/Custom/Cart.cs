@@ -37,7 +37,7 @@ namespace IProduct.Modules.Library.Custom
             if (_user == null)
             {
                 _user = _provider.Get<User>().Where(x => x.Id == user_Id).LoadChildren().ExecuteFirstOrDefault();
-                var invoice = _user.Invoices.Find(x => x.InvoiceState == EnumHelper.InvoiceState.Pending);
+                var invoice = _user.Invoices.Find(x => x.InvoiceState == InvoiceState.Pending);
                 if (invoice == null)
                 {
                     _user.Invoices.Add(new Invoice()
@@ -82,8 +82,8 @@ namespace IProduct.Modules.Library.Custom
 
         public Cart Add(Product userCart, decimal total)
         {
-            var invoice = _user != null ? _user.Invoices.Find(x => x.InvoiceState == EnumHelper.InvoiceState.Pending) : Invoice;
-            if (invoice.Products.Any(x => x.Id == userCart.Id && x.Object_Status == EnumHelper.ObjectStatus.Added))
+            var invoice = _user != null ? _user.Invoices.Find(x => x.InvoiceState == InvoiceState.Pending) : Invoice;
+            if (invoice.Products.Any(x => x.Id == userCart.Id && x.Object_Status == ObjectStatus.Added))
             {
                 var newValue = invoice.ProductTotalInformations[userCart.Id.Value] + total;
                 invoice.ProductTotalInformations.Remove(userCart.Id.Value);
@@ -117,14 +117,14 @@ namespace IProduct.Modules.Library.Custom
         public Invoice Get()
         {
             if (_user != null)
-                return _user.Invoices.Find(x => x.Object_Status != EnumHelper.ObjectStatus.Removed && x.InvoiceState == EnumHelper.InvoiceState.Pending);
+                return _user.Invoices.Find(x => x.Object_Status != ObjectStatus.Removed && x.InvoiceState == InvoiceState.Pending);
             else return Invoice;
         }
 
         public void Update(string field, string value)
         {
 
-            var invoice = _user != null ? _user.Invoices.Find(x => x.InvoiceState == EnumHelper.InvoiceState.Pending) : Invoice;
+            var invoice = _user != null ? _user.Invoices.Find(x => x.InvoiceState == InvoiceState.Pending) : Invoice;
 
             if (field == "password" && _user == null && !string.IsNullOrEmpty(invoice.Email))
             {

@@ -37,7 +37,7 @@
                         url: '@Url.Action("SignOut", "Home")',
                         async: false,
                         success: function (data) {
-                            window.location = '@Url.Action("LogInView", "Home", null, Request.Url.Scheme)';
+                            window.location = '@Url.Action("Index", "Account", null, Request.Url.Scheme)';
                         }
                     });
                 }
@@ -45,11 +45,12 @@
                 text: "Settings"
             }
             ];
+
             if (user.role.roletype == "Administrator") {
                 datasource.push({
                     text: "AdminPanel",
                     click: function () {
-                        window.location = '@Url.Action("index", "Admin", null, Request.Url.Scheme)';
+                        window.location = '@Url.Action("Index", "Admin", null, Request.Url.Scheme)';
                     }
                 })
             }
@@ -65,7 +66,7 @@
             if (user !== null && user) {
 
             }
-             else window.location= '@Url.Action("LogInView", "Home", null, Request.Url.Scheme)';
+             else window.location= '@Url.Action("Index", "Account", null, Request.Url.Scheme)';
         });
 
         $(".cart").click(function () {

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
@@ -28,8 +29,8 @@ namespace IProduct
             GlobalConfigration.FileBasePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ConfigurationManager.AppSettings["ImagePath"]);
             GlobalConfigration.ImageMapp = ConfigurationManager.AppSettings["ImagePath"];
             GlobalConfigration.LoadSettings(new IProduct.Modules.Data.DbContext());
-           
         }
+
 
         protected void Application_End()
         {

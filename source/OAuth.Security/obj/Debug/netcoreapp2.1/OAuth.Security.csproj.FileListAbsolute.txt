@@ -1,9 +1,0 @@
-D:\Projects\IProduct\source\OAuth.Security\bin\Debug\netcoreapp2.1\OAuth.Security.deps.json
-D:\Projects\IProduct\source\OAuth.Security\bin\Debug\netcoreapp2.1\OAuth.Security.dll
-D:\Projects\IProduct\source\OAuth.Security\obj\Debug\netcoreapp2.1\OAuth.Security.csprojAssemblyReference.cache
-D:\Projects\IProduct\source\OAuth.Security\obj\Debug\netcoreapp2.1\OAuth.Security.csproj.CoreCompileInputs.cache
-D:\Projects\IProduct\source\OAuth.Security\obj\Debug\netcoreapp2.1\OAuth.Security.AssemblyInfoInputs.cache
-D:\Projects\IProduct\source\OAuth.Security\obj\Debug\netcoreapp2.1\OAuth.Security.AssemblyInfo.cs
-D:\Projects\IProduct\source\OAuth.Security\bin\Debug\netcoreapp2.1\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
-D:\Projects\IProduct\source\OAuth.Security\bin\Debug\netcoreapp2.1\Microsoft.AspNetCore.Cryptography.KeyDerivation.xml
-D:\Projects\IProduct\source\OAuth.Security\obj\Debug\netcoreapp2.1\OAuth.Security.csproj.CopyComplete

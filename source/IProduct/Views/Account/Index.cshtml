@@ -1,0 +1,66 @@
+﻿@{
+    Layout = "";
+}
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@Styles.Render("~/Content/My")
+@Styles.Render("~/Content/site")
+@Styles.Render("~/Navigation Menu/css")
+@Scripts.Render("~/bundles/My")
+@*@Scripts.Render("~/Navigation Menu/js")*@
+@*@RenderPage("~/Views/data/LoginView.cshtml")*@
+
+<div class="login">
+    <div class="externalLogin view">
+        <div class="viewData">
+            <button class="loginBtn loginBtn--facebook">
+                Login with Facebook
+            </button>
+
+            <button href='@Url.Action("SignIn", new {type= "Google"})' class="loginBtn loginBtn--google">
+                Login with Google
+            </button>
+        </div>
+    </div>
+
+    <div class="seperator">
+        <div class="text">OR</div>
+    </div>
+
+    <div class="internallogin view">
+        <div class="viewData">
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Username" />
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" placeholder="Username" />
+            </div>
+
+            <button class="loginBtn loginBtn--signin">
+                Sign In
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function ()
+    {
+        $(window).resize(function ()
+        {
+            $(".login").center();
+        });
+        $(".login").center();
+        toLocation($(".loginBtn"));
+    });
+</script>
+@*<div class="row" style="margin-top:20px;">
+        <div class="col-md-5">
+            <p>
+                <a class="btn btn-default btn-block" href='@Url.Action("signin=")'>&nbsp;&nbsp;Login using Google</a>
+            </p>
+        </div>
+    </div>*@

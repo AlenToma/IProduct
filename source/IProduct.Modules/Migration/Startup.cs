@@ -21,18 +21,31 @@ namespace IProduct.Modules.Migration
                 CultureInfo[] cinfo = CultureInfo.GetCultures(CultureTypes.AllCultures & ~CultureTypes.NeutralCultures);
                 cinfo.ToList().Select(x => new Country() { Name = x.DisplayName, CountryCode = x.Name, Active = x.Name == "en-US" }).ToList().ForEach(x => repository.Save(x));
 
+                var roles = new List<Role>()
+                {
+                     new Role()
+                    {
+                        RoleType = Roles.Administrator,
+                        Name = "Administrator",
+                        Description = "this is admin role",
+                        System = true
+                    },
+                     new Role()
+                    {
+                        RoleType = Roles.Customers,
+                        Name = "Customer",
+                        Description = "this is Customer role",
+                        System = true
+                    }
+                };
+                repository.Get<Role>().AddRange(roles).Save().SaveChanges();
+
                 var adminUser = new User()
                 {
                     Email = "alen.toma@gmail.com",
                     Password = "theway",
                     System = true,
-                    Role = new Role()
-                    {
-                        RoleType = EnumHelper.Roles.Administrator,
-                        Name = "Administrator",
-                        Description = "this is admin role",
-                        System = true
-                    },
+                    Role = roles.First(),
                     Person = new Person()
                     {
                         FirstName = "Alen",

@@ -19,4 +19,6 @@ namespace IProduct.Modules
 
     public enum InvoiceState { Pending, Handled }
 
+    public enum SignInApplication { Cookie, Google, Facebook }
+
 }

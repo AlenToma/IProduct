@@ -41,7 +41,8 @@ namespace IProduct
                        "~/Content/My/Menu.css",
                        "~/Content/My/lightslider.css",
                        "~/Content/My/ContextMenu.css",
-                       "~/Content/My/Treeview.css"));
+                       "~/Content/My/Treeview.css",
+                       "~/Content/My/login.css"));
 
 
             bundles.Add(new StyleBundle("~/Navigation Menu/css").Include(

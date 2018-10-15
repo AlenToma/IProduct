@@ -1,17 +1,13 @@
 ﻿using EntityWorker.Core.Helper;
-using IProduct.Modules.Library;
 using IProduct.Modules.Library.Custom;
 using System;
-using System.Collections.Generic;
+using System.Configuration;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
 
 namespace IProduct.Modules
 {
@@ -26,12 +22,27 @@ namespace IProduct.Modules
         {
             var assembly = Assembly.GetExecutingAssembly();
             var resourceName = $"IProduct.Modules.SQL.{fileName}";
-            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
-            using (StreamReader reader = new StreamReader(stream))
+            using(Stream stream = assembly.GetManifestResourceStream(resourceName))
+            using(StreamReader reader = new StreamReader(stream))
             {
                 string result = reader.ReadToEnd();
                 return result;
             }
+        }
+
+
+        /// <summary>
+        /// Load the ApplicationCredentials. 
+        /// </summary>
+        /// <param name="signInApplication"></param>
+        /// <returns></returns>
+        public static ApplicationCredentials LoadCredentials(SignInApplication signInApplication)
+        {
+            var path = Path.Combine(ConfigurationManager.AppSettings["Credentials"], signInApplication.ToString());
+            if(File.Exists(path))
+                return File.ReadAllText(path).FromJson<ApplicationCredentials>();
+            return null;
+
         }
 
         enum ImageFileType
@@ -63,7 +74,7 @@ namespace IProduct.Modules
 
             var formates = Enum.GetNames(typeof(ImageFileType));
             var valid = formates.Any(x => file.ToLower().Contains(x.ToLower()));
-            if (valid && trueValidation)
+            if(valid && trueValidation)
             {
                 try
                 {
@@ -87,7 +98,7 @@ namespace IProduct.Modules
         {
             try
             {
-                using (var ms = new MemoryStream(file))
+                using(var ms = new MemoryStream(file))
                     new Bitmap(ms);
                 return true;
             }
@@ -109,12 +120,12 @@ namespace IProduct.Modules
             try
             {
                 Bitmap srcBmp;
-                using (var ms = new MemoryStream(image))
+                using(var ms = new MemoryStream(image))
                     srcBmp = new Bitmap(ms);
                 float ratio = 1;
                 float minSize = Math.Min(newHeight, newHeight);
 
-                if (srcBmp.Width > srcBmp.Height)
+                if(srcBmp.Width > srcBmp.Height)
                 {
                     ratio = minSize / (float)srcBmp.Width;
                 }
@@ -126,14 +137,14 @@ namespace IProduct.Modules
                 SizeF newSize = new SizeF(srcBmp.Width * ratio, srcBmp.Height * ratio);
                 Bitmap target = new Bitmap((int)newSize.Width, (int)newSize.Height);
 
-                using (Graphics graphics = Graphics.FromImage(target))
+                using(Graphics graphics = Graphics.FromImage(target))
                 {
                     graphics.CompositingQuality = CompositingQuality.HighSpeed;
                     graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
                     graphics.CompositingMode = CompositingMode.SourceCopy;
                     graphics.DrawImage(srcBmp, 0, 0, newSize.Width, newSize.Height);
 
-                    using (MemoryStream memoryStream = new MemoryStream())
+                    using(MemoryStream memoryStream = new MemoryStream())
                     {
                         target.Save(memoryStream, ImageFormat.Jpeg);
                         return memoryStream.ToArray();

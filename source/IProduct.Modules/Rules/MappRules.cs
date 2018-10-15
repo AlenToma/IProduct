@@ -11,7 +11,7 @@ namespace IProduct.Modules.Rules
         public void AfterSave(IRepository repository, Mapps itemDbEntity, object objectId)
         {
             var path = Path.Combine(GlobalConfigration.FileBasePath, itemDbEntity.Name);
-            if (itemDbEntity.Object_Status == EnumHelper.ObjectStatus.Removed)
+            if (itemDbEntity.Object_Status == ObjectStatus.Removed)
             {
                 Directory.Delete(path);
             }
@@ -24,7 +24,7 @@ namespace IProduct.Modules.Rules
 
         public void BeforeSave(IRepository repository, Mapps itemDbEntity)
         {
-            if (itemDbEntity.Object_Status == EnumHelper.ObjectStatus.Removed) // ok lets try to remove it
+            if (itemDbEntity.Object_Status == ObjectStatus.Removed) // ok lets try to remove it
             {
                 var path = Path.Combine(GlobalConfigration.FileBasePath, itemDbEntity.Name);
                 var items = Directory.GetFiles(path);
