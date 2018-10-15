@@ -56,7 +56,7 @@ namespace IProduct.Controllers
         #region Files 
         [ErrorHandler]
         [HttpPost]
-        public ActionResult DeleteFile(Guid id)
+        public void DeleteFile(Guid id)
         {
             var file = DbContext.Get<Files>().Where(x => x.Id == id).ExecuteFirstOrDefault();
             var mapp = DbContext.Get<Mapps>().Where(x => x.Id == file.Mapp_Id).ExecuteFirstOrDefault();
@@ -68,7 +68,6 @@ namespace IProduct.Controllers
 
             if (System.IO.File.Exists(thumpPath))
                 System.IO.File.Delete(thumpPath);
-            return null;
         }
 
         [ErrorHandler]

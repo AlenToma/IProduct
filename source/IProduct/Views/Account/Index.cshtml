@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IProduct.Modules.Library.Custom.JsonData
+@{
     Layout = "";
 }
 @Styles.Render("~/Content/css")
@@ -9,18 +10,18 @@
 @Styles.Render("~/Content/site")
 @Styles.Render("~/Navigation Menu/css")
 @Scripts.Render("~/bundles/My")
-@*@Scripts.Render("~/Navigation Menu/js")*@
-@*@RenderPage("~/Views/data/LoginView.cshtml")*@
+
+
 
 <div class="login">
-    <div class="externalLogin view">
+    <div class="view">
         <div class="viewData">
-            <button href='@Url.Action("SignIn", new {type= "Facebook"})' class="loginBtn loginBtn--facebook">
-                Login with Facebook
+            <button href='@Url.Action("Index", new {type=IProduct.Modules.SignInApplication.Facebook.ToString()})' class="loginBtn loginBtn--facebook">
+                Sign In with Facebook
             </button>
 
-            <button href='@Url.Action("SignIn", new {type= "Google"})' class="loginBtn loginBtn--google">
-                Login with Google
+            <button href='@Url.Action("Index", new {type= IProduct.Modules.SignInApplication.Google.ToString()})' class="loginBtn loginBtn--google">
+                Sign In with Google
             </button>
         </div>
     </div>
@@ -28,25 +29,54 @@
     <div class="seperator">
         <div class="text">OR</div>
     </div>
+    @using(Html.BeginForm("Index", "Account", new { type = IProduct.Modules.SignInApplication.Cookie.ToString() }, FormMethod.Post, null))
+    {
+        <div class=" view">
+            <div class="viewData">
+                <div class="form-group">
+                    <input type="text" name="email" class="form-control" placeholder="Username" />
+                </div>
 
-    <div class="internallogin view">
-        <div class="viewData">
-            <div class="form-group">
-                <input type="text" class="form-control" placeholder="Username" />
-            </div>
-            <div class="form-group">
-                <input type="password" class="form-control" placeholder="Username" />
-            </div>
+                <div class="form-group">
+                    <input type="password" name="password" class="form-control" placeholder="Username" />
+                </div>
 
-            <button class="loginBtn loginBtn--signin">
-                Sign In
-            </button>
+                <button type="submit" class="loginBtn loginBtn--signin">
+                    Sign In
+                </button>
+
+                <button type="submit" class="loginBtn loginBtn--signup">
+                    Sign Up
+                </button>
+
+            </div>
         </div>
-    </div>
+    }
+    @{
+        if(!string.IsNullOrEmpty(Model?.Data?.ToString()))
+        {
+            <div class="error">
+                @Model.Data
+            </div>
+        }
+    }
 </div>
 
-
 <script>
+    /// make a button act like a link
+    function toLocation(item)
+    {
+        $(item).each(function ()
+        {
+            var location = $(this).attr("href");
+            if(location && location !== "")
+                $(this).click(function ()
+                {
+                    window.location.href = location;
+                });
+        });
+    }
+
     $(document).ready(function ()
     {
         $(window).resize(function ()
@@ -57,10 +87,4 @@
         toLocation($(".loginBtn"));
     });
 </script>
-@*<div class="row" style="margin-top:20px;">
-        <div class="col-md-5">
-            <p>
-                <a class="btn btn-default btn-block" href='@Url.Action("signin=")'>&nbsp;&nbsp;Login using Google</a>
-            </p>
-        </div>
-    </div>*@
+

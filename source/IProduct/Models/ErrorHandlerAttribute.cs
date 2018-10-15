@@ -15,7 +15,6 @@ namespace IProduct.Models
             {
                 Data = new { success = false, error = $"Exception: {filterContext.Exception.Message + Environment.NewLine} InnerException: {filterContext.Exception.InnerException}" },
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
-               
             };
         }
     }

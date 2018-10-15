@@ -42,7 +42,6 @@ namespace IProduct.Modules
             if(File.Exists(path))
                 return File.ReadAllText(path).FromJson<ApplicationCredentials>();
             return null;
-
         }
 
         enum ImageFileType

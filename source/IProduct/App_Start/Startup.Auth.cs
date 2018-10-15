@@ -7,8 +7,6 @@ using Microsoft.Owin.Security.Google;
 using Microsoft.Owin.Security.Facebook;
 using Owin;
 using System;
-using Microsoft.AspNet.Identity;
-
 
 namespace IProduct
 {
@@ -19,8 +17,13 @@ namespace IProduct
 
             var googleCredentials = Actions.LoadCredentials(SignInApplication.Google);
             var facebookCredentials = Actions.LoadCredentials(SignInApplication.Facebook);
+
             if(googleCredentials == null)
                 throw new Exception("GoogleCredentials could not be found(GoogleOAuth2Authentication)");
+
+            if(facebookCredentials == null)
+                throw new Exception("FacebookCredentials could not be found(FacebookAuthenticationOptions)");
+
 
             app.SetDefaultSignInAsAuthenticationType(CookieAuthenticationDefaults.AuthenticationType);
             var cookieOptions = new CookieAuthenticationOptions
@@ -32,7 +35,6 @@ namespace IProduct
             };
             app.UseCookieAuthentication(cookieOptions);
 
-
             var googleOption = new GoogleOAuth2AuthenticationOptions()
             {
                 ClientId = googleCredentials.Client_Id,
@@ -43,7 +45,6 @@ namespace IProduct
                 //SignInAsAuthenticationType = DefaultAuthenticationTypes.ExternalCookie
             };
             app.UseGoogleAuthentication(googleOption);
-
 
             var facebookOptions = new FacebookAuthenticationOptions()
             {

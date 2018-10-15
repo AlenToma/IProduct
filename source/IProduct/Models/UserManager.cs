@@ -1,4 +1,4 @@
-﻿using IProduct.Models.ViewModels;
+﻿using EntityWorker.Core.Helper;
 using IProduct.Modules;
 using IProduct.Modules.Data;
 using IProduct.Modules.Library;
@@ -22,16 +22,28 @@ namespace IProduct.Models
             switch(type)
             {
                 case SignInApplication.Cookie:
+                    Create();
                     break;
 
                 case SignInApplication.Facebook:
-                    HttpContext.Current.GetOwinContext().Authentication.Challenge(new AuthenticationProperties { IsPersistent = true, RedirectUri = "Account/Facebook" }, "Facebook");
+                    HttpContext.Current.GetOwinContext().Authentication.Challenge(new AuthenticationProperties { IsPersistent = true, RedirectUri = "Account/Facebook" }, SignInApplication.Facebook.ToString());
                     break;
 
                 case SignInApplication.Google:
-                    HttpContext.Current.GetOwinContext().Authentication.Challenge(new AuthenticationProperties { IsPersistent = true, RedirectUri = "Account/Google" }, "Google");
+                    HttpContext.Current.GetOwinContext().Authentication.Challenge(new AuthenticationProperties { IsPersistent = true, RedirectUri = "Account/Google" }, SignInApplication.Google.ToString());
                     break;
             }
+        }
+
+        public void Create()
+        {
+            string email = HttpContext.Current.Request.Form["email"] ?? "";
+            string password = HttpContext.Current.Request.Form["password"]?? "";
+            var isPersistent = HttpContext.Current.Request.Form["isPersistent"].ConvertValue<bool>();
+            var user = _dbContext.Get<User>().Where(x => x.Email.Contains(email) && x.Password == password).LoadChildren().ExecuteFirstOrDefault();
+            if(user == null)
+                return;
+            Authorize(user, isPersistent);
         }
 
         // For facebook
@@ -91,7 +103,6 @@ namespace IProduct.Models
                         }
                     },
                     Role = _dbContext.Get<Role>().Where(x => x.RoleType == Roles.Customers).ExecuteFirstOrDefault()
-
                 };
                 _dbContext.Save(user).SaveChanges();
                 Authorize(user);
@@ -99,7 +110,7 @@ namespace IProduct.Models
         }
 
 
-        private void Authorize(User user)
+        private void Authorize(User user, bool isPersistent = true)
         {
             var ident = new ClaimsIdentity(new[] {
               new Claim(ClaimTypes.NameIdentifier, user.Email),
@@ -109,7 +120,7 @@ namespace IProduct.Models
               new Claim(ClaimTypes.Role, user.Role.Name)
             }, CookieAuthenticationDefaults.AuthenticationType);
             /// write to Cookie
-            HttpContext.Current.GetOwinContext().Authentication.SignIn(new AuthenticationProperties { IsPersistent = false }, ident);
+            HttpContext.Current.GetOwinContext().Authentication.SignIn(new AuthenticationProperties { IsPersistent = isPersistent }, ident);
         }
 
         public void SignOut()

@@ -8,3 +8,64 @@ Error:10/15/2018 6:58:25 AM - The view 'Google' or its master was not found or n
 ~/Views/Shared/Google.cshtml
 ~/Views/Shared/Google.vbhtml
 Error:2018-10-15 07:53:53 - The controller for path '/IProduct/About/Privacy_Policy' was not found or does not implement IController.
+Error:10/15/2018 12:07:37 PM - An expression of non-boolean type specified in a context where a condition is expected, near 'AND'.
+Invalid usage of the option NEXT in the FETCH statement.
+Error:10/15/2018 12:08:10 PM - An expression of non-boolean type specified in a context where a condition is expected, near 'AND'.
+Invalid usage of the option NEXT in the FETCH statement.
+Error:2018-10-15 12:17:14 - Only one 'model' statement is allowed in a file.
+
+Error:2018-10-15 12:20:30 - Only one 'model' statement is allowed in a file.
+
+Error:2018-10-15 12:20:39 - Only one 'model' statement is allowed in a file.
+
+Error:2018-10-15 12:20:42 - Only one 'model' statement is allowed in a file.
+
+Error:2018-10-15 13:03:06 - D:\Projects\IProduct\source\IProduct\Views\Account\Index.cshtml(48): error CS1503: Argument 1: cannot convert from 'object' to 'string'
+Error:10/15/2018 1:03:37 PM - An expression of non-boolean type specified in a context where a condition is expected, near 'AND'.
+Invalid usage of the option NEXT in the FETCH statement.
+Error:10/15/2018 1:03:45 PM - An expression of non-boolean type specified in a context where a condition is expected, near 'AND'.
+Invalid usage of the option NEXT in the FETCH statement.
+Error:10/15/2018 1:05:18 PM - An expression of non-boolean type specified in a context where a condition is expected, near 'AND'.
+Invalid usage of the option NEXT in the FETCH statement.
+Error:10/15/2018 1:06:06 PM - An expression of non-boolean type specified in a context where a condition is expected, near 'AND'.
+Invalid usage of the option NEXT in the FETCH statement.
+Error:10/15/2018 1:11:47 PM - An expression of non-boolean type specified in a context where a condition is expected, near 'AND'.
+Invalid usage of the option NEXT in the FETCH statement.
+Error:10/15/2018 1:11:50 PM - An expression of non-boolean type specified in a context where a condition is expected, near 'AND'.
+Invalid usage of the option NEXT in the FETCH statement.
+Error:10/15/2018 1:14:28 PM - An expression of non-boolean type specified in a context where a condition is expected, near 'AND'.
+Invalid usage of the option NEXT in the FETCH statement.
+Error:10/15/2018 1:14:28 PM - An expression of non-boolean type specified in a context where a condition is expected, near 'AND'.
+Invalid usage of the option NEXT in the FETCH statement.
+Error:10/15/2018 2:05:37 PM - The view 'SignIn' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Views/Account/SignIn.aspx
+~/Views/Account/SignIn.ascx
+~/Views/Shared/SignIn.aspx
+~/Views/Shared/SignIn.ascx
+~/Views/Account/SignIn.cshtml
+~/Views/Account/SignIn.vbhtml
+~/Views/Shared/SignIn.cshtml
+~/Views/Shared/SignIn.vbhtml
+Error:2018-10-15 14:12:56 - A public action method 'SignIn' was not found on controller 'IProduct.Controllers.AccountController'.
+Error:2018-10-15 14:13:49 - A public action method 'SignIn' was not found on controller 'IProduct.Controllers.AccountController'.
+Error:10/15/2018 2:15:47 PM - The view 'SignIn' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Views/Account/SignIn.aspx
+~/Views/Account/SignIn.ascx
+~/Views/Shared/SignIn.aspx
+~/Views/Shared/SignIn.ascx
+~/Views/Account/SignIn.cshtml
+~/Views/Account/SignIn.vbhtml
+~/Views/Shared/SignIn.cshtml
+~/Views/Shared/SignIn.vbhtml
+Error:10/15/2018 2:25:57 PM - Incorrect syntax near '<'.
+Invalid usage of the option NEXT in the FETCH statement.
+Error:10/15/2018 2:25:59 PM - Incorrect syntax near '<'.
+Invalid usage of the option NEXT in the FETCH statement.
+Error:10/15/2018 2:26:03 PM - Incorrect syntax near '<'.
+Invalid usage of the option NEXT in the FETCH statement.
+Error:10/15/2018 2:26:13 PM - Incorrect syntax near '<'.
+Invalid usage of the option NEXT in the FETCH statement.
+Error:10/15/2018 2:31:49 PM - Incorrect syntax near '<'.
+Invalid usage of the option NEXT in the FETCH statement.
+Error:10/15/2018 2:31:55 PM - Incorrect syntax near '<'.
+Invalid usage of the option NEXT in the FETCH statement.

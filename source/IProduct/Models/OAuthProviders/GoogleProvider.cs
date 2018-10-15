@@ -1,11 +1,5 @@
-﻿using Microsoft.Owin.Security.Cookies;
-using Microsoft.Owin.Security.Google;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
+﻿using Microsoft.Owin.Security.Google;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace IProduct.Models.OAuthProviders
 {
@@ -16,16 +10,6 @@ namespace IProduct.Models.OAuthProviders
             using(var m = new UserManager())
                 m.Create(context);
             return base.Authenticated(context);
-        }
-
-        public override void ApplyRedirect(GoogleOAuth2ApplyRedirectContext context)
-        {
-            base.ApplyRedirect(context);
-        }
-
-        public override Task ReturnEndpoint(GoogleOAuth2ReturnEndpointContext context)
-        {
-            return base.ReturnEndpoint(context);
         }
 
     }

@@ -74,6 +74,7 @@ D:\Projects\IProduct\source\IProduct\bin\Microsoft.Owin.dll
 D:\Projects\IProduct\source\IProduct\bin\Microsoft.Owin.Host.SystemWeb.dll
 D:\Projects\IProduct\source\IProduct\bin\Microsoft.Owin.Security.Cookies.dll
 D:\Projects\IProduct\source\IProduct\bin\Microsoft.Owin.Security.dll
+D:\Projects\IProduct\source\IProduct\bin\Microsoft.Owin.Security.Facebook.dll
 D:\Projects\IProduct\source\IProduct\bin\Microsoft.Owin.Security.Google.dll
 D:\Projects\IProduct\source\IProduct\bin\Microsoft.Web.Infrastructure.dll
 D:\Projects\IProduct\source\IProduct\bin\Newtonsoft.Json.dll
@@ -90,7 +91,6 @@ D:\Projects\IProduct\source\IProduct\bin\System.Web.WebPages.Razor.dll
 D:\Projects\IProduct\source\IProduct\bin\WebGrease.dll
 D:\Projects\IProduct\source\IProduct\bin\IProduct.Modules.pdb
 D:\Projects\IProduct\source\IProduct\bin\Antlr3.Runtime.pdb
-D:\Projects\IProduct\source\IProduct\bin\EntityWorker.Core.xml
 D:\Projects\IProduct\source\IProduct\bin\Microsoft.AspNet.Identity.Core.xml
 D:\Projects\IProduct\source\IProduct\bin\Microsoft.AspNetCore.Identity.xml
 D:\Projects\IProduct\source\IProduct\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
@@ -98,6 +98,7 @@ D:\Projects\IProduct\source\IProduct\bin\Microsoft.Owin.xml
 D:\Projects\IProduct\source\IProduct\bin\Microsoft.Owin.Host.SystemWeb.xml
 D:\Projects\IProduct\source\IProduct\bin\Microsoft.Owin.Security.xml
 D:\Projects\IProduct\source\IProduct\bin\Microsoft.Owin.Security.Cookies.xml
+D:\Projects\IProduct\source\IProduct\bin\Microsoft.Owin.Security.Facebook.xml
 D:\Projects\IProduct\source\IProduct\bin\Microsoft.Owin.Security.Google.xml
 D:\Projects\IProduct\source\IProduct\bin\Newtonsoft.Json.xml
 D:\Projects\IProduct\source\IProduct\bin\System.Collections.Immutable.xml
@@ -108,10 +109,9 @@ D:\Projects\IProduct\source\IProduct\bin\System.Web.Razor.xml
 D:\Projects\IProduct\source\IProduct\bin\System.Web.WebPages.xml
 D:\Projects\IProduct\source\IProduct\bin\System.Web.WebPages.Deployment.xml
 D:\Projects\IProduct\source\IProduct\bin\System.Web.WebPages.Razor.xml
+D:\Projects\IProduct\source\IProduct\obj\Debug\IProduct.csprojAssemblyReference.cache
 D:\Projects\IProduct\source\IProduct\obj\Debug\IProduct.csproj.CoreCompileInputs.cache
 D:\Projects\IProduct\source\IProduct\obj\Debug\IProduct.csproj.CopyComplete
 D:\Projects\IProduct\source\IProduct\obj\Debug\IProject.dll
 D:\Projects\IProduct\source\IProduct\obj\Debug\IProject.pdb
-D:\Projects\IProduct\source\IProduct\bin\Microsoft.Owin.Security.Facebook.dll
-D:\Projects\IProduct\source\IProduct\bin\Microsoft.Owin.Security.Facebook.xml
-D:\Projects\IProduct\source\IProduct\obj\Debug\IProduct.csprojAssemblyReference.cache
+D:\Projects\IProduct\source\IProduct\bin\EntityWorker.Core.xml

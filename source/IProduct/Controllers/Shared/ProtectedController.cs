@@ -6,7 +6,6 @@ using System.Web.Mvc;
 
 namespace IProduct.Controllers.Shared
 {
-    [Authorize]
     public class ProtectedController : SharedController
     {
     }

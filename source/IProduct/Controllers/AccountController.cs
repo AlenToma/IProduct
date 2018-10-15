@@ -2,29 +2,32 @@
 using IProduct.Controllers.Shared;
 using IProduct.Models;
 using IProduct.Modules;
+using IProduct.Modules.Library.Custom;
+using System;
 using System.Web.Mvc;
 
 namespace IProduct.Controllers
 {
     public class AccountController : SharedController
     {
-        public ActionResult Index()
+        public ActionResult Index(string type = "")
         {
             if(Request.IsAuthenticated)
-               return Redirect("~/Home");
-            return View();
-        }
-
-        [AllowAnonymous]
-        public void SignIn(string ReturnUrl = "/", string type = "")
-        {
-            using(var manager = new UserManager())
+                return Redirect("~/Home");
+            else if (type.ConvertValue<SignInApplication?>().HasValue)
             {
-                if(!Request.IsAuthenticated)
+                using(var manager = new UserManager())
                 {
-                    manager.SignIn(type.ConvertValue<SignInApplication>());
+                    if(!Request.IsAuthenticated)
+                    {
+                        manager.SignIn(type.ConvertValue<SignInApplication>());
+                    }
                 }
+
+                if(type.ConvertValue<SignInApplication>() == SignInApplication.Cookie && !Request.IsAuthenticated)
+                    return View(new JsonData { Success = false, Data = "Email or Password could not be found in our system" });
             }
+            return View();
         }
 
         #region Google
