@@ -1,0 +1,13 @@
+Error:10/16/2018 12:12:21 AM - Error executing child request for handler 'System.Web.Mvc.HttpHandlerUtil+ServerExecuteHttpHandlerAsyncWrapper'.
+Error:10/16/2018 1:45:30 AM - Error executing child request for handler 'System.Web.Mvc.HttpHandlerUtil+ServerExecuteHttpHandlerAsyncWrapper'.
+Error:2018-10-16 02:28:05 - Object reference not set to an instance of an object.
+Error:10/16/2018 3:43:00 AM - The INSERT statement conflicted with the FOREIGN KEY constraint "FK__User__Role_Id__7A672E12". The conflict occurred in database "IProduct", table "dbo.Role", column 'Id'.
+The statement has been terminated.
+Error:10/16/2018 3:43:33 AM - The INSERT statement conflicted with the FOREIGN KEY constraint "FK__User__Role_Id__7A672E12". The conflict occurred in database "IProduct", table "dbo.Role", column 'Id'.
+The statement has been terminated.
+Error:10/16/2018 3:48:18 AM - Exception has been thrown by the target of an invocation.
+Error:10/16/2018 3:48:20 AM - Exception has been thrown by the target of an invocation.
+Error:10/16/2018 3:50:43 AM - Exception has been thrown by the target of an invocation.
+Error:10/16/2018 3:56:07 AM - Exception has been thrown by the target of an invocation.
+Error:10/16/2018 4:01:59 AM - Exception has been thrown by the target of an invocation.
+Error:10/16/2018 4:31:43 AM - Exception has been thrown by the target of an invocation.

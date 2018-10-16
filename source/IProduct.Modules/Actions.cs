@@ -1,12 +1,18 @@
-﻿using EntityWorker.Core.Helper;
+﻿using EntityWorker.Core.Attributes;
+using EntityWorker.Core.FastDeepCloner;
+using EntityWorker.Core.Helper;
+using IProduct.Modules.Attributes;
 using IProduct.Modules.Library.Custom;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 
 namespace IProduct.Modules
@@ -30,6 +36,58 @@ namespace IProduct.Modules
             }
         }
 
+        /// <summary>
+        /// Validate the object and return error if it fail validation.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        public static List<string> ValidateRequireField<T>(T item)
+        {
+            var type = item is Type ? item.GetType() : typeof(T);
+            var validatePropertiesOnly = item is Type;
+            var errorList = new List<string>();
+            foreach(var prop in DeepCloner.GetFastDeepClonerProperties(type).Where(x =>
+            (!x.ContainAttribute<JsonDocument>() && !x.ContainAttribute<XmlDocument>() && !x.ContainAttribute<ExcludeFromAbstract>() && x.CanReadWrite) && (x.ContainAttribute<Required>() || !x.IsInternalType)))
+            {
+                string e = null;
+                var required = prop.GetCustomAttribute<Required>();
+                var stringLength = prop.GetCustomAttribute<StringLength>();
+                var reqExp = prop.GetCustomAttribute<Regex>();
+                var value = validatePropertiesOnly ? DeepCloner.CreateInstance(prop.PropertyType) : prop.GetValue(item);
+                if(prop.IsInternalType)
+                {
+                    if((e = required.Validate(value, prop)) != null)
+                        errorList.Add(e);
+                    else if(stringLength != null && (e = stringLength.Validate(value, prop)) != null)
+                        errorList.Add(e);
+                    else if(reqExp != null && (e = reqExp.Validate(value, prop)) != null)
+                        errorList.Add(e);
+                }
+                else
+                {
+                    if(prop.PropertyType.GetActualType() != prop.PropertyType) // Its an IList then
+                    {
+                        var list = value as IList;
+                        if(list?.Count > 0 || validatePropertiesOnly)
+                        {
+                            if(list?.Count <= 0)
+                                errorList.AddRange(ValidateRequireField(prop.PropertyType.GetActualType()));
+                            else
+                                foreach(var tItem in list)
+                                    errorList.AddRange(ValidateRequireField(tItem));
+                        }
+                        else
+                        {
+                            if(value != null || validatePropertiesOnly)
+                                errorList.AddRange(ValidateRequireField(value ?? prop.PropertyType));
+                        }
+                    }
+                }
+            }
+
+            return errorList;
+        }
 
         /// <summary>
         /// Load the ApplicationCredentials. 

@@ -110,7 +110,7 @@ namespace IProduct.Models
         }
 
 
-        private void Authorize(User user, bool isPersistent = true)
+        public void Authorize(User user, bool isPersistent = true)
         {
             var ident = new ClaimsIdentity(new[] {
               new Claim(ClaimTypes.NameIdentifier, user.Email),
@@ -138,7 +138,6 @@ namespace IProduct.Models
             var user = _dbContext.Get<User>().Where(x => x.Email == email).LoadChildren().IgnoreChildren(x => x.Invoices).ExecuteFirstOrDefault();
             return user;
         }
-
 
         public void Dispose()
         {

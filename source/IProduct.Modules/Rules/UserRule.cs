@@ -1,10 +1,7 @@
 ﻿using EntityWorker.Core.InterFace;
 using IProduct.Modules.Library;
+using EntityWorker.Core.Helper;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IProduct.Modules.Rules
 {
@@ -12,12 +9,16 @@ namespace IProduct.Modules.Rules
     {
         public void AfterSave(IRepository repository, User itemDbEntity, object objectId)
         {
-            throw new NotImplementedException();
+
         }
 
         public void BeforeSave(IRepository repository, User itemDbEntity)
         {
-            throw new NotImplementedException();
+            if (itemDbEntity.Role == null && itemDbEntity.Role_Id.ObjectIsNew())
+                itemDbEntity.Role = repository.Get<Role>().Where(x => x.RoleType == Roles.Customers).ExecuteFirstOrDefault();
+
+            if (!itemDbEntity.Id.HasValue && repository.Get<User>().Where(x => x.Email.Contains(itemDbEntity.Email)).ExecuteAny())
+                throw new Exception("Email already exist in the system.");
         }
     }
 }

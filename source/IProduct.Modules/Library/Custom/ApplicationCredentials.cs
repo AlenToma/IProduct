@@ -1,4 +1,6 @@
-﻿namespace IProduct.Modules.Library.Custom
+﻿
+
+namespace IProduct.Modules.Library.Custom
 {
     public class ApplicationCredentials
     {

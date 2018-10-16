@@ -13,39 +13,64 @@ namespace IProduct.Controllers
     {
         public ActionResult Index(string type = "")
         {
-            if(Request.IsAuthenticated)
+            if (Request.IsAuthenticated)
                 return Redirect("~/Home");
-            else if(type.ConvertValue<SignInApplication?>().HasValue)
+            else if (type.ConvertValue<SignInApplication?>().HasValue)
             {
-                using(var manager = new UserManager())
+                using (var manager = new UserManager())
                 {
-                    if(!Request.IsAuthenticated)
+                    if (!Request.IsAuthenticated)
                     {
                         manager.SignIn(type.ConvertValue<SignInApplication>());
                     }
                 }
 
-                if(type.ConvertValue<SignInApplication>() == SignInApplication.Cookie && !Request.IsAuthenticated)
+                if (type.ConvertValue<SignInApplication>() == SignInApplication.Cookie && !Request.IsAuthenticated)
                     return View(new JsonData { Success = false, Data = "Email or Password could not be found in our system" });
             }
             return View();
         }
 
         [AllowAnonymous]
-        public ActionResult SignUp(GenericView<User> user, Guid? user_Id)
+        public ActionResult SignUp(GenericView<User> user)
         {
-            if(Request.IsAuthenticated)
-                return Redirect("~/Home");
+            try
+            {
+                if (Request.IsAuthenticated)
+                    return Redirect("~/Home");
 
-            return PartialView(new GenericView<User>(user_Id.HasValue ? DbContext.Get<User>().Where(x => x.Id == user_Id).LoadChildren().IgnoreChildren(x => x.Invoices).ExecuteFirstOrDefault() : new User()));
+                if (user == null)
+                    user = new GenericView<User>();
+                else
+                {
+                    user.Validate();
+                    if (user.View.Password != user.Option_1)
+                        user.Error("Password and Confirm password must match");
+
+                    if (user.Success)
+                        using (var manager = new UserManager())
+                        {
+                            DbContext.Save(user.View).SaveChanges();
+                            manager.Authorize(user.View, false);
+                        }
+                }
+
+            }
+            catch (Exception e)
+            {
+                user.Error(e.InnerException.Message);
+            }
+
+            return PartialView(user);
         }
+
 
         #region Google
         // we may need to add some changes here later as if now, the google provider take care of the login
         [AllowAnonymous]
         public ActionResult Google(string error)
         {
-            if(Request.IsAuthenticated)
+            if (Request.IsAuthenticated)
                 return Redirect("~/Home");
 
             return Redirect("Index");
@@ -57,7 +82,7 @@ namespace IProduct.Controllers
         [AllowAnonymous]
         public ActionResult Facebook(string error)
         {
-            if(Request.IsAuthenticated)
+            if (Request.IsAuthenticated)
                 return Redirect("~/Home");
 
             return Redirect("Index");

@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace IProduct.Modules
 {
-
     public enum Status { Hidden, Active }
 
     public enum ObjectStatus { Added, Removed }
@@ -22,5 +23,6 @@ namespace IProduct.Modules
     public enum SignInApplication { Cookie, Google, Facebook }
 
     public enum LogLevel { Low, All }
+
 
 }

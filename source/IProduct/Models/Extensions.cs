@@ -1,4 +1,5 @@
 ﻿using EntityWorker.Core.Helper;
+using IProduct.Models.Controls;
 using IProduct.Modules.Data;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Web;
+using System.Web.Mvc;
+using System.Web.Mvc.Html;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -14,34 +17,30 @@ namespace IProduct.Models
 {
     public static class Extensions
     {
-
-        /// <summary>
-        /// Load AutoFill script
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="match"></param>
-        /// <param name="textFieldName"></param>
-        /// <param name="valueFieldName"></param>
-        /// <param name="name"></param>
-        /// <param name="selectedValue"></param>
-        /// <param name="loadChildren"></param>
-        /// <returns></returns>
-        public static HtmlString GetAutoFill<T>(Expression<Predicate<T>> match, string textFieldName, string valueFieldName, string name, string selectedValue, bool required= false, bool loadChildren = false)
+        public static MvcHtmlString AutoFillFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, AutoFillForSettings settings)
         {
-            var id = DateTime.Now.ToFileTimeUtc().ToString();
-            var script = new StringBuilder($"<input type='hidden' value='{selectedValue}' name='{name}'  /><input required='{required}' type='text' id='{id}' ");
-            script.Append("/><script>$('#" + id + "').autofill({");
-            script.Append($"textField:'{textFieldName}', valueField:'{valueFieldName}', selectedValue:'{selectedValue}',");
-            script.Append("onselect:function(selecteditem) {");
-            script.Append($"$('input[name={name}]').val(selecteditem['{valueFieldName}']);");
-            script.Append("},");
-            using(var db = new DbContext())
-            {
-                script.Append($"data:{(match != null ? db.Get<T>().Where(match).Take(300).Execute() : db.Get<T>().Take(300).Execute()).ToJson() }");
-                script.Append("});</script>");
-            }
+            ModelMetadata metadata = ModelMetadata.FromLambdaExpression(expression, htmlHelper.ViewData);
+            string expressionText = ExpressionHelper.GetExpressionText(expression);
+            settings.SelectedValue = settings.SelectedValue ?? htmlHelper.Value(expressionText);
+            var id = htmlHelper.ViewData.TemplateInfo.GetFullHtmlFieldId(expressionText);
+            var name = htmlHelper.ViewData.TemplateInfo.GetFullHtmlFieldName(expressionText);
 
-            return new HtmlString(script.ToString());
+            var idd = DateTime.Now.ToFileTimeUtc().ToString();
+            var script = new StringBuilder($"<input type='hidden' value='{settings.SelectedValue}' id='{id}' name='{name}'  /><input required='{settings.Required}' type='text' id='{idd}' ");
+            script.Append("/><script>$('#" + idd + "').autofill({");
+            script.Append($"textField:'{settings.TextField}', valueField:'{settings.ValueField}', selectedValue:'{settings.SelectedValue}',");
+            script.Append("onselect:function(selecteditem) {");
+            script.Append($"$('input#{id}').val(selecteditem['{settings.ValueField}']);");
+            script.Append("},");
+            using (var db = new DbContext())
+            {
+                if (settings.Data != null)
+                    script.Append($"data:{ settings.Data.ToJson() }" + "});</script>");
+                else
+                    script.Append($"ajaxUrl:'{ settings.AjaxUrl }'" + "});</script>");
+            }
+            return new MvcHtmlString(script.ToString());
         }
+
     }
 }

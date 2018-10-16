@@ -54,7 +54,7 @@ namespace IProduct.Controllers
 
         #endregion
         #region Files 
-        [ErrorHandler]
+        
         [HttpPost]
         public void DeleteFile(Guid id)
         {
@@ -70,14 +70,14 @@ namespace IProduct.Controllers
                 System.IO.File.Delete(thumpPath);
         }
 
-        [ErrorHandler]
+        
         [HttpPost]
         public async Task<string> GetFiles(Guid mappId)
         {
             return await DbContext.Get<Files>().Where(x => x.Mapp_Id == mappId).JsonAsync();
         }
 
-        [ErrorHandler]
+        
         [HttpGet]
         public ActionResult GetImageFile(string uuid)
         {
@@ -93,7 +93,7 @@ namespace IProduct.Controllers
 
 
         [HttpGet]
-        [ErrorHandler]
+        
         public ActionResult GetIcon(string uuid, int width, int height)
         {
             ActionResult actionResult = null;
@@ -105,7 +105,7 @@ namespace IProduct.Controllers
             return actionResult;
         }
 
-        [ErrorHandler]
+        
         [HttpPost]
         public string TinyMceUpload(HttpPostedFileBase file, Guid mappId)
         {

@@ -199,11 +199,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\CallbackJsonResult.cs" />
-    <Compile Include="Models\CustomAssemblyResolver.cs" />
-    <Compile Include="Models\Enums.cs" />
-    <Compile Include="Models\ErrorHandlerAttribute.cs" />
+    <Compile Include="Models\Controls\AutoFillForSettings.cs" />
     <Compile Include="Models\Extensions.cs" />
-    <Compile Include="Models\GenericView.cs" />
     <Compile Include="Models\JsonNetResult.cs" />
     <Compile Include="Models\OAuthProviders\CookieProvider.cs" />
     <Compile Include="Models\OAuthProviders\FacebookProvider.cs" />

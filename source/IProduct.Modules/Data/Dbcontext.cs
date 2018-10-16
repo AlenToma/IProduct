@@ -22,12 +22,44 @@ namespace IProduct.Modules.Data
         }
         protected override void OnModuleConfiguration(IModuleBuilder moduleBuilder)
         {
+
+
+            #region IProductAppBuilder
+            /// this is IProduct IModuleBuilder, for adding CustomAttributes to EntityWorker.Core
+            var iProductAppBuilder = new CustomAttributesHandler<User>();
+
+            iProductAppBuilder
+               .NotNullOrEmpty(x => x.Email)
+               .StringLength(x => x.Email, 7)
+               .RegExp(x => x.Email, @"^(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
+               @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-0-9a-z]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$",
+               "The Email address is not valid")
+               .NotNullOrEmpty(x => x.Password)
+               .StringLength(x => x.Password)
+               .NotNullOrEmpty(x => x.Person)
+               .Entity<Person>()
+               .NotNullOrEmpty(x => x.FirstName)
+               .NotNullOrEmpty(x => x.LastName)
+               .NotNullOrEmpty(x => x.Address)
+               .Entity<Address>()
+               .NotNullOrEmpty(x => x.AddressLine)
+               .NotNullOrEmpty(x => x.Country)
+               .Entity<Country>()
+               .NotNullOrEmpty(x => x.Name, "Field Country can not be empty");
+            #endregion
+
+
+
+
             #region User 
             moduleBuilder.Entity<User>()
                 .HasForeignKey<Person, Guid>(x => x.Person_Id)
                 .HasForeignKey<Role, Guid>(x => x.Role_Id)
+                .HasRule<UserRule>()
                 .HasDataEncode(x => x.Password)
                 .HasDataEncode(x => x.Email);
+
+
             #endregion
 
             #region Person
@@ -161,32 +193,33 @@ namespace IProduct.Modules.Data
         {
             void Prepare(object data)
             {
-                if (data == null)
+                if(data == null)
                     return;
                 var props = EntityWorker.Core.FastDeepCloner.DeepCloner.GetFastDeepClonerProperties(data.GetType()).Where(x => !x.IsInternalType && x.CanRead);
-                foreach (var prop in props)
+                foreach(var prop in props)
                 {
-                    if (prop.ContainAttribute<JsonDocument>() ||
+                    if(prop.ContainAttribute<JsonDocument>() ||
                         prop.ContainAttribute<XmlDocument>() ||
                         prop.ContainAttribute<ExcludeFromAbstract>()) // Ignore 
                         continue;
                     var value = prop.GetValue(data);
-                    if (value == null)
+                    if(value == null)
                         continue;
-                    if (value is IList)
+                    if(value is IList)
                     {
                         IList newList = (IList)Activator.CreateInstance(value.GetType());
                         var ilist = value as IList;
                         var i = ilist.Count - 1;
-                        while (i >= 0)
+                        while(i >= 0)
                         {
                             var e = ilist[i] as Entity;
                             i--;
-                            if (e.Object_Status == ObjectStatus.Removed)
+                            if(e.Object_Status == ObjectStatus.Removed)
                             {
                                 Delete(e);
                             }
-                            else newList.Add(e);
+                            else
+                                newList.Add(e);
                         }
                         prop.SetValue(data, newList);
 
@@ -194,19 +227,20 @@ namespace IProduct.Modules.Data
                     else
                     {
                         var e = value as Entity;
-                        if (e.Object_Status == ObjectStatus.Removed)
+                        if(e.Object_Status == ObjectStatus.Removed)
                         {
                             Delete(e);
                             prop.SetValue(data, null);
                         }
-                        else Prepare(e);
+                        else
+                            Prepare(e);
                     }
                 }
             }
 
-            if (entity as Entity != null)
+            if(entity as Entity != null)
             {
-                if ((entity as Entity).Object_Status != ObjectStatus.Removed)
+                if((entity as Entity).Object_Status != ObjectStatus.Removed)
                     Prepare(entity);
                 else
                 {
@@ -219,7 +253,7 @@ namespace IProduct.Modules.Data
 
         protected override void OnModuleStart()
         {
-            if (!base.DataBaseExist())
+            if(!base.DataBaseExist())
                 base.CreateDataBase();
 
 
@@ -230,7 +264,7 @@ namespace IProduct.Modules.Data
             // Property Rename is not supported. renaming property x will end up removing the x and adding y so there will be dataloss
             // Adding a primary key is not supported either
             var latestChanges = GetCodeLatestChanges();
-            if (latestChanges.Any())
+            if(latestChanges.Any())
                 latestChanges.Execute(true);
 
             // Start the migration
@@ -240,16 +274,17 @@ namespace IProduct.Modules.Data
         public TableTreeSettings Search<T>(TableTreeSettings settings, Expression<Predicate<T>> match)
         {
             settings.SearchText = settings.SearchText ?? "";
-            if (settings.SelectedPage <= 0)
+            if(settings.SelectedPage <= 0)
                 settings.SelectedPage = 1;
-            if (settings.PageSize <= 0)
+            if(settings.PageSize <= 0)
                 settings.PageSize = 20;
             var data = this.Get<T>().Where(match).LoadChildren();
-            if (!string.IsNullOrEmpty(settings.SortColumn))
+            if(!string.IsNullOrEmpty(settings.SortColumn))
             {
-                if (settings.Sort != "desc")
+                if(settings.Sort != "desc")
                     data = data.OrderBy(settings.SortColumn);
-                else data = data.OrderByDescending(settings.SortColumn);
+                else
+                    data = data.OrderByDescending(settings.SortColumn);
             }
             settings.TotalPages = Math.Ceiling(data.ExecuteCount().ConvertValue<decimal>() / settings.PageSize).ConvertValue<int>();
             data = data.Skip(settings.SelectedPage / settings.PageSize).Take(settings.PageSize);

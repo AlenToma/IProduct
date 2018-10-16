@@ -44,7 +44,6 @@ namespace IProduct.Controllers
         #region Category
 
         [HttpPost]
-        [ErrorHandler]
         public CallbackJsonResult GetCategoriesComboBoxItems(string value)
         {
             var data = DbContext.Get<Category>();
@@ -57,20 +56,20 @@ namespace IProduct.Controllers
             }
             return new CallbackJsonResult(data.Execute());
         }
-        [ErrorHandler]
+        
         [HttpPost]
         public void SaveCategories(Category category)
         {
             DbContext.Save(category).SaveChanges();
         }
 
-        [ErrorHandler]
+        
         [HttpPost]
         public void DeleteCategories(Guid itemId)
         {
             DbContext.Get<Category>().Where(x => x.Id == itemId).LoadChildren().Remove().SaveChanges();
         }
-        [ErrorHandler]
+        
         [HttpPost]
         public CallbackJsonResult GetCategories(TableTreeSettings settings)
         {
@@ -80,7 +79,7 @@ namespace IProduct.Controllers
         #endregion
 
         #region Products
-        [ErrorHandler]
+        
         [HttpPost]
         public CallbackJsonResult GetProductsComboBoxItems(string value)
         {
@@ -92,7 +91,7 @@ namespace IProduct.Controllers
                 return new CallbackJsonResult(DbContext.Get<Product>().Where(x => x.Id == guid).Execute());
             }
         }
-        [ErrorHandler]
+        
         [HttpPost]
         public void SaveProduct(Product product)
         {
@@ -106,19 +105,19 @@ namespace IProduct.Controllers
             DbContext.SaveChanges();
         }
 
-        [ErrorHandler]
+        
         [HttpPost]
         public void DeleteProduct(Guid itemId)
         {
             DbContext.Get<Product>().Where(x => x.Id == itemId).LoadChildren().Remove().SaveChanges();
         }
-        [ErrorHandler]
+        
         [HttpPost]
         public void DeleteProductImage(Guid id)
         {
             DbContext.Get<ProductImages>().Where(x => x.Id == id).LoadChildren().Remove().SaveChanges();
         }
-        [ErrorHandler]
+        
         [HttpPost]
         public CallbackJsonResult GetProduct(TableTreeSettings settings)
         {
@@ -128,7 +127,7 @@ namespace IProduct.Controllers
         #endregion
 
         #region Users
-        [ErrorHandler]
+        
         [HttpPost]
         public CallbackJsonResult GetUsersComboBoxItems(string value)
         {
@@ -140,20 +139,21 @@ namespace IProduct.Controllers
                 return new CallbackJsonResult(DbContext.Get<User>().Where(x => x.Id == guid).Execute());
             }
         }
-        [ErrorHandler]
+        
         [HttpPost]
         public void SaveUser(User user)
         {
+
             DbContext.Save(user).SaveChanges();
         }
 
-        [ErrorHandler]
+        
         [HttpPost]
         public void DeleteUser(Guid itemId)
         {
             DbContext.Get<User>().Where(x => x.Id == itemId).LoadChildren().Remove().SaveChanges();
         }
-        [ErrorHandler]
+        
         [HttpPost]
         public CallbackJsonResult GetUser(TableTreeSettings settings)
         {
@@ -165,7 +165,7 @@ namespace IProduct.Controllers
 
         #region Country
 
-        [ErrorHandler]
+        
         [HttpPost]
         public CallbackJsonResult GetCountryComboBoxItems(string value)
         {
@@ -177,7 +177,7 @@ namespace IProduct.Controllers
                 return new CallbackJsonResult(DbContext.Get<Country>().Where(x => x.Id == guid).Execute());
             }
         }
-        [ErrorHandler]
+        
         [HttpPost]
         public void SaveCountry(Country country)
         {
@@ -194,7 +194,7 @@ namespace IProduct.Controllers
         #endregion
 
         #region Column
-        [ErrorHandler]
+        
         [HttpPost]
         public CallbackJsonResult GetColumnComboBoxItems(string value)
         {
@@ -206,19 +206,19 @@ namespace IProduct.Controllers
                 return new CallbackJsonResult(DbContext.Get<Country>().Where(x => x.Id == guid).Execute());
             }
         }
-        [ErrorHandler]
+        
         [HttpPost]
         public void SaveColumn(Column column)
         {
             DbContext.Save(column).SaveChanges();
         }
-        [ErrorHandler]
+        
         [HttpPost]
         public void DeleteColumn(Guid itemId)
         {
             DbContext.Get<Column>().Where(x => x.Id == itemId).LoadChildren().Remove().SaveChanges();
         }
-        [ErrorHandler]
+        
         [HttpPost]
         public CallbackJsonResult GetColumn(TableTreeSettings settings)
         {
@@ -229,7 +229,7 @@ namespace IProduct.Controllers
 
         #region Role
 
-        [ErrorHandler]
+        
         [HttpPost]
         public CallbackJsonResult GetRoleComboBoxItems(string value)
         {
@@ -246,7 +246,7 @@ namespace IProduct.Controllers
 
         #region Pages
 
-        [ErrorHandler]
+        
         [HttpPost]
         public CallbackJsonResult GetPagesComboBoxItems(string value)
         {
@@ -258,21 +258,21 @@ namespace IProduct.Controllers
                 return new CallbackJsonResult(DbContext.Get<Pages>().Where(x => x.Id == guid));
             }
         }
-        [ErrorHandler]
+        
         [HttpPost]
         public void SavePages(Pages page)
         {
             DbContext.Save(page).SaveChanges();
         }
 
-        [ErrorHandler]
+        
         [HttpPost]
         public void DeletePages(Guid itemId)
         {
             DbContext.Get<Pages>().Where(x => x.Id == itemId).LoadChildren().Remove().SaveChanges();
         }
 
-        [ErrorHandler]
+        
         [HttpPost]
         public CallbackJsonResult GetPages(TableTreeSettings settings)
         {
