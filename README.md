@@ -1,9 +1,13 @@
 # IProduct
-WebShop using EntityWorker.Core
+Responsive webShop using EntityWorker.Core
 
 its ongoing work.
 
-![screenshot](https://raw.githubusercontent.com/AlenToma/IProduct/master/Capture.PNG)
+![screenshot](https://github.com/AlenToma/IProduct/blob/master/HomePage.PNG?raw=true)
 
 /Admin
+![screenshot](https://github.com/AlenToma/IProduct/blob/master/SectionsEdit.PNG?raw=true)
+
+![screenshot](https://github.com/AlenToma/IProduct/blob/master/AdminPreview2.PNG?raw=true)
+
 ![screenshot](https://raw.githubusercontent.com/AlenToma/IProduct/master/AdminPreview.PNG)
