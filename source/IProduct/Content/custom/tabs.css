@@ -4,7 +4,7 @@
     border-radius: 5px;
     overflow: hidden;
     padding: 0;
-    min-height: 100vh;
+    /*min-height: 100vh;*/
     max-width: 95vw;
     width:100%;
 }

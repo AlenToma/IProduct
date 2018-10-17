@@ -12,8 +12,8 @@
         {
                 var section = $(".@Model.Id").last();
                 var data =  @Html.Raw(Model.ToJson(new EntityWorker.Core.Object.Library.JSON.JSONParameters() { JsonFormatting = JsonFormatting.CamelCase, UseFastGuid= false }));
-                var categories = [];
-                var tbSettings = {};
+            var categories = [];
+            var tbSettings = { append: false };
                 $.each(data.pageCategories, function ()
                 {
                     categories.push(this.category_Id);
@@ -37,6 +37,9 @@
 
                 function render()
                 {
+                    if(!tbSettings.append)
+                        section.html("");
+
                     if(data.productShow == "ImageGrid" || data.productShow == "Slider")
                     {
                         $.each(tbSettings.result, function ()
@@ -44,7 +47,7 @@
                             var x = this;
                             var src = "/Content/Image/info.png";
                             var description = isNullOrEmpty(this.description) ? "" : this.description;
-                            var url = '@Url.Action("Product", "Home", null, Request.Url.Scheme)' + "?id=" + this.id;;
+                            var url = '@Url.Action("Product", "Home", null, Request.Url.Scheme)' + "?id=" + this.id;
                             if(x.images.length > 0)
                                 src = '@Url.Action("index", "Home", null, Request.Url.Scheme)' + x.images[0].images.fileThumpFullPath
                             var div = $("<div/>", { "class": "product-wrapper", productId: x.id })
@@ -84,14 +87,66 @@
                         }
 
 
-                    } // End of Image Grid & Slider
+                    } else if(data.productShow === "Table") // End of Image Grid & Slider and start of Table View
+                    {
+                        if(!tbSettings.append)
+                        {
+                            var header = $("<div/>", { "class": "product-table-header" }).append(
+                                $('<div class="input-group mb-3">' +
+                                    '<div class="input-group-prepend">' +
+                                    '<label class="input-group-text" for="inputGroupSelect01">Sort after</label>' +
+                                    '</div>' +
+                                    '<select class="custom-select" id="inputGroupSelect01">' +
+                                    '<option value="" selected>Recommended</option>' +
+                                    '<option value = "Name" >Name </option > ' +
+                                    '<option value = "Price" > Price </option > ' +
+                                    '</select>' +
+                                    ' </div>'));
+                            if(!isNullOrEmpty(tbSettings.sortColumn))
+                                header.find("select").val(tbSettings.sortColumn);
+                            header.find("select").change(function ()
+                            {
+                                tbSettings.sortColumn = header.find("select").val();
+                                tbSettings.selectedPage = 1;
+                                tbSettings.append = false;
+                                loadProducts();
+                            });
+
+                            section.append(header);
+                        }
+
+                        $.each(tbSettings.result, function ()
+                        {
+                            var x = this;
+                            var src = "/Content/Image/info.png";
+                            var description = isNullOrEmpty(this.description) ? "" : this.description;
+                            var url = '@Url.Action("Product", "Home", null, Request.Url.Scheme)' + "?id=" + this.id;
+                            if(x.images.length > 0)
+                                src = '@Url.Action("index", "Home", null, Request.Url.Scheme)' + x.images[0].images.fileThumpFullPath;
+                            var div = $("<div/>", { "class": "product-table-wrapper" })
+                                .append($("<a/>", { href:url, "class": "image-Wrapper", html: "<img src='" + src + "' />" }))
+                                .append($("<a/>", { href: url, "class": "text-container" })
+                                    .append($("<div/>", { "class": "text-content" })
+                                        .append($("<h2/>", { html: x.name, title: description }))
+                                        .append($("<p/>", { "class": "description", html: description }))))
+
+                                .append($("<div/>", { "class": "box-bottom" })
+                                    .append($("<div/>", { "class": "product-price" })
+                                        .html("<span class='price'>" + this.price.formatMoney() + ":-" + "</span>"))
+                                    .append($("<button/>", { "class": "m-button float-right btn--addtoCart", html: "Buy" })));
+
+                            div.find(".m-button").click(function ()
+                            {
+                                shoppingCart.add(x.id, 1);
+                            });
+                            section.append(div);
+
+                        });
+                    } // end of table view
+                    tbSettings.append = true;
+                    btnLoadable();
                 };
 
                 loadProducts();
         });
-
-
-
-
-
 </script>

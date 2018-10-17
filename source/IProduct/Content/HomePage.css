@@ -89,6 +89,11 @@ div.text-content {
     color: #333;
 }
 
+
+.price {
+    font-size: 20px;
+}
+
 /*------------------------------------------Image Grid CSS ---------------------------------------------------*/
 
 /* This rule ist just because of the responsive images */
@@ -182,9 +187,6 @@ div.text-content {
             line-height: 1em;
         }
 
-        .flex .product-wrapper .box-bottom > .product-price > .price {
-            font-size: 20px;
-        }
 
 
 /*------------------------------------------End of Image Grid CSS --------------------------------------------*/
@@ -213,7 +215,7 @@ div.text-content {
     display: inline-block;
     border-radius: 2px;
     position: relative;
-    top: -78px;
+    float: right;
 }
 
     .product-detalj-buy-info > .product-price {
@@ -227,10 +229,10 @@ div.text-content {
         text-align: center;
     }
 
-    .product-detalj > .text-content {
-        width: 60%;
-        /*display: inline-block;*/
-    }
+.product-detalj > .text-content {
+    width: 60%;
+    /*display: inline-block;*/
+}
 
 .product-detalj-big-images img {
     max-width: 100%;
@@ -259,8 +261,67 @@ div.text-content {
         margin: auto;
         display: block;
         margin-top: 10px;
-        top:unset;
+        top: unset;
+        float: unset;
     }
 }
 
 /*------------------------------------------end of Product Detalj --------------------------------------------*/
+
+/*------------------------------------------ Product Detalj Table View ----------------------------------------*/
+
+.product-table-wrapper {
+    width: 100%;
+    display: inline-block;
+    border-bottom: 1px solid #f1f1f1;
+    padding-bottom: 14px;
+    margin-bottom: 14px;
+}
+
+    .product-table-wrapper > .image-Wrapper, .product-table-wrapper > .text-container, .product-table-wrapper > .box-bottom {
+        display: table-cell;
+        vertical-align: top;
+        padding-top: 14px;
+    }
+
+    .product-table-wrapper > .box-bottom {
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        -webkit-box-pack: end;
+        -webkit-justify-content: flex-end;
+        -ms-flex-pack: end;
+        justify-content: flex-end;
+        padding-top: 20.8px;
+        -webkit-box-flex: 1;
+        -webkit-flex: 1 0 170px;
+        -ms-flex: 1 0 170px;
+        flex: 1 0 170px;
+        -webkit-box-ordinal-group: 3;
+        -webkit-order: 2;
+        -ms-flex-order: 2;
+        order: 2;
+        margin-left: auto;
+        vertical-align: bottom !important;
+    }
+
+.product-table-header {
+    width: 100%;
+    display: inline-block;
+    background: #f7f7f7;
+    height: 39px;
+}
+
+    .product-table-wrapper > .text-container {
+        width: 72%
+    }
+
+@media all and (max-width: 750px) {
+    .product-table-wrapper .text-content {
+        display: contents;
+    }
+}
+
+/*------------------------------------------end of Product Detalj Table View ----------------------------------*/

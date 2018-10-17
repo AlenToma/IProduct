@@ -137,7 +137,7 @@
 
 			if(settings.screan)
 			{
-				div.css({ width: "90%", height: "90%" })
+				div.css({ width: "90%", height: "90%" });
 
 			}
 
