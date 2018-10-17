@@ -1,5 +1,5 @@
 # IProduct
-WebShop using EntityWorker.Core
+Responsive webShop using EntityWorker.Core
 
 its ongoing work.
 
