@@ -439,7 +439,6 @@
     <Content Include="Views\Admin\data\Pages.cshtml" />
     <Content Include="Views\Admin\data\AddPage.cshtml" />
     <Content Include="Views\data\TopMenu.cshtml" />
-    <Content Include="Views\Home\Product.cshtml" />
     <Content Include="Views\data\ManagedCart.cshtml" />
     <Content Include="Views\Home\ShoppingCart.cshtml" />
     <Content Include="Views\Admin\data\Languages.cshtml" />
@@ -457,6 +456,7 @@
     <Content Include="Views\About\Privacy_Policy.cshtml" />
     <Content Include="Views\Account\SignUp.cshtml" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Views\Home\Product.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

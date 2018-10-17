@@ -15,11 +15,11 @@
 <div class="login">
     <div class="view">
         <div class="viewData">
-            <button href='@Url.Action("Index", new {type=IProduct.Modules.SignInApplication.Facebook.ToString()})' class="loginBtn loginBtn--facebook">
+            <button href='@Url.Action("Index", new {type=IProduct.Modules.SignInApplication.Facebook.ToString()})' class="m-button loginBtn--facebook">
                 Sign In with Facebook
             </button>
 
-            <button href='@Url.Action("Index", new {type= IProduct.Modules.SignInApplication.Google.ToString()})' class="loginBtn loginBtn--google">
+            <button href='@Url.Action("Index", new {type= IProduct.Modules.SignInApplication.Google.ToString()})' class="m-button loginBtn--google">
                 Sign In with Google
             </button>
         </div>
@@ -44,11 +44,11 @@
                     <a class="float-right">Forgot Password?</a>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="loginBtn loginBtn--signin">
+                    <button type="submit" class="m-button loginBtn--signin">
                         Sign In
                     </button>
 
-                    <button class="loginBtn loginBtn--signup">
+                    <button class="m-button loginBtn--signup">
                         Sign Up
                     </button>
                 </div>
@@ -104,7 +104,7 @@
             $(".login").center();
         });
         $(".login").center();
-        toLocation($(".loginBtn"));
+        toLocation($(".m-button"));
     });
 </script>
 

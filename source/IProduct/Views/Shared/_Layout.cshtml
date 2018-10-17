@@ -45,8 +45,25 @@
             }).Show();
         }
 
-  
 
+        function btnLoadable()
+        {
+            $(".m-button:not(.loadable)").click(function ()
+            {
+                var x = $(this);
+                if(x.find(".fa-circle-o-notch").length <= 0)
+                {
+                    x.addClass("loadable");
+                    x.prepend($("<i/>", { "class": "fa fa-circle-o-notch fa-spin" }));
+                    setTimeout(function ()
+                    {
+                        x.find(".fa-circle-o-notch").remove();
+                    }, 1500);
+                }
+
+            })
+        }
+        setTimeout(btnLoadable, 1500);
     </script>
 
 </head>
@@ -62,5 +79,6 @@
     </div>
 
     @RenderSection("scripts", required: false)
+
 </body>
 </html>

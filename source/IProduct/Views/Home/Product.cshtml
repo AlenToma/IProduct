@@ -1,96 +1,98 @@
-﻿<div class="section productdetali">
+﻿@model IProduct.Modules.Library.Product
 
+<div class="section flex product-detalj">
+    <div class="text-content">
+        <h1>@Model.Name </h1>
+        <p class="description ">@Model.Description</p>
+    </div>
+    <div class="product-detalj-images flex">
+        <div class="product-detalj-big-images">
+            @foreach (var img in Model.Images)
+            {
+                <div>
+                    <img src='@Url.Action("Index", "Home", null, Request.Url.Scheme)@img.Images.FileFullPath' />
+                </div>
+            }
+        </div>
+        @if (Model.Images.Count() > 1)
+        {
+            <div class="product-detalj-images-thumps">
+                @foreach (var img in Model.Images)
+                {
+                    <div>
+                        <img src='@Url.Action("Index", "Home", null, Request.Url.Scheme)@img.Images.FileThumpFullPath' />
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+    <div class="flex product-detalj-buy-info">
+        <div class="product-price" price='@Model.Price'> </div>
+        <button onclick="shoppingCart.add('@Model.Id');" class="m-button btn--addtoCart ">Buy</button>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.Content))
+    {
+        <div class="flex product-detalj-content">
+            @Html.Raw(Model.Content);
+        </div>
+    }
 </div>
 
+@if (Model.Tabs.Count() > 0)
+{
+    <div class="product-detalj-tabs-container section flex">
+
+    </div>
+
+    foreach (var item in Model.Tabs)
+    {
+        <div class="product-detalj-tabs" name='@item.Name'>
+            @Html.Raw(item.Content);
+        </div>
+    }
+}
 <script>
-    $(document).ready(function () {
-        var procustId = '@Context.Request.QueryString["id"]';
-        var container = $(".productdetali");
-        function GetCurrentProduct() {
-            var result = undefined;
-            container.ax({
-                url: '@Url.Action("GetProduct", "Home")',
-                data: JSON.stringify({ id: procustId }),
-                async: false,
-                success: function (data) {
-                    result = data[0];
-                }
-            });
-            return result;
-        }
-        var product = GetCurrentProduct();
-        container.append("<h1>" + product.name + "</h1>").append("<span class='description'>" + (isNullOrEmpty(product.description) ? "" : product.description) + "</span>");
-        var table = $("<table><tbody></tbody></table>");
-        var tr = $("<tr></tr>").append('<td> <ul class="productImages slider"></ul><div class="detali"><span class="price">' + product.price.formatMoney() + ':-</span> <span class="btn clearfix">Buy</span></div></td>')
-        table.find("tbody").append(tr);
-        tr = $("<tr></tr>").append("<td><div class='htmlContent'></div></td>");
-        table.find("tbody").append(tr);
-        container.append(table);
-        table.find(".btn").click(function () {
-            shoppingCart.add(product.id);
-        });
-
-        var src = "/Content/Image/info.png";
-        if (product.images && product.images.length > 0) {
-            $.each(product.images, function (i, x) {
-                var th = '@Url.Action("Index", "Home", null, Request.Url.Scheme)' + this.images.filethumpfullpath 
-                src = '@Url.Action("Index", "Home", null, Request.Url.Scheme)' + this.images.filefullpath 
-                var li = $("<li data-thumb='" + th + "' data-src='"+src+"' ></li> ").append("<img imageId = '" + this.images.id + "' src = '" + src + "' /> ");
-                container.find(".productImages").append(li);
-
-            });
-
-            var s = container.find(".productImages").lightSlider({
-                item: 1,
-                gallery: true,
-                auto: false,
-                autoWidth: false,
-                loop: false,
-                slideMove: 1,
-                easing: 'cubic-bezier(0.25, 0, 0.25, 1)',
-                speed: 1500,
-            });
-            function resize() {
-
-                container.find(".productImages").find("img").each(function () {
-                    var height = $(this).height();
-                    $(this).parent().height(height);
-
-                })
-                s.refresh();
-            }
-
-
-            //$(window).resize(function () {
-            //    setTimeout(resize, 200);
-            //});
-            //s.refresh();
-            //setTimeout(resize, 200);
-        }
-
-        if (product.tabs && product.tabs.length > 0) {
-            var tabs = $("<div></div>");
-            container.append(tabs);
-            tabs = tabs.tabs({
+    $(document).ready(function ()
+    {
+        //format a price
+        var price = parseFloat($(".product-price").attr("price")).formatMoney();
+        $(".product-price").html(price + ":-");
+        var tabContainer = $(".product-detalj-tabs-container");
+        if(tabContainer.length > 0)
+        {
+            var tabs = tabContainer.tabs({
                 autoHeight: true,
-                onSelect: function (tab) {
-                    if (tab.onSelect)
-                        tab.onSelect(tab);
-                }
             });
-
-
-
-            $.each(product.tabs, function (i, x) {
-                var content = $("<div>" + this.content + "</div>");
-                var tb = tabs.add(content, this.name, i);
-                if (i <= 0)
-                    tb.select();
-
-            });
+            var tbs = $(".product-detalj-tabs");
+            var i = tbs.length - 1;
+            while(i >= 0)
+            {
+                tabs.add(tbs[i], $(tbs[i]).attr("name"), i);
+                i--;
+            }
+            tabs.select(tbs.length - 1);
         }
 
+        if($('.product-detalj-images-thumps').length > 0)
+        {
+            $('.product-detalj-big-images').slick({
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                arrows: false,
+                fade: true,
+                asNavFor: '.product-detalj-images-thumps'
+            });
 
-
+            $('.product-detalj-images-thumps').slick({
+                slidesToShow: 4,
+                slidesToScroll: 1,
+                asNavFor: '.product-detalj-big-images',
+                dots: false,
+                centerMode: true,
+                focusOnSelect: true
+            });
+        }
     });
 </script>

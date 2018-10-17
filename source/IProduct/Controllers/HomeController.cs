@@ -67,10 +67,10 @@ namespace IProduct.Controllers
             return DbContext.Search<Product>(tbSettings, x => x.ProductCategories.Any(a => categoriesId.Contains(a.Category_Id)), x => x.Images, x => x.Images.Select(a => a.Images)).ViewResult(JsonFormatting.CamelCase);
         }
 
-        [HttpPost]
-        public async Task<string> GetProduct(Guid id)
+        [HttpGet]
+        public ActionResult Product(Guid id)
         {
-            return await DbContext.Get<Product>().Where(x => x.Id == id).LoadChildren().JsonAsync();
+            return View(DbContext.Get<Product>().Where(x => x.Id == id).LoadChildren().ExecuteFirstOrDefault());
         }
 
         #endregion

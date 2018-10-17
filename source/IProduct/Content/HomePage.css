@@ -82,6 +82,13 @@ div.text-content {
         background-repeat: no-repeat;
     }
 
+.text-content {
+    max-height: 100px;
+    overflow: hidden;
+    word-wrap: break-word;
+    color: #333;
+}
+
 /*------------------------------------------Image Grid CSS ---------------------------------------------------*/
 
 /* This rule ist just because of the responsive images */
@@ -111,7 +118,7 @@ div.text-content {
     z-index: 50;
     border: 1px solid white;
     border-bottom: 1px solid #e6e6e6;
-    min-height:330px;
+    min-height: 330px;
 }
 
     .flex .product-wrapper:hover {
@@ -147,11 +154,7 @@ div.text-content {
             transition: opacity .5s;
         }
 
-    .flex .product-wrapper div.text-content {
-        max-height: 100px;
-        overflow: hidden;
-        word-wrap: break-word;
-    }
+
 
     .flex .product-wrapper .box-bottom {
         -webkit-flex-wrap: wrap;
@@ -179,9 +182,85 @@ div.text-content {
             line-height: 1em;
         }
 
-        .flex .product-wrapper .box-bottom > .product-price > .price{
-           font-size:20px;
+        .flex .product-wrapper .box-bottom > .product-price > .price {
+            font-size: 20px;
         }
 
 
 /*------------------------------------------End of Image Grid CSS --------------------------------------------*/
+
+/*------------------------------------------css of Product Detalj --------------------------------------------*/
+
+.product-detalj {
+    display: inline-block;
+    padding: 10px;
+}
+
+    .product-detalj h1 {
+        font-size: 1.5em;
+    }
+
+
+.product-detalj-images {
+    width: 60%;
+    display: inline-block;
+}
+
+.product-detalj-buy-info {
+    width: 35%;
+    padding: 15px;
+    background-color: #eceff1;
+    display: inline-block;
+    border-radius: 2px;
+    position: relative;
+    top: -78px;
+}
+
+    .product-detalj-buy-info > .product-price {
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    .product-detalj-buy-info > .btn--addtoCart {
+        font-size: 20px;
+        width: 98%;
+        text-align: center;
+    }
+
+    .product-detalj > .text-content {
+        width: 60%;
+        /*display: inline-block;*/
+    }
+
+.product-detalj-big-images img {
+    max-width: 100%;
+}
+
+.product-detalj-images-thumps {
+    width: 100%;
+    margin-top: 24px;
+}
+
+    .product-detalj-images-thumps img {
+        width: 84px;
+    }
+
+@media all and (max-width: 750px) {
+    .product-detalj > .text-content {
+        display: contents;
+    }
+
+    .product-detalj-big-images, .product-detalj > .text-content, .product-detalj-images {
+        width: 100%;
+    }
+
+    .product-detalj-buy-info {
+        width: 86%;
+        margin: auto;
+        display: block;
+        margin-top: 10px;
+        top:unset;
+    }
+}
+
+/*------------------------------------------end of Product Detalj --------------------------------------------*/

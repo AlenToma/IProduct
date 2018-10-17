@@ -62,10 +62,7 @@ namespace IProduct.Modules.Library.Custom
             {
                 if (JsonFormatting.HasValue)
                 {
-                    var parameter = DeepCloner.Clone(EntityWorker.Core.GlobalConfiguration.JSONParameters);
-                    parameter.JsonFormatting = JsonFormatting.Value;
-                    response.Write(this.Data.ToJson(parameter));
-
+                    response.Write(this.Data.ToJson(new EntityWorker.Core.Object.Library.JSON.JSONParameters() { JsonFormatting = JsonFormatting.Value, UseFastGuid= false}));
                 }
                 else
                     response.Write(this.Data.ToJson());

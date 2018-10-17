@@ -1,7 +1,5 @@
 ﻿@model IProduct.Modules.Library.PageSection
 @using EntityWorker.Core.Helper
-
-
 <div class="section flex @Model.ProductShow  @Model.Id">
     @if (Model.PageType != IProduct.Modules.PageType.Product)
     {
@@ -9,10 +7,9 @@
     }
 
 </div>
-    <script>
+<script>
         $(document).ready(function ()
         {
-
                 var section = $(".@Model.Id").last();
                 var data =  @Html.Raw(Model.ToJson(new EntityWorker.Core.Object.Library.JSON.JSONParameters() { JsonFormatting = JsonFormatting.CamelCase, UseFastGuid= false }));
                 var categories = [];
@@ -61,9 +58,10 @@
                                 )
                                 .append($("<div/>", { "class": "box-bottom" })
                                     .append($("<div/>", { "class": "product-price" })
-                                        .html("<span class='price'>" + this.price.formatMoney() + ":-" + "</span>")).append($("<button/>", { "class": "loginBtn float-right btn--addtoCart", html: "Buy" })));
+                                        .html("<span class='price'>" + this.price.formatMoney() + ":-" + "</span>"))
+                                    .append($("<button/>", { "class": "m-button float-right btn--addtoCart", html: "Buy" })));
 
-                            div.find(".loginBtn").click(function ()
+                            div.find(".m-button").click(function ()
                             {
                                 shoppingCart.add(x.id, 1);
                             });
@@ -90,13 +88,10 @@
                 };
 
                 loadProducts();
-            
-
-
         });
 
 
 
 
 
-    </script>
+</script>
