@@ -1,0 +1,68 @@
+﻿ul.contextMenu, .contextMenu .contextsubItem {
+    position: fixed !important;
+    display: inline-block;
+    min-width: 13em;
+    max-width: 26em;
+    padding: .25em 0;
+    margin: .3em;
+    font-family: inherit;
+    font-size: inherit;
+    list-style-type: none;
+    background: #fff;
+    border: 1px solid #bebebe;
+    border-radius: .2em;
+    -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, .5);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, .5);
+    z-index: 999;
+    list-style: none;
+}
+
+.contextMenu .contextsubItem {
+    left: 100%;
+    position: absolute !IMPORTANT;
+    display: none;
+    margin-top: -24px;
+    margin-left: 2px;
+}
+
+.contextMenu .hasChildren::after {
+    display: block;
+    content: " ";
+    float: right;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+    border-width: 5px 0 5px 5px;
+    border-left-color: #0e0e0e;
+    margin-top: -17px;
+    right: 5px;
+    position: absolute;
+}
+
+.contextMenu .contextItem {
+    width: 100%;
+    display: inline-block;
+    color: #4e4d4d;
+    font-size: 12px;
+    cursor: pointer;
+    max-width: 99%;
+}
+
+    .contextMenu .contextItem > span {
+        display: inline-block;
+        width: 96%;
+        padding: 6px;
+    }
+
+
+    .contextMenu .contextItem:hover > span:first-child {
+        display: inline-block;
+        background: #337ab7;
+        color: white;
+        width:100%;
+    }
+
+    .contextMenu .contextItem:hover > .contextsubItem {
+        display: inline-block !important;
+    }

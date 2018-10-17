@@ -12,22 +12,23 @@
             autoHeight: false
         }, options);
 
-        var container = $(this);
-        container.addClass("tabContainer");
+		var container = $("<div/>", { "class": "tabContainer" });
+		$(this).append(container);
 
-        container.selectedItem = function () {
-            return settings.selectedTab;
-        }
+		container.selectedItem = function ()
+		{
+			return settings.selectedTab;
+		};
 
         container.findItem = function (tabId) {
             var item = undefined;
             $.each(settings.data, function () {
-                if (this.id == tabId)
+                if (this.id === tabId)
                     item = this;
 
             });
             return item;
-        }
+		};
 
         container.select = function (tabId) {
             if (settings.selectedTab && settings.selectedTab.id == tabId)
@@ -44,29 +45,33 @@
             if (settings.wizard)
                 item.content.css({ "border-radius": "5px" });
             return item;
-        }
+		};
 
-        container.firstUpperCase = function (input) {
-            if (input && input.length > 1)
-                return input[0].toUpperCase() + input.substr(1);
-            return "	&nbsp;";
-        }
+		container.firstUpperCase = function (input)
+		{
+			if(input && input.length > 1)
+				return input[0].toUpperCase() + input.substr(1);
+			return "	&nbsp;";
+		};
 
-        container.disable = function (tabId) {
-            var item = container.findItem(tabId);
-            item.handler.addClass("disabled");
-        }
+		container.disable = function (tabId)
+		{
+			var item = container.findItem(tabId);
+			item.handler.addClass("disabled");
+		};
 
-        container.enable = function (tabId) {
-            var item = container.findItem(tabId);
-            item.handler.removeClass("disabled");
-        }
+		container.enable = function (tabId)
+		{
+			var item = container.findItem(tabId);
+			item.handler.removeClass("disabled");
+		};
 
-        container.Build = function () {
-            container.html("<ul class='tabs'></ul>");
-            if (settings.wizard)
-                container.children(".tabs").addClass("wizard");
-        }
+		container.Build = function ()
+		{
+			container.html("<ul class='tabs'></ul>");
+			if(settings.wizard)
+				container.children(".tabs").addClass("wizard");
+		};
 
         container.add = function (content, title, tabId) {
             var item = {
@@ -92,9 +97,9 @@
                     container.select(tabId);
             });
             return item;
-        }
+		};
 
         container.Build();
         return container;
-    }
+	};
 }(jQuery));

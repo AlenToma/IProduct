@@ -1,4 +1,4 @@
-﻿@model IProduct.Modules.Library.Custom.JsonData
+﻿@model IProduct.Modules.Library.Custom.GenericView<IProduct.Modules.Library.User>
 @{
     Layout = "";
 }
@@ -6,9 +6,8 @@
 @Scripts.Render("~/bundles/modernizr")
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/bootstrap")
-@Styles.Render("~/Content/My")
+@Styles.Render("~/Content/custom")
 @Styles.Render("~/Content/site")
-@Styles.Render("~/Navigation Menu/css")
 @Scripts.Render("~/bundles/My")
 
 
@@ -25,24 +24,23 @@
             </button>
         </div>
     </div>
-
     <div class="seperator">
         <div class="text">OR</div>
     </div>
-    @using(Html.BeginForm("Index", "Account", new { type = IProduct.Modules.SignInApplication.Cookie.ToString() }, FormMethod.Post, null))
+    @using (Html.BeginForm("Index", "Account", new { type = IProduct.Modules.SignInApplication.Cookie.ToString() }, FormMethod.Post, null))
     {
         <div class=" view">
             <div class="viewData">
                 <div class="form-group">
-                    <input type="text" name="email" class="form-control" placeholder="Username" />
+                    @Html.TextBoxFor(x => x.View.Email, new { @class = "form-control", placeholder = "Email", id="email-sign-in" })
                 </div>
 
                 <div class="form-group">
-                    <input type="password" name="password" class="form-control" placeholder="Username" />
+                    @Html.PasswordFor(x => x.View.Password, new { @class = "form-control", placeholder = "Password", id = "password-sign-in" })
                 </div>
 
                 <div class="form-group">
-                    <input label="Remember Me" boxClass="float-left" name="isPersistent" type="checkbox" />
+                    @Html.CheckBoxFor(x => x.View.RememberMe, new { label = "Remember Me", boxClass = "float-left" })
                     <a class="float-right">Forgot Password?</a>
                 </div>
                 <div class="form-group">
@@ -58,16 +56,16 @@
             </div>
         </div>
     }
+    @Html.Action("SignUp", new { user = "" })
     @{
-        if(!string.IsNullOrEmpty(Model?.Data?.ToString()))
+        if (!Model.Success && Model.GetHtmlError() != null)
         {
             <div class="error">
-                @Model.Data
+                @Html.Raw(Model.GetHtmlError())
             </div>
         }
     }
 </div>
-@Html.Action("SignUp", new { user = "" })
 
 <script>
 
@@ -77,6 +75,7 @@
             title: "Sign Up",
             removable: false
         });
+
     $(".loginBtn--signup").click(function ()
     {
         signupDialog.Show();

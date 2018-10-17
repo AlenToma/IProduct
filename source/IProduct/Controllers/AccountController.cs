@@ -11,7 +11,7 @@ namespace IProduct.Controllers
 {
     public class AccountController : SharedController
     {
-        public ActionResult Index(string type = "")
+        public ActionResult Index(GenericView<User> user, string type = "")
         {
             if (Request.IsAuthenticated)
                 return Redirect("~/Home");
@@ -21,14 +21,14 @@ namespace IProduct.Controllers
                 {
                     if (!Request.IsAuthenticated)
                     {
-                        manager.SignIn(type.ConvertValue<SignInApplication>());
+                        manager.SignIn(type.ConvertValue<SignInApplication>(), user);
                     }
                 }
 
                 if (type.ConvertValue<SignInApplication>() == SignInApplication.Cookie && !Request.IsAuthenticated)
-                    return View(new JsonData { Success = false, Data = "Email or Password could not be found in our system" });
+                    return View(user.Error("Email or Password could not be found."));
             }
-            return View();
+            return View(user ?? new GenericView<User>());
         }
 
         [AllowAnonymous]

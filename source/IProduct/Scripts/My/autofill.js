@@ -39,8 +39,21 @@
 			if(input && input.length > 1)
 				return input[0].toUpperCase() + input.substr(1);
 			return "&nbsp;";
-		}
+		};
 
+		container.Show = function (o, arg)
+		{
+			if(o.slideDown)
+				o.slideDown(arg);
+			else o.show(arg);
+		};
+
+		container.Hide = function (o, arg)
+		{
+			if(o.slideUp)
+				o.slideUp(arg);
+			else o.hide(arg);
+		};
 
 		container.Sort = function (data, column, direction)
 		{
@@ -129,7 +142,7 @@
 				settings.onselect(JSON.parse(selectedLi.attr("data")));
 
 			}
-		}
+		};
 
 		container.ajust = function ()
 		{
@@ -137,8 +150,9 @@
 			var inputcontainer = container.children("li:eq(0)");
 			var li = container.children("li:eq(1)");
 			li.css({ top: inputcontainer.outerHeight(true) + rect.top });
-			inputcontainer.find(".arrow").height(inputcontainer.find("input").height());
-		}
+			if(!inputcontainer.find(".arrow").is(":hidden"))
+				inputcontainer.find(".arrow").height(inputcontainer.find("input").height());
+		};
 
 		var timeout = undefined;
 		container.Build = function (focus)
@@ -175,7 +189,7 @@
 
 							parent.find("handler").click(function ()
 							{
-								parent.toggleClass("show")
+								parent.toggleClass("show");
 							});
 
 							$.each(item[settings.childrenProperty], function ()
@@ -222,8 +236,8 @@
 						container.select();
 					});
 					if(data.length > 0)
-						dta.parent().show(focus ? "slow" : "fast");
-					else dta.parent().hide(focus ? "slow" : "fast");
+						container.Show(dta.parent(), focus ? "slow" : "fast");
+					else container.Hide(dta.parent(), focus ? "slow" : "fast");
 
 
 					container.ajust();
@@ -233,7 +247,8 @@
 			}, focus);
 
 
-		}
+		};
+
 		if(!added)
 			container.find("input").bind("focus", function ()
 			{
@@ -300,11 +315,11 @@
 				}
 			});
 		if(!added)
-			$("body,html").bind("click", function (e)
+			$("body,html").bind("mousedown", function (e)
 			{
 				var target = $(e.target);
 				if(!target.hasClass("autofill") && !target.hasClass("arrow") && target.closest(".autofill").length <= 0)
-					container.children("li").last().hide();
+					container.Hide(container.children("li").last(), "fast");
 			});
 		if(!added)
 			container.find(".arrow").bind("click", function ()
@@ -315,7 +330,6 @@
 
 		SetSelectedValue();
 		setTimeout(container.ajust, 100);
-		setTimeout(container.ajust, 1200);
 		return container;
-	}
+	};
 }(jQuery));

@@ -37,6 +37,18 @@ namespace IProduct.Modules
         }
 
         /// <summary>
+        /// return Json Action Result
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="o"></param>
+        /// <param name="JsonFormatting"></param>
+        /// <returns></returns>
+        public static CallbackJsonResult ViewResult<T>(this T o, JsonFormatting? JsonFormatting = null)
+        {
+            return new CallbackJsonResult(o) { JsonFormatting = JsonFormatting };
+        }
+
+        /// <summary>
         /// Validate the object and return error if it fail validation.
         /// </summary>
         /// <typeparam name="T"></typeparam>

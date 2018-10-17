@@ -5,7 +5,7 @@
 		var settings = $.extend({
 			label: function () { },
 			prop: undefined,
-			items: undefined,
+			items: undefined
 		}, options);
 		settings.items = this;
 		var setCounter = settings.items === undefined;
@@ -62,8 +62,8 @@
 				var boxClass = o.attr("boxClass");
 				if(!o.hasClass("iniLightDataTableCheckBox"))
 				{
-					if(o.val() === "false" || o.val() === "true")
-						o.prop("checked", eval(o.val()));
+					if(o.attr("v") === "false" || o.attr("v") === "true")
+						o.prop("checked", eval(o.attr("v")));
 
 					var checkType = o.attr("checkType");
 
@@ -102,6 +102,7 @@
 						container.find(".b").click(function ()
 						{
 							o.click();
+							o.prop("checked", o.is(":checked"));
 							validateBox(o);
 						});
 					} else

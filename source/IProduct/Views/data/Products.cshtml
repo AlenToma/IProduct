@@ -1,0 +1,102 @@
+﻿@model IProduct.Modules.Library.PageSection
+@using EntityWorker.Core.Helper
+
+
+<div class="section flex @Model.ProductShow  @Model.Id">
+    @if (Model.PageType != IProduct.Modules.PageType.Product)
+    {
+        <p>Error Only Section with SectionType Product is allowed</p>
+    }
+
+</div>
+    <script>
+        $(document).ready(function ()
+        {
+
+                var section = $(".@Model.Id").last();
+                var data =  @Html.Raw(Model.ToJson(new EntityWorker.Core.Object.Library.JSON.JSONParameters() { JsonFormatting = JsonFormatting.CamelCase, UseFastGuid= false }));
+                var categories = [];
+                var tbSettings = {};
+                $.each(data.pageCategories, function ()
+                {
+                    categories.push(this.category_Id);
+                });
+
+                function loadProducts()
+                {
+                    var settings = $.extend({
+                        result: null
+                    }, tbSettings);
+                    section.ax({
+                        url: '@Url.Action("GetProducts", "Home")',
+                        data: JSON.stringify({ tbSettings: settings, categoriesId: categories }),
+                        success: function (data)
+                        {
+                            tbSettings = data;
+                            render();
+                        }
+                    });
+                }
+
+                function render()
+                {
+                    if(data.productShow == "ImageGrid" || data.productShow == "Slider")
+                    {
+                        $.each(tbSettings.result, function ()
+                        {
+                            var x = this;
+                            var src = "/Content/Image/info.png";
+                            var description = isNullOrEmpty(this.description) ? "" : this.description;
+                            var url = '@Url.Action("Product", "Home", null, Request.Url.Scheme)' + "?id=" + this.id;;
+                            if(x.images.length > 0)
+                                src = '@Url.Action("index", "Home", null, Request.Url.Scheme)' + x.images[0].images.fileThumpFullPath
+                            var div = $("<div/>", { "class": "product-wrapper", productId: x.id })
+                                .append($("<a/>", { href: url, "class": "image-Wrapper" }).append("<img src='" + src + "' />"))
+                                .append($("<div/>", { "class": "text-container" })
+                                    .append($("<a/>", { href: url, "class": "product-link" })
+                                        .append($("<div/>", { "class": "text-content" })
+                                            .append($("<h2/>", { "class": "title", title: description })
+                                                .html(x.name)).append($("<p/>", { "class": "description" })
+                                                    .html(description))))
+                                )
+                                .append($("<div/>", { "class": "box-bottom" })
+                                    .append($("<div/>", { "class": "product-price" })
+                                        .html("<span class='price'>" + this.price.formatMoney() + ":-" + "</span>")).append($("<button/>", { "class": "loginBtn float-right btn--addtoCart", html: "Buy" })));
+
+                            div.find(".loginBtn").click(function ()
+                            {
+                                shoppingCart.add(x.id, 1);
+                            });
+
+                            section.append(div);
+
+                        });
+
+                        if(data.productShow === "Slider")
+                        {
+                            section.slick({
+                                slidesToShow: 3,
+                                slidesToScroll: 1,
+                                autoplay: true,
+                                arrows: true,
+                                autoplaySpeed: 4000,
+                                centerMode: true,
+                                variableWidth: true
+                            });
+                        }
+
+
+                    } // End of Image Grid & Slider
+                };
+
+                loadProducts();
+            
+
+
+        });
+
+
+
+
+
+    </script>

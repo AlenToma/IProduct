@@ -1,0 +1,187 @@
+﻿.section {
+    display: block;
+    overflow: hidden;
+    width: 100%;
+    min-height: 90px;
+    clear: both;
+    margin-top: 0px;
+    background: white;
+    text-align: left;
+    height: auto;
+}
+/* Flex-related code */
+.flex {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Or space-between or space-around */
+}
+
+div.text-content {
+    padding: 0 0 10px;
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-pack: start;
+    -webkit-justify-content: flex-start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+}
+
+    div.text-content > h2 {
+        font-size: 14px;
+        font-weight: 700;
+        margin: 0 0 5px;
+    }
+
+    div.text-content > p {
+        margin: 0 0 5px;
+        font-size: 12px;
+    }
+
+
+.text-container {
+    padding: 0 0 10px;
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-pack: start;
+    -webkit-justify-content: flex-start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+}
+
+.btn--addtoCart {
+    background-color: #ee4c83;
+}
+
+    .btn--addtoCart:before {
+        border-right: #c3c3c3 1px solid;
+        background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2ZXJzaW9uPSIxLjEiIGlkPSJDYXBhXzEiIHg9IjBweCIgeT0iMHB4IiB2aWV3Qm94PSIwIDAgMTkuMjUgMTkuMjUiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDE5LjI1IDE5LjI1OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIGNsYXNzPSIiPjxnPjxnPgoJPGcgaWQ9IkxheWVyXzFfMTA3XyI+CgkJPGc+CgkJCTxwYXRoIHN0eWxlPSJmaWxsOiNGOUY2RjYiIGQ9Ik0xOS4wMDYsMi45N2MtMC4xOTEtMC4yMTktMC40NjYtMC4zNDUtMC43NTYtMC4zNDVINC40MzFMNC4yMzYsMS40NjEgICAgIEM0LjE1NiwwLjk3OSwzLjczOSwwLjYyNSwzLjI1LDAuNjI1SDFjLTAuNTUzLDAtMSwwLjQ0Ny0xLDFzMC40NDcsMSwxLDFoMS40MDNsMS44NiwxMS4xNjRjMC4wMDgsMC4wNDUsMC4wMzEsMC4wODIsMC4wNDUsMC4xMjQgICAgIGMwLjAxNiwwLjA1MywwLjAyOSwwLjEwMywwLjA1NCwwLjE1MWMwLjAzMiwwLjA2NiwwLjA3NSwwLjEyMiwwLjEyLDAuMTc5YzAuMDMxLDAuMDM5LDAuMDU5LDAuMDc4LDAuMDk1LDAuMTEyICAgICBjMC4wNTgsMC4wNTQsMC4xMjUsMC4wOTIsMC4xOTMsMC4xM2MwLjAzOCwwLjAyMSwwLjA3MSwwLjA0OSwwLjExMiwwLjA2NWMwLjExNiwwLjA0NywwLjIzOCwwLjA3NSwwLjM2NywwLjA3NSAgICAgYzAuMDAxLDAsMTEuMDAxLDAsMTEuMDAxLDBjMC41NTMsMCwxLTAuNDQ3LDEtMXMtMC40NDctMS0xLTFINi4wOTdsLTAuMTY2LTFIMTcuMjVjMC40OTgsMCwwLjkyLTAuMzY2LDAuOTktMC44NThsMS03ICAgICBDMTkuMjgxLDMuNDc5LDE5LjE5NSwzLjE4OCwxOS4wMDYsMi45N3ogTTE3LjA5Nyw0LjYyNWwtMC4yODUsMkgxMy4yNXYtMkgxNy4wOTd6IE0xMi4yNSw0LjYyNXYyaC0zdi0ySDEyLjI1eiBNMTIuMjUsNy42MjV2MiAgICAgaC0zdi0ySDEyLjI1eiBNOC4yNSw0LjYyNXYyaC0zYy0wLjA1MywwLTAuMTAxLDAuMDE1LTAuMTQ4LDAuMDNsLTAuMzM4LTIuMDNIOC4yNXogTTUuMjY0LDcuNjI1SDguMjV2Mkg1LjU5N0w1LjI2NCw3LjYyNXogICAgICBNMTMuMjUsOS42MjV2LTJoMy40MThsLTAuMjg1LDJIMTMuMjV6IiBkYXRhLW9yaWdpbmFsPSIjMDMwMTA0IiBjbGFzcz0iYWN0aXZlLXBhdGgiIGRhdGEtb2xkX2NvbG9yPSIjRjRGNEY0Ij48L3BhdGg+CgkJCTxjaXJjbGUgc3R5bGU9ImZpbGw6I0Y5RjZGNiIgY3g9IjYuNzUiIGN5PSIxNy4xMjUiIHI9IjEuNSIgZGF0YS1vcmlnaW5hbD0iIzAzMDEwNCIgY2xhc3M9ImFjdGl2ZS1wYXRoIiBkYXRhLW9sZF9jb2xvcj0iI0Y0RjRGNCI+PC9jaXJjbGU+CgkJCTxjaXJjbGUgc3R5bGU9ImZpbGw6I0Y5RjZGNiIgY3g9IjE1Ljc1IiBjeT0iMTcuMTI1IiByPSIxLjUiIGRhdGEtb3JpZ2luYWw9IiMwMzAxMDQiIGNsYXNzPSJhY3RpdmUtcGF0aCIgZGF0YS1vbGRfY29sb3I9IiNGNEY0RjQiPjwvY2lyY2xlPgoJCTwvZz4KCTwvZz4KPC9nPjwvZz4gPC9zdmc+);
+        background-size: 56% 98%;
+        background-position-x: 6px;
+        background-repeat: no-repeat;
+    }
+
+/*------------------------------------------Image Grid CSS ---------------------------------------------------*/
+
+/* This rule ist just because of the responsive images */
+@media (max-width: 1600px) {
+    .flex > .product-wrapper {
+        max-width: 250px;
+    }
+}
+
+.flex .product-wrapper a {
+    text-decoration: none;
+    color: black;
+}
+
+.flex .product-wrapper {
+    align-items: center;
+    display: flex !important;
+    flex: 1 1 0;
+    flex-direction: column;
+    text-align: center;
+    max-width: 300px;
+    padding: 1rem;
+    position: relative;
+    cursor: pointer;
+    background: #fff;
+    border-radius: 4px;
+    z-index: 50;
+    border: 1px solid white;
+    border-bottom: 1px solid #e6e6e6;
+    min-height:330px;
+}
+
+    .flex .product-wrapper:hover {
+        border: 1px solid #f1f1f1;
+        /*transition: all 100ms ease;*/
+    }
+
+    .flex .product-wrapper > .image-Wrapper {
+        -webkit-box-flex: 0;
+        -webkit-flex: 0 0 auto;
+        -ms-flex: 0 0 auto;
+        flex: 0 0 auto;
+        width: 150px;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        -webkit-align-items: center;
+        -ms-flex-align: center;
+        align-items: center;
+        padding: 20px 0 20px 10px;
+        position: relative;
+    }
+
+
+
+        .flex .product-wrapper > .image-Wrapper img {
+            max-width: 100%;
+            display: block;
+            margin: 0 auto;
+            -webkit-transition: opacity .5s;
+            transition: opacity .5s;
+        }
+
+    .flex .product-wrapper div.text-content {
+        max-height: 100px;
+        overflow: hidden;
+        word-wrap: break-word;
+    }
+
+    .flex .product-wrapper .box-bottom {
+        -webkit-flex-wrap: wrap;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        -webkit-box-pack: justify;
+        -webkit-justify-content: space-between;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        -webkit-box-ordinal-group: 2;
+        -webkit-order: 1;
+        -ms-flex-order: 1;
+        order: 1;
+        text-align: left;
+        width: 100%;
+        padding-left: 7px;
+    }
+
+        .flex .product-wrapper .box-bottom > div {
+            display: inline-block;
+            padding-top: 11px;
+        }
+
+        .flex .product-wrapper .box-bottom > product-price {
+            line-height: 1em;
+        }
+
+        .flex .product-wrapper .box-bottom > .product-price > .price{
+           font-size:20px;
+        }
+
+
+/*------------------------------------------End of Image Grid CSS --------------------------------------------*/

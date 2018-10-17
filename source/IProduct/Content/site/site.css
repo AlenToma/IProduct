@@ -3,247 +3,16 @@
     overflow: auto;
 }
 
+    body > * {
+        max-width: 100vw;
+    }
+
 .content {
     position: relative;
     max-width: 99%;
     min-width: 300px;
     overflow: auto;
 }
-
-.slider {
-    width: 80%;
-    margin: auto;
-    /*height:300px;*/
-}
-
-    .slider li > img, .slider li {
-        width: 100%;
-       
-    }
-
-    .Slider li {
-        width: 200px;
-        height:250px !important;
-    }
-
-.section {
-    display: block;
-    overflow: hidden;
-    width: 99%;
-    margin: auto;
-    min-height: 150px;
-    clear: both;
-    margin-bottom: 15px;
-    text-align: left;
-    min-width: 504px;
-}
-
-    .section:not(.products):not(.slider) {
-        padding: 13px;
-    }
-
-.products {
-    overflow: hidden;
-    overflow-x: auto;
-    height: 150px;
-    padding: 0;
-}
-
-@media screen and (max-width: 600px) {
-    .ImageGrid > li {
-        margin-left: 11%;
-    }
-}
-
-.products > li {
-    width: 225px;
-    height: 200px;
-    display: inline-block;
-    float: left;
-    cursor: pointer;
-    overflow: hidden;
-}
-
-.ImageGrid > li {
-    height:300px;
-}
-
-    .products > li > div {
-        padding: 13px;
-        position: relative;
-        clear: both;
-        overflow: hidden;
-        height: 100%;
-    }
-
-.ImageGrid > li > div , .Slider > li > div{
-    border: 1px solid #e8e8e8;
-    background-color: white;
-}
-
-.ImageGrid > li {
-    margin-left: 10px;
-    margin-bottom: 10px;
-}
-
-.products > li > div > label {
-    margin-top: 19px;
-    position: absolute;
-    bottom: 0px;
-    font-weight: bolder;
-}
-
-.products > li > div > .btn {
-    width: 54px;
-    position: absolute;
-    bottom: 4px;
-    right: 6px;
-}
-
-.products li > div > span, .products > li > table > tbody > tr > td > div > span {
-    font-weight: bolder;
-    font-size: 12px;
-    display: block;
-    word-wrap: break-word;
-    word-break: break-all;
-    overflow: hidden;
-    white-space: normal;
-    line-height: 15px;
-    padding-left: 1px;
-    margin-top: 3px;
-    width: 111%;
-}
-
-    .products li > div > span.description, .products > li > table > tbody > tr > td > div > span.description {
-        font-weight: normal;
-        font-size: 10px;
-        text-overflow: ellipsis;
-        /* Required for text-overflow to do anything */
-        /*white-space: nowrap;*/
-        font-size-adjust: 0.58;
-        max-width: 94%;
-        display: block;
-    }
-
-.products > li > div > div > img {
-    /*height: 86%;*/
-    width: unset !important;
-    margin:auto;
-}
-
-.ImageGrid > li > div > div > img {
-    /*height: 86%;*/
-    width: unset !important;
-}
-
-.products > li > div > div {
-    /*height: 86%;*/
-    width: 102%;
-    display:flex;
-}
-
-.lSSlideOuter .lSPager:not(.lSGallery) {
-    display: none !important;
-}
-
-
-.products > li > table {
-    width: 100%;
-}
-
-    .products > li > table > tbody > tr > td:first-child {
-        width: 150px;
-    }
-
-    .products > li > table > tbody > tr > td {
-        padding: 5px;
-        padding-left: 0;
-        vertical-align: top;
-        border-bottom: 1px solid #eee;
-    }
-
-        .products > li > table > tbody > tr > td:last-child > div {
-            float: right;
-            width: 63px;
-            position: relative;
-            right: 21px;
-        }
-
-            .products > li > table > tbody > tr > td:last-child > div > label {
-                margin-left: 27px;
-                font-weight: bolder;
-            }
-
-
-.productdetali > h1 {
-    margin: 0;
-}
-
-.productdetali > table {
-    width: 100%;
-    overflow: hidden;
-    max-width: 100%;
-    position: relative;
-    table-layout: fixed;
-}
-
-
-    .productdetali > table tbody > tr > td {
-        vertical-align: top;
-        max-width: 800px;
-    }
-
-
-.productdetali .detali {
-    width: 200px;
-    /* float: right; */
-    margin-top: 14px;
-    position: relative;
-    background-color: #eceff1;
-    padding: 12px;
-    float: left;
-    display: inline-block;
-    border: 1px solid #d0d0d0;
-}
-
-    .productdetali .detali > .btn {
-        width: 150px;
-        float: none;
-        clear: both;
-        margin-top: 10px;
-    }
-
-
-    .productdetali .detali > .price {
-        font-weight: bolder;
-        font-size: 32px;
-        display: block;
-        word-wrap: break-word;
-        word-break: break-all;
-        overflow: hidden;
-        white-space: normal;
-        color: #4a4a4a;
-        padding-left: 1px;
-        margin-top: 3px;
-        width: 111%;
-    }
-
-.productdetali .lSSlideOuter {
-    width: 80%;
-    float: left;
-    display: inline-block;
-    /*height: 300px;*/
-}
-
-.productdetali > .tabContainer {
-    margin-top: 20px;
-}
-
-.productdetali .productImages > li, .productdetali .productImages > li > img {
-    max-width: 100%;
-    /*width: auto;*/
-}
-
 
 .cart:before {
     content: "";
@@ -277,6 +46,7 @@
     width: 100%;
     border-bottom: 1px solid #eee;
     padding: 7px;
+    height:18px;
 }
 
 .shoppingCart > table {
@@ -366,30 +136,28 @@ label[required]:after {
     top: 1px;
 }
 
-.loginView {
-    width: 517px;
-    margin: auto;
-    background: white;
-    padding: 15px;
-    position: relative;
-    border: 4px solid #eee;
-    border-radius: 7px;
+
+
+@media screen and (max-width: 600px) {
+    .ImageGrid > li {
+        /*margin-left: 11%;*/
+    }
+
+    iframe {
+        max-width: 85vw !important;
+    }
+
+    .content {
+        overflow: hidden;
+    }
 }
 
-    .loginView > div {
-        margin: auto;
+@media screen and (max-width: 480px) {
+    .products > li {
+        width: 90vw;
     }
 
-        .loginView > div > img {
-            border-radius: 73px;
-            margin: 20px;
+        .products > li > div > div {
+            display: inline-block;
         }
-
-    .loginView .btn {
-        background: #3276b1;
-    }
-
-    .loginView label {
-        margin: 5px;
-    }
-
+}

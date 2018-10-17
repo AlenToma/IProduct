@@ -31,30 +31,22 @@ namespace IProduct
                       "~/Content/site.css",
                       "~/Content/jquery-ui.css"));
 
-            bundles.Add(new StyleBundle("~/Content/My").Include(
-                      "~/Content/My/tabs.css",
-                      "~/Content/My/dialog.css",
-                      "~/Content/My/autofill.css",
-                      "~/Content/My/verticalMenu.css",
-                      "~/Content/My/filebrowser.css",
-                       "~/Content/My/ToolTip.css",
-                       "~/Content/My/Menu.css",
-                       "~/Content/My/lightslider.css",
-                       "~/Content/My/ContextMenu.css",
-                       "~/Content/My/Treeview.css",
-                       "~/Content/My/login.css",
-                       "~/Content/My/checkbox.css"));
-
-
-            bundles.Add(new StyleBundle("~/Navigation Menu/css").Include(
-                      "~/Navigation Menu/css/normalize.css",
-                       "~/Navigation Menu/css/defaults.css",
-                       "~/Navigation Menu/css/nav-core.css",
-                       "~/Navigation Menu/css/nav-layout.css"));
-
-            bundles.Add(new ScriptBundle("~/Navigation Menu/js").Include(
-                "~/Navigation Menu/js/rem.min.js",
-                "~/Navigation Menu/js/nav.jquery.min.js"));
+            bundles.Add(new StyleBundle("~/Content/custom").Include(
+                      "~/Content/custom/tabs.css",
+                      "~/Content/custom/dialog.css",
+                      "~/Content/custom/autofill.css",
+                      "~/Content/custom/verticalMenu.css",
+                      "~/Content/custom/filebrowser.css",
+                       "~/Content/custom/ToolTip.css",
+                       "~/Content/custom/Menu.css",
+                       "~/Content/slick/slick.css",
+                       "~/Content/slick/slick-theme.css",
+                       "~/Content/custom/ContextMenu.css",
+                       "~/Content/custom/Treeview.css",
+                       "~/Content/custom/login.css",
+                       "~/Content/custom/checkbox.css",
+                       "~/Content/custom/portalMenu.css",
+                       "~/Content/HomePage.css"));
 
             bundles.Add(new StyleBundle("~/Content/site").Include(
                       "~/Content/site/site.css"));
@@ -73,7 +65,9 @@ namespace IProduct
                         "~/Scripts/My/Login.js",
                         "~/Scripts/My/Treeview.js",
                         "~/Scripts/My/checkbox.js",
-                        "~/Scripts/My/jquery.fittext.js"));
+                        "~/Scripts/My/jquery.fittext.js",
+                        "~/Content/slick/slick.js",
+                        "~/Scripts/My/portalMenu.js"));
         }
     }
 }

@@ -6,6 +6,7 @@ using System;
 using System.Linq;
 using System.Web.Mvc;
 using IProduct.Modules.Library.Custom;
+using IProduct.Modules;
 
 namespace IProduct.Controllers
 {
@@ -44,7 +45,7 @@ namespace IProduct.Controllers
         #region Category
 
         [HttpPost]
-        public CallbackJsonResult GetCategoriesComboBoxItems(string value)
+        public ActionResult GetCategoriesComboBoxItems(string value)
         {
             var data = DbContext.Get<Category>();
             if (!value.ConvertValue<Guid?>().HasValue)
@@ -54,7 +55,7 @@ namespace IProduct.Controllers
                 var guid = value.ConvertValue<Guid>();
                 data.Where(x => x.Id == guid);
             }
-            return new CallbackJsonResult(data.Execute());
+            return data.Execute().ViewResult();
         }
         
         [HttpPost]
@@ -71,9 +72,9 @@ namespace IProduct.Controllers
         }
         
         [HttpPost]
-        public CallbackJsonResult GetCategories(TableTreeSettings settings)
+        public ActionResult GetCategories(TableTreeSettings settings)
         {
-            return new CallbackJsonResult(DbContext.Search<Category>(settings, x => (x.Name.Contains(settings.SearchText) || x.Categories.Any(a => x.Name.Contains(settings.SearchText))) && !x.Parent_Id.HasValue));
+            return DbContext.Search<Category>(settings, x => (x.Name.Contains(settings.SearchText) || x.Categories.Any(a => x.Name.Contains(settings.SearchText))) && !x.Parent_Id.HasValue).ViewResult();
         }
 
         #endregion
@@ -81,14 +82,14 @@ namespace IProduct.Controllers
         #region Products
         
         [HttpPost]
-        public CallbackJsonResult GetProductsComboBoxItems(string value)
+        public ActionResult GetProductsComboBoxItems(string value)
         {
             if (!value.ConvertValue<Guid?>().HasValue)
-                return new CallbackJsonResult(DbContext.Get<Product>().Where(x => x.Name.Contains(value)).LoadChildren().Execute());
+                return DbContext.Get<Product>().Where(x => x.Name.Contains(value)).LoadChildren().Execute().ViewResult();
             else
             {
                 var guid = value.ConvertValue<Guid>();
-                return new CallbackJsonResult(DbContext.Get<Product>().Where(x => x.Id == guid).Execute());
+                return DbContext.Get<Product>().Where(x => x.Id == guid).Execute().ViewResult();
             }
         }
         
@@ -119,9 +120,9 @@ namespace IProduct.Controllers
         }
         
         [HttpPost]
-        public CallbackJsonResult GetProduct(TableTreeSettings settings)
+        public ActionResult GetProduct(TableTreeSettings settings)
         {
-            return new CallbackJsonResult(DbContext.Search<Product>(settings, x => x.Name.Contains(settings.SearchText)));
+            return DbContext.Search<Product>(settings, x => x.Name.Contains(settings.SearchText)).ViewResult();
         }
 
         #endregion
@@ -129,14 +130,14 @@ namespace IProduct.Controllers
         #region Users
         
         [HttpPost]
-        public CallbackJsonResult GetUsersComboBoxItems(string value)
+        public ActionResult GetUsersComboBoxItems(string value)
         {
             if (!value.ConvertValue<Guid?>().HasValue)
-                return new CallbackJsonResult(DbContext.Get<User>().Where(x => x.Email.Contains(value) || x.Person.FirstName.Contains(value) || x.Person.LastName.Contains(value)).LoadChildren().Execute());
+                return DbContext.Get<User>().Where(x => x.Email.Contains(value) || x.Person.FirstName.Contains(value) || x.Person.LastName.Contains(value)).LoadChildren().Execute().ViewResult();
             else
             {
                 var guid = value.ConvertValue<Guid>();
-                return new CallbackJsonResult(DbContext.Get<User>().Where(x => x.Id == guid).Execute());
+                return DbContext.Get<User>().Where(x => x.Id == guid).Execute().ViewResult();
             }
         }
         
@@ -155,9 +156,9 @@ namespace IProduct.Controllers
         }
         
         [HttpPost]
-        public CallbackJsonResult GetUser(TableTreeSettings settings)
+        public ActionResult GetUser(TableTreeSettings settings)
         {
-            return new CallbackJsonResult(DbContext.Search<User>(settings, x => x.Email.Contains(settings.SearchText) || x.Person.FirstName.Contains(settings.SearchText) || x.Person.LastName.Contains(settings.SearchText)));
+            return DbContext.Search<User>(settings, x => x.Email.Contains(settings.SearchText) || x.Person.FirstName.Contains(settings.SearchText) || x.Person.LastName.Contains(settings.SearchText)).ViewResult();
         }
 
 
@@ -167,14 +168,14 @@ namespace IProduct.Controllers
 
         
         [HttpPost]
-        public CallbackJsonResult GetCountryComboBoxItems(string value)
+        public ActionResult GetCountryComboBoxItems(string value)
         {
             if (!value.ConvertValue<Guid?>().HasValue)
-                return new CallbackJsonResult(DbContext.Get<Country>().Where(x => x.Name.Contains(value)).LoadChildren().Execute());
+                return DbContext.Get<Country>().Where(x => x.Name.Contains(value)).LoadChildren().Execute().ViewResult();
             else
             {
                 var guid = value.ConvertValue<Guid>();
-                return new CallbackJsonResult(DbContext.Get<Country>().Where(x => x.Id == guid).Execute());
+                return DbContext.Get<Country>().Where(x => x.Id == guid).Execute().ViewResult();
             }
         }
         
@@ -186,9 +187,9 @@ namespace IProduct.Controllers
 
 
         [HttpPost]
-        public CallbackJsonResult GetCountry(TableTreeSettings settings)
+        public ActionResult GetCountry(TableTreeSettings settings)
         {
-            return new CallbackJsonResult(DbContext.Search<Country>(settings, x => x.Name.Contains(settings.SearchText) || x.CountryCode.Contains(settings.SearchText)));
+            return DbContext.Search<Country>(settings, x => x.Name.Contains(settings.SearchText) || x.CountryCode.Contains(settings.SearchText)).ViewResult();
         }
 
         #endregion
@@ -196,14 +197,14 @@ namespace IProduct.Controllers
         #region Column
         
         [HttpPost]
-        public CallbackJsonResult GetColumnComboBoxItems(string value)
+        public ActionResult GetColumnComboBoxItems(string value)
         {
             if (!value.ConvertValue<Guid?>().HasValue)
-                return new CallbackJsonResult(DbContext.Get<Column>().Where(x => x.Key.Contains(value)).LoadChildren().Execute());
+                return DbContext.Get<Column>().Where(x => x.Key.Contains(value)).LoadChildren().Execute().ViewResult();
             else
             {
                 var guid = value.ConvertValue<Guid>();
-                return new CallbackJsonResult(DbContext.Get<Country>().Where(x => x.Id == guid).Execute());
+                return DbContext.Get<Country>().Where(x => x.Id == guid).Execute().ViewResult();
             }
         }
         
@@ -220,9 +221,9 @@ namespace IProduct.Controllers
         }
         
         [HttpPost]
-        public CallbackJsonResult GetColumn(TableTreeSettings settings)
+        public ActionResult GetColumn(TableTreeSettings settings)
         {
-            return new CallbackJsonResult(DbContext.Search<Column>(settings, x => x.Key.Contains(settings.SearchText)));
+            return DbContext.Search<Column>(settings, x => x.Key.Contains(settings.SearchText)).ViewResult();
         }
 
         #endregion
@@ -231,14 +232,14 @@ namespace IProduct.Controllers
 
         
         [HttpPost]
-        public CallbackJsonResult GetRoleComboBoxItems(string value)
+        public ActionResult GetRoleComboBoxItems(string value)
         {
             if (!value.ConvertValue<Guid?>().HasValue)
-                return new CallbackJsonResult(DbContext.Get<Role>().Where(x => x.Name.Contains(value)).LoadChildren().Execute());
+                return DbContext.Get<Role>().Where(x => x.Name.Contains(value)).LoadChildren().Execute().ViewResult();
             else
             {
                 var guid = value.ConvertValue<Guid>();
-                return new CallbackJsonResult(DbContext.Get<Role>().Where(x => x.Id == guid).Execute());
+                return DbContext.Get<Role>().Where(x => x.Id == guid).Execute().ViewResult();
             }
         }
 
@@ -248,14 +249,14 @@ namespace IProduct.Controllers
 
         
         [HttpPost]
-        public CallbackJsonResult GetPagesComboBoxItems(string value)
+        public ActionResult GetPagesComboBoxItems(string value)
         {
             if (!value.ConvertValue<Guid?>().HasValue)
-                return new CallbackJsonResult(DbContext.Get<Pages>().Where(x => !x.Parent_Id.HasValue && (x.Name.Contains(value) || x.Children.Any(a => a.Name.Contains(value)))).LoadChildren().Execute());
+                return DbContext.Get<Pages>().Where(x => !x.Parent_Id.HasValue && (x.Name.Contains(value) || x.Children.Any(a => a.Name.Contains(value)))).LoadChildren().Execute().ViewResult();
             else
             {
                 var guid = value.ConvertValue<Guid>();
-                return new CallbackJsonResult(DbContext.Get<Pages>().Where(x => x.Id == guid));
+                return DbContext.Get<Pages>().Where(x => x.Id == guid).ViewResult();
             }
         }
         
@@ -274,9 +275,9 @@ namespace IProduct.Controllers
 
         
         [HttpPost]
-        public CallbackJsonResult GetPages(TableTreeSettings settings)
+        public ActionResult GetPages(TableTreeSettings settings)
         {
-            return new CallbackJsonResult(DbContext.Search<Pages>(settings, x => x.Name.Contains(settings.SearchText) || x.Children.Any(a => a.Name.Contains(settings.SearchText))));
+            return DbContext.Search<Pages>(settings, x => x.Name.Contains(settings.SearchText) || x.Children.Any(a => a.Name.Contains(settings.SearchText))).ViewResult();
         }
 
         #endregion

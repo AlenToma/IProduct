@@ -3,10 +3,12 @@ using IProduct.Modules.Library;
 using IProduct.Controllers.Shared;
 using IProduct.Models;
 using System;
+using IProduct.Modules;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using IProduct.Modules.Library.Custom;
 
 namespace IProduct.Controllers
 {
@@ -18,9 +20,12 @@ namespace IProduct.Controllers
         {
             return View();
         }
-        public ActionResult Index()
+        public ActionResult Index(Guid? id = null)
         {
-            return View();
+            if (id.HasValue)
+                return View(new GenericView<Pages>(DbContext.Get<Pages>().Where(x => x.Id == id && x.IsActive).LoadChildren().ExecuteFirstOrDefault()));
+            else
+                return View(new GenericView<Pages>(DbContext.Get<Pages>().Where(x => x.IsActive).OrderBy(x => x.Order).LoadChildren().ExecuteFirstOrDefault()));
         }
 
         public ActionResult Product()
@@ -48,7 +53,8 @@ namespace IProduct.Controllers
         {
             if (id.HasValue)
                 return await DbContext.Get<Pages>().Where(x => x.Id == id).LoadChildren().JsonAsync();
-            else return await DbContext.Get<Pages>().Where(x => x.IsActive).OrderBy(x=> x.Order).LoadChildren().JsonAsync();
+            else
+                return await DbContext.Get<Pages>().Where(x => x.IsActive).OrderBy(x => x.Order).LoadChildren().JsonAsync();
         }
 
         #endregion
@@ -56,11 +62,9 @@ namespace IProduct.Controllers
         #region Products
 
         [HttpPost]
-        public async Task<string> GetProducts(List<Guid> categoriesId, int pageNr)
+        public ActionResult GetProducts(TableTreeSettings tbSettings, List<Guid> categoriesId)
         {
-            if (pageNr <= 0)
-                pageNr = 1;
-            return await DbContext.Get<Product>().Where(x => x.ProductCategories.Any(a => categoriesId.Contains(a.Category_Id))).LoadChildren(x=> x.Images, x=> x.Images.Select(a=> a.Images)).Skip((pageNr -1) * 20).Take(20).JsonAsync();
+            return DbContext.Search<Product>(tbSettings, x => x.ProductCategories.Any(a => categoriesId.Contains(a.Category_Id)), x => x.Images, x => x.Images.Select(a => a.Images)).ViewResult(JsonFormatting.CamelCase);
         }
 
         [HttpPost]
@@ -89,7 +93,7 @@ namespace IProduct.Controllers
         [HttpPost]
         public void AddCart(Guid productid, int count)
         {
-            var product = DbContext.Get<Product>().Where(x => x.Id == productid).LoadChildren(x=> x.Images, x=> x.Images.Select(a=> a.Images)).ExecuteFirstOrDefault();
+            var product = DbContext.Get<Product>().Where(x => x.Id == productid).LoadChildren(x => x.Images, x => x.Images.Select(a => a.Images)).ExecuteFirstOrDefault();
             SessionHelper.Cart.Add(product, count);
         }
 

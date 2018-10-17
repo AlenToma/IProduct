@@ -2,13 +2,12 @@
     <i class="cart"></i>
     <i class="fa fa-user" aria-hidden="true"></i>
 </div>
-<a href="#" class="nav-button">Menu</a>
-<nav class="nav">
+<div class="menuContainer">
+    <a class="toggleMenu" href="#">Menu</a>
+    <nav class="nav">
 
-</nav>
-
-<a href="#" class="nav-close">Close Menu</a>
-
+    </nav>
+</div>
 <script>
     $(document).ready(function () {
         if (!shoppingCart)
@@ -102,6 +101,5 @@
                 });
             }
         });
-        container.nav();
     });
 </script>

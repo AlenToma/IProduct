@@ -2,6 +2,7 @@
 using IProduct.Modules;
 using IProduct.Modules.Data;
 using IProduct.Modules.Library;
+using IProduct.Modules.Library.Custom;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Facebook;
@@ -17,12 +18,12 @@ namespace IProduct.Models
     {
         private DbContext _dbContext = new DbContext();
 
-        public void SignIn(SignInApplication type)
+        public void SignIn(SignInApplication type, GenericView<User> user = null)
         {
-            switch(type)
+            switch (type)
             {
                 case SignInApplication.Cookie:
-                    Create();
+                    Create(user);
                     break;
 
                 case SignInApplication.Facebook:
@@ -35,26 +36,24 @@ namespace IProduct.Models
             }
         }
 
-        public void Create()
+        public void Create(GenericView<User> model)
         {
-            string email = HttpContext.Current.Request.Form["email"] ?? "";
-            string password = HttpContext.Current.Request.Form["password"]?? "";
-            var isPersistent = HttpContext.Current.Request.Form["isPersistent"].ConvertValue<bool>();
-            var user = _dbContext.Get<User>().Where(x => x.Email.Contains(email) && x.Password == password).LoadChildren().ExecuteFirstOrDefault();
-            if(user == null)
+
+            var user = _dbContext.Get<User>().Where(x => x.Email.Contains(model.View.Email) && x.Password == model.View.Password).LoadChildren().ExecuteFirstOrDefault();
+            if (user == null)
                 return;
-            Authorize(user, isPersistent);
+            Authorize(user, model.View.RememberMe);
         }
 
         // For facebook
         public void Create(FacebookAuthenticatedContext context)
         {
 
-            if(string.IsNullOrEmpty(context.Email))
+            if (string.IsNullOrEmpty(context.Email))
                 return;
             var email = context.Email;
             var user = _dbContext.Get<User>().Where(x => x.Email == email).ExecuteFirstOrDefault();
-            if(user == null)
+            if (user == null)
             {
                 user = new User
                 {
@@ -82,11 +81,11 @@ namespace IProduct.Models
         public void Create(GoogleOAuth2AuthenticatedContext context)
         {
 
-            if(string.IsNullOrEmpty(context.Email))
+            if (string.IsNullOrEmpty(context.Email))
                 return;
             var email = context.Email;
             var user = _dbContext.Get<User>().Where(x => x.Email == email).ExecuteFirstOrDefault();
-            if(user == null)
+            if (user == null)
             {
                 user = new User
                 {
@@ -132,7 +131,7 @@ namespace IProduct.Models
         {
 
             var email = HttpContext.Current.GetOwinContext().Authentication.User.Claims.FirstOrDefault(x => x.Type == "email" || x.Type == ClaimTypes.Email)?.Value;
-            if(string.IsNullOrEmpty(email))
+            if (string.IsNullOrEmpty(email))
                 return null;
 
             var user = _dbContext.Get<User>().Where(x => x.Email == email).LoadChildren().IgnoreChildren(x => x.Invoices).ExecuteFirstOrDefault();
