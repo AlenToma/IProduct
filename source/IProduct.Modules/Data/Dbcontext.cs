@@ -22,30 +22,22 @@ namespace IProduct.Modules.Data
         }
         protected override void OnModuleConfiguration(IModuleBuilder moduleBuilder)
         {
-
-
             #region IProductAppBuilder
             /// this is IProduct IModuleBuilder, for adding CustomAttributes to EntityWorker.Core
             var iProductAppBuilder = new CustomAttributesHandler<User>();
-
-            iProductAppBuilder
-               .NotNullOrEmpty(x => x.Email)
-               .StringLength(x => x.Email, 7)
-               .RegExp(x => x.Email, @"^(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
+            iProductAppBuilder.Property(x => x.Email).NotNullOrEmpty().StringLength(7).ModelView().RegExp(@"^(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
                @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-0-9a-z]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$",
                "The Email address is not valid")
-               .NotNullOrEmpty(x => x.Password)
-               .StringLength(x => x.Password)
-               .NotNullOrEmpty(x => x.Person)
-               .Entity<Person>()
-               .NotNullOrEmpty(x => x.FirstName)
-               .NotNullOrEmpty(x => x.LastName)
-               .NotNullOrEmpty(x => x.Address)
-               .Entity<Address>()
-               .NotNullOrEmpty(x => x.AddressLine)
-               .NotNullOrEmpty(x => x.Country)
-               .Entity<Country>()
-               .NotNullOrEmpty(x => x.Name, "Field Country can not be empty");
+               .Property(x => x.Password).ModelView().NotNullOrEmpty().StringLength()
+               .Entity<Person>().Property(x => x.FirstName).ModelView().NotNullOrEmpty()
+               .Property(x => x.LastName).ModelView().NotNullOrEmpty().Property(x => x.Address).NotNullOrEmpty()
+               .Property(x => x.PhoneNumber).ModelView()
+               .Entity<Address>().Property(x => x.AddressLine).ModelView().NotNullOrEmpty()
+               .Property(x => x.AddressLine2).ModelView()
+               .Property(x => x.City).ModelView()
+               .Property(x => x.Code).ModelView()
+               .Property(x => x.State).ModelView()
+               .Property(x => x.Country_Id).NotNullOrEmpty().ModelView();
             #endregion
 
 

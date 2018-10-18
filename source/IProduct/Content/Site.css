@@ -112,7 +112,7 @@ textarea {
 
 .form {
     min-width: 400px;
-    border-left: 1px solid #CCC;
+    /*border-left: 1px solid #CCC;*/
     padding-left: 5px;
 }
 

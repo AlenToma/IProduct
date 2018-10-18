@@ -9,8 +9,10 @@ using System.Web.Mvc;
 
 namespace IProduct.Controllers
 {
-    public class AccountController : SharedController
+    public class AccountController : ProtectedController
     {
+        #region None Authorize Methods
+        [AllowAnonymous]
         public ActionResult Index(GenericView<User> user, string type = "")
         {
             if (Request.IsAuthenticated)
@@ -58,7 +60,7 @@ namespace IProduct.Controllers
             }
             catch (Exception e)
             {
-                user.Error(e.InnerException.Message);
+                user.Error(e, this);
             }
 
             return PartialView(user);
@@ -79,13 +81,52 @@ namespace IProduct.Controllers
 
         #region Facebook
         // we may need to add some changes here later as if now, the google provider take care of the login
-        [AllowAnonymous]
         public ActionResult Facebook(string error)
         {
             if (Request.IsAuthenticated)
                 return Redirect("~/Home");
 
             return Redirect("Index");
+        }
+        #endregion
+        #endregion
+
+        #region Authorize Methods
+        [AllowAnonymous]
+        public new PartialViewResult Profile(GenericView<User> user)
+        {
+            try
+            {
+                user.Validate();
+                if (user.View.Password != user.Option_1)
+                    user.Error("Password and Confirm password must match");
+
+                if (user.Success)
+                {
+                    var item = user.Join(DbContext.Get<User>().Where(x => x.Id == user.View.Id).LoadChildren().ExecuteFirstOrDefault());
+                    using (var manager = new UserManager())
+                    {
+                        DbContext.Save(item).SaveChanges();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                user.Error(e, this);
+            }
+            return PartialView(user);
+        }
+
+        public ActionResult UserProfile()
+        {
+            var userId = Request.QueryString["id"].ConvertValue<Guid?>();
+
+            if (userId.HasValue)
+            {
+                return View(new GenericView<User>(DbContext.Get<User>().Where(x => x.Id == userId).LoadChildren().ExecuteFirstOrDefault()));
+            }
+
+            return View();
         }
         #endregion
 

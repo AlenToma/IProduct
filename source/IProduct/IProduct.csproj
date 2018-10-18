@@ -203,6 +203,7 @@
     <Compile Include="Models\OAuthProviders\CookieProvider.cs" />
     <Compile Include="Models\OAuthProviders\FacebookProvider.cs" />
     <Compile Include="Models\OAuthProviders\GoogleProvider.cs" />
+    <Compile Include="Models\PAuthorize.cs" />
     <Compile Include="Models\SessionHelper.cs" />
     <Compile Include="Models\UserManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -457,6 +458,8 @@
     <Content Include="Views\Account\SignUp.cshtml" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Views\Home\Product.cshtml" />
+    <Content Include="Views\Account\Profile.cshtml" />
+    <Content Include="Views\Account\UserProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

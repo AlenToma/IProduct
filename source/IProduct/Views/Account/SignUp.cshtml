@@ -22,6 +22,7 @@
 
     @using (Ajax.BeginForm("SignUp", "Account", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "signupForm" }))
     {
+        @Html.HiddenFor(x => x.View.Id);
         <div class="user-form form">
             <div class="form-group">
                 @Html.LabelFor(model => model.View.Email)

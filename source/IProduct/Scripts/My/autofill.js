@@ -3,7 +3,6 @@
 
 	$.fn.autofill = function (options)
 	{
-
 		// This is the easiest way to have default options.
 		var settings = $.extend({
 			// These are the defaults.
@@ -123,7 +122,7 @@
 
 				}
 			});
-		}
+		};
 
 		container.select = function ()
 		{
@@ -168,7 +167,7 @@
 				timeout = setTimeout(function ()
 				{
 					data = container.Sort(data, settings.textField, "desc");
-					data = $.grep(data, function (i, a) { return a <= 20; });
+					data = $.grep(data, function (i, a) { return a <= 300; });
 					if(settings.items)
 						$.each(settings.items, function () { data.unshift(this); });
 					function isDisabled(li, item)

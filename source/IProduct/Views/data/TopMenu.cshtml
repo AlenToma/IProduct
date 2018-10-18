@@ -41,7 +41,11 @@
                     });
                 }
             }, {
-                text: "Settings"
+                    text: "Profile",
+                    click: function ()
+                    {
+                        window.location.href = '@Url.Action("UserProfile", "Account", null, Request.Url.Scheme)' + "?Id=" + user.id;
+                    }
             }
             ];
 
@@ -65,7 +69,7 @@
             if (user !== null && user) {
 
             }
-             else window.location= '@Url.Action("Index", "Account", null, Request.Url.Scheme)';
+            else window.location.href = '@Url.Action("Index", "Account", null, Request.Url.Scheme)';
         });
 
         $(".cart").click(function () {

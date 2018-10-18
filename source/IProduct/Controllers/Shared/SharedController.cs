@@ -12,10 +12,10 @@ using System.Web.Security;
 namespace IProduct.Controllers.Shared
 {
 
-    public class SharedController : Controller
+    public class SharedController : Controller , IProduct.Modules.Interface.IController
     {
         private DbContext dbContext;
-
+        public bool ExceptionHandled { get; set; }
         protected DbContext DbContext
         {
             get
@@ -58,22 +58,17 @@ namespace IProduct.Controllers.Shared
 
         protected override void OnException(ExceptionContext filterContext)
         {
+            if (filterContext.ExceptionHandled || ExceptionHandled)
+            {
+                ExceptionHandled = false;
+                return;
+            }
             filterContext.ExceptionHandled = true;
             filterContext.Result = new JsonResult
             {
                 Data = new { success = false, error = $"Exception: {filterContext.Exception.Message + Environment.NewLine} InnerException: {filterContext.Exception.InnerException}" },
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
-            //filterContext.ExceptionHandled = true;
-
-            ////Redirect or return a view, but not both.
-            //filterContext.Result = RedirectToAction("Index", "ErrorHandler");
-            //// OR 
-            //filterContext.Result = new ViewResult
-            //{
-            //    ViewName = "~/Views/ErrorHandler/Index.cshtml"
-            //};
-
         }
     }
 }

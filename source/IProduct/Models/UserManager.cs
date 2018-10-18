@@ -52,7 +52,7 @@ namespace IProduct.Models
             if (string.IsNullOrEmpty(context.Email))
                 return;
             var email = context.Email;
-            var user = _dbContext.Get<User>().Where(x => x.Email == email).ExecuteFirstOrDefault();
+            var user = _dbContext.Get<User>().Where(x => x.Email == email).LoadChildren().ExecuteFirstOrDefault();
             if (user == null)
             {
                 user = new User
@@ -73,8 +73,9 @@ namespace IProduct.Models
 
                 };
                 _dbContext.Save(user).SaveChanges();
-                Authorize(user);
+              
             }
+            Authorize(user);
         }
 
         // For Google
@@ -84,7 +85,7 @@ namespace IProduct.Models
             if (string.IsNullOrEmpty(context.Email))
                 return;
             var email = context.Email;
-            var user = _dbContext.Get<User>().Where(x => x.Email == email).ExecuteFirstOrDefault();
+            var user = _dbContext.Get<User>().Where(x => x.Email == email).LoadChildren().ExecuteFirstOrDefault();
             if (user == null)
             {
                 user = new User
@@ -104,8 +105,9 @@ namespace IProduct.Models
                     Role = _dbContext.Get<Role>().Where(x => x.RoleType == Roles.Customers).ExecuteFirstOrDefault()
                 };
                 _dbContext.Save(user).SaveChanges();
-                Authorize(user);
+               
             }
+            Authorize(user);
         }
 
 

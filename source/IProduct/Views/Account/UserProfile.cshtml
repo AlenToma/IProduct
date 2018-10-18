@@ -1,0 +1,24 @@
+﻿@model IProduct.Modules.Library.Custom.GenericView<IProduct.Modules.Library.User>
+<div class="UserProfile section">
+
+</div>
+<div class="account">
+    @{
+        Html.RenderPartial("~/Views/Account/Profile.cshtml", Model);
+    }
+</div>
+
+<div class="myOrder">
+
+</div>
+
+<script>
+
+    $(document).ready(function ()
+    {
+        var tabs = $(".UserProfile").tabs();
+        tabs.add($(".account"), "Account", "account").select();
+        tabs.add($(".myOrder"), "My Orders", "orders");
+
+    });
+</script>
