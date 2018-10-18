@@ -25,6 +25,7 @@ namespace IProduct
 
             EntityWorker.Core.GlobalConfiguration.JSONParameters.JsonFormatting = EntityWorker.Core.Helper.JsonFormatting.LowerCase;
             EntityWorker.Core.GlobalConfiguration.JSONParameters.UseFastGuid = false;
+            EntityWorker.Core.GlobalConfiguration.JSONParameters.JsonFormatting = EntityWorker.Core.Helper.JsonFormatting.CamelCase;
             EntityWorker.Core.GlobalConfiguration.Log = new IProduct.Modules.Library.Base_Entity.Logger();
             GlobalConfigration.FileBasePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ConfigurationManager.AppSettings["ImagePath"]);
             GlobalConfigration.ImageMapp = ConfigurationManager.AppSettings["ImagePath"];

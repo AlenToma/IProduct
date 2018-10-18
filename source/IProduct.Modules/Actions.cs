@@ -28,8 +28,8 @@ namespace IProduct.Modules
         {
             var assembly = Assembly.GetExecutingAssembly();
             var resourceName = $"IProduct.Modules.SQL.{fileName}";
-            using(Stream stream = assembly.GetManifestResourceStream(resourceName))
-            using(StreamReader reader = new StreamReader(stream))
+            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+            using (StreamReader reader = new StreamReader(stream))
             {
                 string result = reader.ReadToEnd();
                 return result;
@@ -43,9 +43,9 @@ namespace IProduct.Modules
         /// <param name="o"></param>
         /// <param name="JsonFormatting"></param>
         /// <returns></returns>
-        public static CallbackJsonResult ViewResult<T>(this T o, JsonFormatting? JsonFormatting = null)
+        public static CallbackJsonResult ViewResult<T>(this T o)
         {
-            return new CallbackJsonResult(o) { JsonFormatting = JsonFormatting };
+            return new CallbackJsonResult(o);
         }
 
         /// <summary>
@@ -59,39 +59,39 @@ namespace IProduct.Modules
             var type = item is Type ? item.GetType() : typeof(T);
             var validatePropertiesOnly = item is Type;
             var errorList = new List<string>();
-            foreach(var prop in DeepCloner.GetFastDeepClonerProperties(type).Where(x =>
-            (!x.ContainAttribute<JsonDocument>() && !x.ContainAttribute<XmlDocument>() && !x.ContainAttribute<ExcludeFromAbstract>() && x.CanReadWrite) && (x.ContainAttribute<Required>() || !x.IsInternalType)))
+            foreach (var prop in DeepCloner.GetFastDeepClonerProperties(type).Where(x =>
+             (!x.ContainAttribute<JsonDocument>() && !x.ContainAttribute<XmlDocument>() && !x.ContainAttribute<ExcludeFromAbstract>() && x.CanReadWrite) && (x.ContainAttribute<Required>() || !x.IsInternalType)))
             {
                 string e = null;
                 var required = prop.GetCustomAttribute<Required>();
                 var stringLength = prop.GetCustomAttribute<StringLength>();
                 var reqExp = prop.GetCustomAttribute<Regex>();
                 var value = validatePropertiesOnly ? DeepCloner.CreateInstance(prop.PropertyType) : prop.GetValue(item);
-                if(prop.IsInternalType)
+                if (prop.IsInternalType)
                 {
-                    if((e = required.Validate(value, prop)) != null)
+                    if ((e = required.Validate(value, prop)) != null)
                         errorList.Add(e);
-                    else if(stringLength != null && (e = stringLength.Validate(value, prop)) != null)
+                    else if (stringLength != null && (e = stringLength.Validate(value, prop)) != null)
                         errorList.Add(e);
-                    else if(reqExp != null && (e = reqExp.Validate(value, prop)) != null)
+                    else if (reqExp != null && (e = reqExp.Validate(value, prop)) != null)
                         errorList.Add(e);
                 }
                 else
                 {
-                    if(prop.PropertyType.GetActualType() != prop.PropertyType) // Its an IList then
+                    if (prop.PropertyType.GetActualType() != prop.PropertyType) // Its an IList then
                     {
                         var list = value as IList;
-                        if(list?.Count > 0 || validatePropertiesOnly)
+                        if (list?.Count > 0 || validatePropertiesOnly)
                         {
-                            if(list?.Count <= 0)
+                            if (list?.Count <= 0)
                                 errorList.AddRange(ValidateRequireField(prop.PropertyType.GetActualType()));
                             else
-                                foreach(var tItem in list)
+                                foreach (var tItem in list)
                                     errorList.AddRange(ValidateRequireField(tItem));
                         }
                         else
                         {
-                            if(value != null || validatePropertiesOnly)
+                            if (value != null || validatePropertiesOnly)
                                 errorList.AddRange(ValidateRequireField(value ?? prop.PropertyType));
                         }
                     }
@@ -109,7 +109,7 @@ namespace IProduct.Modules
         public static ApplicationCredentials LoadCredentials(SignInApplication signInApplication)
         {
             var path = Path.Combine(ConfigurationManager.AppSettings["Credentials"], signInApplication.ToString());
-            if(File.Exists(path))
+            if (File.Exists(path))
                 return File.ReadAllText(path).FromJson<ApplicationCredentials>();
             return null;
         }
@@ -143,7 +143,7 @@ namespace IProduct.Modules
 
             var formates = Enum.GetNames(typeof(ImageFileType));
             var valid = formates.Any(x => file.ToLower().Contains(x.ToLower()));
-            if(valid && trueValidation)
+            if (valid && trueValidation)
             {
                 try
                 {
@@ -167,7 +167,7 @@ namespace IProduct.Modules
         {
             try
             {
-                using(var ms = new MemoryStream(file))
+                using (var ms = new MemoryStream(file))
                     new Bitmap(ms);
                 return true;
             }
@@ -189,12 +189,12 @@ namespace IProduct.Modules
             try
             {
                 Bitmap srcBmp;
-                using(var ms = new MemoryStream(image))
+                using (var ms = new MemoryStream(image))
                     srcBmp = new Bitmap(ms);
                 float ratio = 1;
                 float minSize = Math.Min(newHeight, newHeight);
 
-                if(srcBmp.Width > srcBmp.Height)
+                if (srcBmp.Width > srcBmp.Height)
                 {
                     ratio = minSize / (float)srcBmp.Width;
                 }
@@ -206,14 +206,14 @@ namespace IProduct.Modules
                 SizeF newSize = new SizeF(srcBmp.Width * ratio, srcBmp.Height * ratio);
                 Bitmap target = new Bitmap((int)newSize.Width, (int)newSize.Height);
 
-                using(Graphics graphics = Graphics.FromImage(target))
+                using (Graphics graphics = Graphics.FromImage(target))
                 {
                     graphics.CompositingQuality = CompositingQuality.HighSpeed;
                     graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
                     graphics.CompositingMode = CompositingMode.SourceCopy;
                     graphics.DrawImage(srcBmp, 0, 0, newSize.Width, newSize.Height);
 
-                    using(MemoryStream memoryStream = new MemoryStream())
+                    using (MemoryStream memoryStream = new MemoryStream())
                     {
                         target.Save(memoryStream, ImageFormat.Jpeg);
                         return memoryStream.ToArray();

@@ -82,7 +82,7 @@
         var errors = "";
         item.name = general.content.find(".name").val();
         item.order = parseInt(general.content.find(".order").val());
-        item.pagetype = general.content.find("input.content").is(":checked") ? "Content" : "Product";
+        item.pageType = general.content.find("input.content").is(":checked") ? "Content" : "Product";
         if (isNullOrEmpty(item.name))
             errors = "Name cannot be empty";
 
@@ -91,7 +91,7 @@
     }
 
     settings.validate = function () {
-        item.isactive = settings.content.find(".isActive").is(":checked");
+        item.isActive = settings.content.find(".isActive").is(":checked");
         item.meta = settings.content.find(".meta").val();
     }
 
@@ -112,7 +112,7 @@
 
     function editPages(tm) {
         if (!tm)
-            item = { name: "", meta: "", content: "", parent_id: null, children: [], pagesections: [], pagessliders: [], isactive: true };
+            item = { name: "", meta: "", content: "", parent_Id: null, children: [], pageSections: [], pagesSliders: [], isActive: true };
         else item = tm;
         var section;
 
@@ -126,7 +126,7 @@
                 text: "Save",
                 click: function () {
                     if (!section.edit) {
-                        item.pagesections.push(section);
+                        item.pageSections.push(section);
                     }
                     section = undefined;
                     loadsections();
@@ -137,7 +137,7 @@
             },
             onShow: function (settings) {
                 function enable() {
-                    if (section.pagetype == "Content") {
+                    if (section.pageType == "Content") {
                         sectionDialog.find(".rd").first().prop("checked", true);
                         sectionDialog.find(".radioResult > div").first().show();
                         sectionDialog.find(".radioResult > div").last().hide();
@@ -148,25 +148,28 @@
                     }
                 }
                 sectionDialog.find(".rd").unbind().change(function () {
-                    if (section.pagetype == "Content")
-                        section.pagetype = "Product";
-                    else section.pagetype = "Content";
+                    if(section.pageType == "Content")
+                        section.pageType = "Product";
+                    else section.pageType = "Content";
                     enable();
                 });
                 enable();
                 sectionDialog.find(".sectionName").change(function () {
-                    section.sectionname = sectionDialog.find(".sectionName").val();
+                    section.sectionName = sectionDialog.find(".sectionName").val();
                 })
-                sectionDialog.find(".sectionName").val(section.sectionname);
+                sectionDialog.find(".sectionName").val(section.sectionName);
                 tinyMCE.remove();
-                sectionDialog.find("." + section.productshow).prop("checked", true);
+                sectionDialog.find("." + section.productShow).prop("checked", true);
                 sectionDialog.find(".htmleditor").val(section.content);
                 sectionDialog.find(".categoriesContainer input").prop("checked", false);
 
                 sectionDialog.find(".ProductShow").change(function () {
-                    section.productshow = $(this).attr("property");
+                    section.productShow = $(this).attr("property");
                 });
-                $.each(section.pagecategories, function () {
+
+                $.each(section.pageCategories, function ()
+                {
+
                     sectionDialog.find(".categoriesContainer input[itemId='" + this.category.id + "']").prop("checked", true);
                 });
 
@@ -177,7 +180,7 @@
 
         general.content.find(".ulContainer").sortable({
             stop: function () {
-                var sections = Sort($.grep(item.pagesections, function (m) { return m.object_status != "Removed" }), "order", "asc")
+                var sections = Sort($.grep(item.pageSections, function (m) { return m.object_Status != "Removed" }), "order", "asc")
                 general.content.find(".ulContainer").find("li").each(function () {
                     var index = parseInt($(this).attr("index"));
                     var x = sections[index];
@@ -188,14 +191,14 @@
         });
         general.content.find(".ulContainer").disableSelection();
         general.content.find(".itemContainer > h1 > span").click(function () {
-            section = { sectionname: "", content: "", pagetype: "Content", pagecategories: [], order: item.pagesections.length };
+            section = { sectionName: "", content: "", pageType: "Content", pageCategories: [], order: item.pageSections.length };
             loadsections();
             sectionDialog.Show()
         });
         general.content.find(".order").val(item.order);
         general.content.find("textarea.content").val(item.content);
         general.content.find(".name").val(item.name);
-        settings.content.find(".isActive").prop("checked", item.isactive);
+        settings.content.find(".isActive").prop("checked", item.isActive);
         settings.content.find(".meta").val(item.meta);
 
 
@@ -208,13 +211,13 @@
             childrenProperty: "children",
             childTextField: "name",
             childValueField: "id",
-            selectedValue: item.parent_id !== null ? item.parent_id : -1,
+            selectedValue: item.parent_Id !== null ? item.parent_Id : -1,
             disabledItems: [item],
             items: [{ name: "---No Parent---", id: -1 }],
             onselect: function (category) {
                 if (category.id <= 0)
-                    item.parent_id = null;
-                else item.parent_id = category.id;
+                    item.parent_Id = null;
+                else item.parent_Id = category.id;
             }
         });
 
@@ -235,13 +238,13 @@
                             AddChildren(li, this);
                             li.children("span:first-child").find("input").change(function () {
                                 var t = $(this);
-                                var founded = $.grep(section.pagecategories, function (a) { return a.category.id == t.attr("itemId") });
+                                var founded = $.grep(section.pageCategories, function (a) { return a.category.id == t.attr("itemId") });
                                 if (founded && founded.length > 0) {
                                     $.each(founded, function () {
-                                        this.object_status = t.is(":checked") ? "Added" : "Removed";
+                                        this.object_Status = t.is(":checked") ? "Added" : "Removed";
                                     });
                                 } else if (t.is(":checked"))
-                                    section.pagecategories.push({ category: con })
+                                    section.pageCategories.push({ category: con })
                             });
                         });
 
@@ -254,14 +257,14 @@
                     AddChildren(li, this);
                     li.children("span:first-child").find("input").change(function () {
                         var t = $(this);
-                        var founded = $.grep(section.pagecategories, function (a) { return a.category.id == t.attr("itemId") });
+                        var founded = $.grep(section.pageCategories, function (a) { return a.category.id == t.attr("itemId") });
                         if (founded && founded.length > 0) {
 
                             $.each(founded, function () {
-                                this.object_status = t.is(":checked") ? "Added" : "Removed";
+                                this.object_Status = t.is(":checked") ? "Added" : "Removed";
                             });
                         } else if (t.is(":checked"))
-                            section.pagecategories.push({ category: con })
+                            section.pageCategories.push({ category: con })
                     });
                     sectionDialog.find(".categoriesContainer").append(li);
 
@@ -271,11 +274,11 @@
 
         function loadsections() {
             general.content.find(".ulContainer").html("");
-            var sections = $.grep(item.pagesections, function (m) { return m.object_status != "Removed" })
+            var sections = $.grep(item.pageSections, function (m) { return m.object_Status != "Removed" })
             $.each(Sort(sections, "order", "asc"), function (index,x) {
-                var li = $("<li index='"+index+"'></li>").html(this.sectionname +" (" + this.pagetype +")").append("<span class='delete'></span><span class='edit'></span>");
+                var li = $("<li index='"+index+"'></li>").html(this.sectionName +" (" + this.pageType +")").append("<span class='delete'></span><span class='edit'></span>");
                 li.find("span").first().click(function () {
-                    x.object_status = "Removed";
+                    x.object_Status = "Removed";
                     loadsections();
                 });
                 li.find("span").last().click(function () {
@@ -309,7 +312,7 @@
                 if (!item.files)
                     item.files = [];
 
-                item.pagessliders.push(y);
+                item.pagesSliders.push(y);
                 loadSlider();
             }
 
@@ -317,13 +320,13 @@
 
         function loadSlider() {
             settings.content.find("ul.itemContainer").html("");
-            $($.grep(item.pagessliders, function (m) { return m.object_status != "Removed" })).each(function () {
+            $($.grep(item.pagesSliders, function (m) { return m.object_Status != "Removed" })).each(function () {
                 var x = this;
-                var src = '@Url.Action("Index", "Home", null, Request.Url.Scheme)' + this.files.filefullpath;
-                var li = $("<li title='" + this.files.friendlyname + "'></li>")
+                var src = '@Url.Action("Index", "Home", null, Request.Url.Scheme)' + this.files.fileFullPath;
+                var li = $("<li title='" + this.files.friendlyName + "'></li>")
                     .append("<i><span>PREVIEW</span><span class='del'>X</span><span>Settings</span></i>")
                     .append("<img src='" + src + "' />")
-                    .append("<span>" + this.files.friendlyname + "</span>");
+                    .append("<span>" + this.files.friendlyName + "</span>");
 
                 li.mouseover(function (e) {
                     li.find("i").show("fast");
@@ -343,7 +346,7 @@
                         title: "Please confirm",
                         data: "You will be deleting this file <br> Are you sure",
                         onConfirm: function () {
-                            x.object_status = "Removed";
+                            x.object_Status = "Removed";
                             loadSlider();
                         },
                         onCancel: function () { }

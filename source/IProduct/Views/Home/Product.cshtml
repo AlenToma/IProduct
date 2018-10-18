@@ -56,6 +56,16 @@
 <script>
     $(document).ready(function ()
     {
+        // Image Preview 
+        $(".product-detalj-big-images").find("img").click(function ()
+        {
+            var img = $(this).clone();
+            $("body").dialog({
+                data: img
+            }).Show();
+
+        });
+       
         //format a price
         var price = parseFloat($(".product-price").attr("price")).formatMoney();
         $(".product-price").html(price + ":-");

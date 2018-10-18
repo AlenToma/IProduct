@@ -65,10 +65,10 @@
     function validate() {
         userItem.email = userForm.find(".email").val();
         userItem.password = userForm.find(".password").val();
-        userItem.person.firstname = userForm.find(".firstName").val();
-        userItem.person.lastname= userForm.find(".lastName").val();
-        userItem.person.phonenumber= userForm.find(".phone").val();
-        userItem.person.address.addressline= userForm.find(".address").val();
+        userItem.person.firstName = userForm.find(".firstName").val();
+        userItem.person.lastName= userForm.find(".lastName").val();
+        userItem.person.phoneNumber= userForm.find(".phone").val();
+        userItem.person.address.addressLine= userForm.find(".address").val();
         userItem.person.address.code= userForm.find(".code").val();
         userItem.person.address.state= userForm.find(".state").val();
         var errorMessages = "";
@@ -78,17 +78,17 @@
         if (userForm.find(".password").val() != userForm.find(".confirm").val())
             errorMessages += "Password and Repeat password dose not match";
 
-        if (isNullOrEmpty(userItem.person.firstname))
+        if (isNullOrEmpty(userItem.person.firstName))
             errorMessages += "FirstName cant be empty";
 
-        if (isNullOrEmpty(userItem.person.lastname))
+        if (isNullOrEmpty(userItem.person.lastName))
             errorMessages += "LastName cant be empty";
 
         if (isNullOrEmpty(userItem.role.id))
             errorMessages += "Role is required";
 
 
-        if (isNullOrEmpty(userItem.person.address.country.id))
+        if (isNullOrEmpty(userItem.person.address.country.Id))
             errorMessages += "Country is required";
 
         if (!isNullOrEmpty(errorMessages)) {
@@ -112,11 +112,11 @@
 
                 },
                 person: {
-                    firstname: "",
-                    lastname: "",
-                    phonenumber: "",
+                    firstName: "",
+                    lastName: "",
+                    phoneNumber: "",
                     address: {
-                        addressline: "",
+                        addressLine: "",
                         code: "",
                         state: "",
                         country: {}
@@ -148,10 +148,10 @@
         userForm.find(".email").val(userItem.email);
         userForm.find(".password").val(userItem.password);
         userForm.find(".confirm").val(userItem.password);
-        userForm.find(".firstName").val(userItem.person.firstname);
-        userForm.find(".lastName").val(userItem.person.lastname);
-        userForm.find(".phone").val(userItem.person.phonenumber);
-        userForm.find(".address").val(userItem.person.address.addressline);
+        userForm.find(".firstName").val(userItem.person.firstName);
+        userForm.find(".lastName").val(userItem.person.lastName);
+        userForm.find(".phone").val(userItem.person.phoneNumber);
+        userForm.find(".address").val(userItem.person.address.addressLine);
         userForm.find(".code").val(userItem.person.address.code);
         userForm.find(".state").val(userItem.person.address.state);
 

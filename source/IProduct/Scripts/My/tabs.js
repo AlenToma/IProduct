@@ -38,7 +38,7 @@
             container.find(".tabs").find(".selected").removeClass("selected");
             container.find(".tabs").find("li[tab='" + tabId + "']").addClass("selected");
             container.children("div").hide();
-            container.children("div[tab='" + tabId + "']").css("display", "block");
+			container.children("div[tab='" + tabId + "']").css("display", "inline-table");
             settings.selectedTab = item;
             if (settings.onSelect)
                 settings.onSelect(item);

@@ -130,7 +130,7 @@
 
         function createMapp(item) {
             if (!item)
-                item = { name: "", description: "", children:[], parent_id: null }
+                item = { name: "", description: "", children:[], parent_Id: null }
             else item.children = [];
 
             var div = $("<div class='form'> </div>")
@@ -148,7 +148,7 @@
                 childrenProperty: "children",
                 childTextField: "name",
                 childValueField: "id",
-                selectedValue: item.parent_id !== null ? item.parent_id: -1,
+                selectedValue: item.parent_Id !== null ? item.parent_Id: -1,
                 disabledItems: [item],
                 items: [{ name: "---No Parent---", id: -1 }],
                 onselect: function (mapp) {
@@ -218,11 +218,11 @@
                 success: function (data) {
                     $.each(data, function () {
                         var item = this;
-                        var src = '@Url.Action("Index", "Home", null, Request.Url.Scheme)' + this.filefullpath;
-                        var li = $("<li title='" + item.friendlyname+ "'></li>")
+                        var src = '@Url.Action("Index", "Home", null, Request.Url.Scheme)' + this.fileFullPath;
+                        var li = $("<li title='" + item.friendlyName+ "'></li>")
                             .append("<i><span>PREVIEW</span><span class='delete'>X</span><span>Select</span></i>")
                             .append("<img src='" + src + "' />")
-                            .append("<span>" + this.friendlyname + "</span>");
+                            .append("<span>" + this.friendlyName + "</span>");
                         li.mouseover(function (e) {
                                 li.find("i").show("fast");
                             }).mouseleave(function () {

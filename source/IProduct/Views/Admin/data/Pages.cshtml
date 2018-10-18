@@ -48,11 +48,11 @@
         header: "Parent",
         data: function (item) {
             var result = undefined;
-            if (isNullOrEmpty(item.parent_id))
+            if (isNullOrEmpty(item.parent_Id))
                 return "";
             $(".pages").ax({
                 url: '@Url.Action("GetPagesComboBoxItems", "Admin")',
-                data: JSON.stringify({ value: item.parent_id }),
+                data: JSON.stringify({ value: item.parent_Id }),
                 async: false,
                 success: function (data) {
                     result = data[0];
@@ -65,7 +65,7 @@
         sortable: false
         }, {
         data: function (d) {
-            if (d.isactive)
+            if (d.isActive)
                 return "YES";
             return "NO";
         },
@@ -103,8 +103,7 @@
                 data: JSON.stringify( settings),
                 async: false,
                 success: function (data) {
-                    settings.totalPages = data.totalpages;
-                    result = data.result;
+                    result = data;
                 }
             })
             return result;

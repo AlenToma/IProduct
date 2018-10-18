@@ -22,6 +22,18 @@ namespace IProduct.Controllers
         }
         public ActionResult Index(Guid? id = null)
         {
+            /// test data
+            //var products = DbContext.Get<IProduct.Modules.Library.Product>().LoadChildren().Execute();
+            //foreach (var p in products)
+            //{
+            //    for (var i = 1; i <= 100; i++)
+            //    {
+            //        var clonedProduct = p.ClearAllIdsHierarchy<IProduct.Modules.Library.Product>();
+            //        DbContext.Save(clonedProduct);
+            //    }
+            //}
+            //DbContext.SaveChanges();
+
             if (id.HasValue)
                 return View(new GenericView<Pages>(DbContext.Get<Pages>().Where(x => x.Id == id && x.IsActive).LoadChildren().ExecuteFirstOrDefault()));
             else
@@ -64,7 +76,7 @@ namespace IProduct.Controllers
         [HttpPost]
         public ActionResult GetProducts(TableTreeSettings tbSettings, List<Guid> categoriesId)
         {
-            return DbContext.Search<Product>(tbSettings, x => x.ProductCategories.Any(a => categoriesId.Contains(a.Category_Id)), x => x.Images, x => x.Images.Select(a => a.Images)).ViewResult(JsonFormatting.CamelCase);
+            return DbContext.Search<Product>(tbSettings, x => x.ProductCategories.Any(a => categoriesId.Contains(a.Category_Id)), x => x.Images, x => x.Images.Select(a => a.Images)).ViewResult();
         }
 
         [HttpGet]

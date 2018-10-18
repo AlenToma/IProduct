@@ -12,6 +12,8 @@
     @Scripts.Render("~/bundles/My")
 
     <script>
+
+        var global = { root: '@Url.Action("index", "Home",null, Request.Url.Scheme)' };
         function Partial(moduleName, callbeck) {
             var item = undefined;
             $("body").ax({

@@ -16,8 +16,6 @@ namespace IProduct.Modules.Library.Custom
         {
         }
 
-        public JsonFormatting? JsonFormatting { get; set; }
-
         /// <summary>
         /// Gets or sets the content encoding.
         /// </summary>
@@ -57,15 +55,12 @@ namespace IProduct.Modules.Library.Custom
                 response.ContentEncoding = this.ContentEncoding;
             }
 
-         
+
             if (this.Data != null)
             {
-                if (JsonFormatting.HasValue)
-                {
-                    response.Write(this.Data.ToJson(new EntityWorker.Core.Object.Library.JSON.JSONParameters() { JsonFormatting = JsonFormatting.Value, UseFastGuid= false}));
-                }
-                else
-                    response.Write(this.Data.ToJson());
+
+                response.Write(this.Data.ToJson(new EntityWorker.Core.Object.Library.JSON.JSONParameters() { JsonFormatting = JsonFormatting.CamelCase, UseFastGuid = false }));
+
             }
         }
     }

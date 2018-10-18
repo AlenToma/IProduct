@@ -45,8 +45,10 @@
 
 
     var columns = [{ data: "name", header: "Name" },
+        { data: "price", header: "Price" },
         { data: "description", header: "Description" },
         { data: "status", header: "Status" },
+        { data: function (x) { return formatDate(x.available) }, header: "Available" },
         {
             header: "Categories",
             data: function (item) {
@@ -93,8 +95,7 @@
                 data: JSON.stringify(settings),
                 async: false,
                 success: function (data) {
-                    settings.totalPages = data.totalpages;
-                    result = data.result;
+                    result = data;
                 }
             })
             return result;

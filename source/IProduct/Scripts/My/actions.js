@@ -39,7 +39,8 @@ function formatDate(date, incTime)
 		date.getDate());
 	var month = (date.getMonth() + 1 <= 9 ? "0" +
 		(date.getMonth() + 1) : (date.getMonth() + 1));
-	var dateString = day + "-" + month + "-" + date.getFullYear() + " " + (incTime ? date.getHours() + ":" + date.getMinutes() : "");
+	var dateString = date.getFullYear() + "-" + month + "-" + day + " " + (incTime ? date.getHours() + ":" + date.getMinutes() : "");
+	//var dateString = day + "-" + month + "-" + date.getFullYear() + " " + (incTime ? date.getHours() + ":" + date.getMinutes() : "");
 
 	return dateString;
 }

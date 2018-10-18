@@ -13,7 +13,21 @@
                 var section = $(".@Model.Id").last();
                 var data =  @Html.Raw(Model.ToJson(new EntityWorker.Core.Object.Library.JSON.JSONParameters() { JsonFormatting = JsonFormatting.CamelCase, UseFastGuid= false }));
             var categories = [];
-            var tbSettings = { append: false };
+            var tbSettings = { append: false, executed: false };
+            var slider = undefined;
+            var time;
+            var onScroll  = function ()
+            {
+                if(tbSettings.executed)
+                if(tbSettings.totalPages > tbSettings.selectedPage)
+                {
+                    tbSettings.executed = false;
+                    tbSettings.selectedPage++;
+                    tbSettings.append = true;
+                    loadProducts();
+                }
+            };
+
                 $.each(data.pageCategories, function ()
                 {
                     categories.push(this.category_Id);
@@ -24,12 +38,17 @@
                     var settings = $.extend({
                         result: null
                     }, tbSettings);
-                    section.ax({
+                    (section.children("div").length <= 0 ? section : section.children("div:last-child")).ax({
                         url: '@Url.Action("GetProducts", "Home")',
                         data: JSON.stringify({ tbSettings: settings, categoriesId: categories }),
                         success: function (data)
                         {
-                            tbSettings = data;
+                            if(tbSettings.totalPages == undefined)
+                                tbSettings = $.extend(tbSettings, data);
+                            else
+                            {
+                                tbSettings.result = data.result;
+                            }
                             render();
                         }
                     });
@@ -39,9 +58,9 @@
                 {
                     if(!tbSettings.append)
                         section.html("");
-
                     if(data.productShow == "ImageGrid" || data.productShow == "Slider")
                     {
+                        var divs = [];
                         $.each(tbSettings.result, function ()
                         {
                             var x = this;
@@ -68,24 +87,35 @@
                             {
                                 shoppingCart.add(x.id, 1);
                             });
-
-                            section.append(div);
-
+                            if(data.productShow === "Slider")
+                                divs.push($("<div/>").append(div));
+                            else divs.push(div);
                         });
 
-                        if(data.productShow === "Slider")
+                        if(data.productShow === "Slider" && slider != undefined)
                         {
-                            section.slick({
+                            section.slick('slickAdd', divs);
+                        } else section.append(divs);
+
+                        if(data.productShow === "Slider" && slider === undefined)
+                        {
+                            slider = section.slick({
                                 slidesToShow: 3,
                                 slidesToScroll: 1,
                                 autoplay: true,
                                 arrows: true,
                                 autoplaySpeed: 4000,
                                 centerMode: true,
-                                variableWidth: true
+                                variableWidth: true,
+                                infinite: true,
+                            });
+
+                            section.find(".slick-next").click(function ()
+                            {
+                                clearTimeout(time);
+                                time= setTimeout(onScroll, 0);
                             });
                         }
-
 
                     } else if(data.productShow === "Table") // End of Image Grid & Slider and start of Table View
                     {
@@ -111,6 +141,7 @@
                                 tbSettings.append = false;
                                 loadProducts();
                             });
+
 
                             section.append(header);
                         }
@@ -143,10 +174,23 @@
 
                         });
                     } // end of table view
-                    tbSettings.append = true;
                     btnLoadable();
+                    tbSettings.append = true;
+                    tbSettings.executed = true;
+
                 };
 
-                loadProducts();
+            loadProducts();
+
+            if(data.productShow !== "Slider")
+            {
+                $(window).scroll(function (event)
+                {
+                    clearTimeout(time);
+                    if(Math.round($(window).scrollTop()) + $(window).innerHeight() == $(document).height())
+                        time = setTimeout(onScroll, 100);
+                });
+            }
+
         });
 </script>

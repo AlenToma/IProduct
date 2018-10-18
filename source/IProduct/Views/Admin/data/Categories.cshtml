@@ -8,7 +8,7 @@
     var categories;
     function EditCategories(item) {
         if (!item)
-            item = { name: "", description: "", parent_id: null }
+            item = { name: "", description: "", parent_Id: null }
             var container = $("<div class='form'></div>");
             container.append('<div class="form-group"><label for="name">Name:</label><input type="text" class="form-control name" placeholder="Enter name" name="name" value="' + item.name + '" /></div>');
             container.append('<div class="form-group"><label for="Description">Description:</label><textarea rows="5" class="form-control description" placeholder="Enter Description" name="Description">' + item.description + '</textarea></div>');
@@ -20,13 +20,13 @@
                 childrenProperty: "categories",
                 childTextField: "name",
                 childValueField: "id",
-                selectedValue: item.parent_id !== null ? item.parent_id: -1,
+                selectedValue: item.parent_Id !== null ? item.parent_Id: -1,
                 disabledItems: [item],
                 items: [{ name: "---No Parent---", id: -1 }],
                 onselect: function (category) {
                     if (category.id <= 0)
-                        item.parent_id = null;
-                    else item.parent_id = category.id;
+                        item.parent_Id = null;
+                    else item.parent_Id = category.id;
                 }
             });
            var dialog= $("body").dialog({
@@ -80,8 +80,7 @@
                 data: JSON.stringify(settings),
                 async: false,
                 success: function (data) {
-                    settings.totalPages = data.totalpages;
-                    result = data.result;
+                    result = data;
                 }
             })
             return result;

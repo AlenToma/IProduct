@@ -27,7 +27,7 @@
         <div class="user-form form">
             <div class="form-group">
                 @Html.LabelFor(model => model.View.Email)
-                @Html.TextBoxFor(model => model.View.Email, new { @class = "form-control", placeholder = "Email", required = true })
+                @Html.TextBoxFor(model => model.View.Email, new { @class = "form-control", placeholder = "Email", required = true, @readonly = "readonly" })
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">

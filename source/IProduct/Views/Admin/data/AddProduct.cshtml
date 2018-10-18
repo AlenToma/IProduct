@@ -176,15 +176,13 @@
             tinymce.triggerSave();
             x.name = general.content.find(".name").val();
             x.price = parseFloat(general.content.find(".price").val());
-            //x.content = tinymce.get('productContent').getContent()
-            //x.content = general.content.find("#productContent").val();
-            $.each(x.productcategories, function () { this.object_status = "Removed" });
+            $.each(x.productCategories, function () { this.object_Status = "Removed" });
             general.content.find("ul.categoriesContainer").find("input:checked").each(function () {
                 var categoryId = $(this).attr("itemId");
-                var found = $.grep(x.productcategories, function (a) { return a.category_id == categoryId });
+                var found = $.grep(x.productCategories, function (a) { return a.category_Id == categoryId });
                 if (found.length <= 0) {
-                    x.productcategories.push({ category_id: categoryId });
-                } else $.each(found, function () { this.object_status = "Added" });
+                    x.productCategories.push({ category_Id: categoryId });
+                } else $.each(found, function () { this.object_Status = "Added" });
             });
         }
 
@@ -201,7 +199,8 @@
         productsettings.validate = function () { return true; }
 
         productsettings.getInput = function (x) {
-            x.available = productsettings.content.find(".available").val().replace("/\//g","-");
+            x.available = productsettings.content.find(".available").val().replace("/\//g", "-");
+            //alert(x.available);
             x.status = productsettings.content.find(".status:checked").val();
         }
 
@@ -224,7 +223,7 @@
 
     function EditProducts(tItem) {
         if (!tItem)
-            item = { name: "", price: 0, description: "", productcategories: [], content: "", keywords: "", meta: "", images: [], productdiscounts: [], status: "Hidden", available: "", tabs:[] }
+            item = { name: "", price: 0, description: "", productCategories: [], content: "", keywords: "", meta: "", images: [], productDiscounts: [], status: "Hidden", available: "", tabs:[] }
         else item = tItem;
         var currentTab = {
             tab: {name: "", content: ""}, edit: false, content: "" }
@@ -250,7 +249,7 @@
         properties.content.find(".keywords").val(item.keywords);
         properties.content.find(".meta").val(item.meta);
         productsettings.content.find(".available").val(formatDate(item.available));
-        productsettings.content.find(".available").datepicker({ dateFormat: 'dd-mm-yy' });
+        productsettings.content.find(".available").datepicker({ dateFormat: 'yy-mm-dd' });
 
 
         if (item.status == "Hidden")
@@ -270,6 +269,7 @@
                     loadHtmlEditor();
                 }
             }).Show();
+
             browserSettings.onSelect = function (x, src) {
                 var y = { images: x };
                 if (!item.images)
@@ -278,7 +278,6 @@
                 item.images.push(y);
                 loadProductImages();
                 }
-
         });
 
 
@@ -330,11 +329,11 @@
                 dialogTabs.Show();
             },
             onDelete: function (a) {
-                a.object_status = "Removed";
+                a.object_Status = "Removed";
                 tabs.body();
             },
             data: function (settings) {
-                return $($.grep(item.tabs, function (a) { return a.object_status != "Removed" }));
+                return $($.grep(item.tabs, function (a) { return a.object_Status != "Removed" }));
             },
             pageSize: 1000,
             columns: [{ data: "name", header: "Name" }]
@@ -342,13 +341,13 @@
 
         function loadProductImages() {
             properties.content.find("ul.itemContainer").html("");
-            $.each($.grep(item.images, function (m) { return m.object_status != "Removed" }), function (i, a) {
+            $.each($.grep(item.images, function (m) { return m.object_Status != "Removed" }), function (i, a) {
                 var x = this;
-                var src = '@Url.Action("Index", "Home", null, Request.Url.Scheme)' + this.images.filefullpath
-                var li = $("<li title='" + this.images.friendlyname + "'></li>")
+                var src = '@Url.Action("Index", "Home", null, Request.Url.Scheme)' + this.images.fileFullPath
+                var li = $("<li title='" + this.images.friendlyName + "'></li>")
                     .append("<i><span>PREVIEW</span><span class='delete'>X</span></i>")
                     .append("<img src='" + src + "' />")
-                    .append("<span>" + this.images.friendlyname + "</span>");
+                    .append("<span>" + this.images.friendlyName + "</span>");
 
                 li.mouseover(function (e) {
                     li.find("i").show("fast");
@@ -368,7 +367,7 @@
                         title: "Please confirm",
                         data: "You will be deleting this file <br> Are you sure",
                         onConfirm: function () {
-                            x.object_status = "Removed";
+                            x.object_Status = "Removed";
                             loadProductImages();
                         },
                         onCancel: function () { }
@@ -380,8 +379,8 @@
         }
 
         loadProductImages();
-        $.each(item.productcategories, function () {
-            general.content.find(".categoriesContainer").find("input[itemId='" + this.category_id + "']").attr("checked", "checked");
+        $.each(item.productCategories, function () {
+            general.content.find(".categoriesContainer").find("input[itemId='" + this.category_Id + "']").attr("checked", "checked");
         });
         loadHtmlEditor();
     }

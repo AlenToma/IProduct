@@ -42,7 +42,7 @@
     }
 
          var columns = [{
-             data: function (item) { return item.person.fullname },
+             data: "person.fullName",
              header:"Name",
              sortable: false
         },
@@ -51,7 +51,7 @@
             header:"Email"
         },
         {
-            data: "role.roletype",
+            data: "role.roleType",
             header: "Role",
             sortable: false
         },
@@ -85,11 +85,10 @@
                 return [];
             $(".users").ax({
                 url: '@Url.Action("GetUser", "Admin")',
-                data: JSON.stringify( settings),
+                data: JSON.stringify(settings),
                 async: false,
                 success: function (data) {
-                    settings.totalPages = data.totalpages;
-                    result = data.result;
+                    result = data;
                 }
             })
             return result;

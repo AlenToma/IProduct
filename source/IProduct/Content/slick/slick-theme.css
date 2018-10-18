@@ -40,6 +40,7 @@
     color: transparent;
     border: none;
     outline: none;
+    opacity: .4;
 }
 .slick-prev:hover,
 .slick-prev:focus,
@@ -69,8 +70,6 @@
     font-family: 'slick';
     font-size: 20px;
     line-height: 1;
-
-    opacity: .75;
     color: white;
 
     -webkit-font-smoothing: antialiased;

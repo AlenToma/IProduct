@@ -26,7 +26,9 @@
 		var item = {};
 		var dialogDim = undefined;
 		var container = $(this);
-		var div = $("<div class='dialog'><h1>" + settings.title + "<span class='close'>" + settings.closeText + "</span></h1><div><table><tr> <td></td>  </tr><tr><td style='height:11px'></td></tr></table></div></div>");
+		if(!settings.title || settings.title === "")
+			settings.title = "	&#160;";
+		var div = $("<div class='dialog'><h1>" +settings.title + "<span class='close'>" + settings.closeText + "</span></h1><div><table><tr> <td></td>  </tr><tr><td style='height:11px'></td></tr></table></div></div>");
 		$.each(settings.buttons, function ()
 		{
 			var x = this;

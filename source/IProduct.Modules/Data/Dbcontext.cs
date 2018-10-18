@@ -282,8 +282,8 @@ namespace IProduct.Modules.Data
                 else
                     data = data.OrderByDescending(settings.SortColumn);
             }
-            settings.TotalPages = Math.Ceiling(data.ExecuteCount().ConvertValue<decimal>() / settings.PageSize).ConvertValue<int>();
-            data = data.Skip(settings.SelectedPage / settings.PageSize).Take(settings.PageSize);
+            settings.TotalPages = (data.ExecuteCount() / settings.PageSize).ConvertValue<int>();
+            data = data.Skip((settings.SelectedPage - 1) * settings.PageSize).Take(settings.PageSize);
             settings.Result = data.Execute();
             return settings;
         }

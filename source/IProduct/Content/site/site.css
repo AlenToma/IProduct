@@ -24,6 +24,70 @@
     display: inline-block;
 }
 
+.table > tbody > tr > td, .table > tfoot > tr > td {
+    vertical-align: middle;
+}
+table#cart .btn {
+    float: none;
+}
+@media screen and (max-width: 750px) {
+    table#cart .btn:not(.btn-number) {
+        width: 100%;
+        display: list-item;
+        /*margin: auto;*/
+    }
+
+    table #cart tbody td .form-control {
+        width: 20%;
+        display: inline !important;
+    }
+
+    .actions .btn {
+        width: 36%;
+        margin: 1.5em 0;
+    }
+
+    .actions .btn-info {
+        float: left;
+    }
+
+    .actions .btn-danger {
+        float: right;
+    }
+
+    table#cart thead {
+        display: none;
+    }
+
+    table#cart tbody td {
+        display: block;
+        padding: .6rem;
+        min-width: 261px;
+    }
+
+    table#cart tbody tr td:first-child {
+        background: #333;
+        color: #fff;
+    }
+
+    table#cart tbody td:before {
+        content: attr(data-th);
+        font-weight: bold;
+        display: inline-block;
+        width: 8rem;
+    }
+
+
+
+    table#cart tfoot td {
+        display: block;
+    }
+
+        table#cart tfoot td .btn {
+            display: block;
+        }
+}
+
 .veryTop > i:before {
     /*vertical-align: sub;*/
     padding-right: 4px;
@@ -49,75 +113,6 @@
     height:18px;
 }
 
-.shoppingCart > table {
-    width: 100%;
-}
-
-    .shoppingCart > table thead tr th, .shoppingCart > table tfoot tr td {
-        background: rgb(50, 55, 61);
-        color: white;
-        font-weight: bolder;
-        padding: 5px;
-        font-size: 16px;
-    }
-
-.shoppingCart table tbody tr td, .shoppingCart table tfoot tr td {
-    padding: 5px;
-    border-bottom: 1px solid #eee;
-}
-
-    .shoppingCart table tbody tr td .btn {
-        float: left;
-        width: 20px;
-        height: 20px;
-        text-align: center;
-        /* padding-top: 0px; */
-        padding: 0;
-    }
-
-    .shoppingCart table tbody tr td input[type=text] {
-        width: 12px;
-        border: 1px solid #eee;
-        padding: 3px;
-        padding-left: -1px;
-        margin: 5px;
-        padding-right: 5px;
-        width: 26px;
-        height: 16px;
-        text-align: center;
-        float: left;
-    }
-
-    .shoppingCart table tbody tr td > span {
-        font-weight: bolder;
-        font-size: 15px;
-        display: block;
-        word-wrap: break-word;
-        word-break: break-all;
-        overflow: hidden;
-        white-space: normal;
-        /*line-height: 15px;*/
-        padding-left: 1px;
-        margin-top: 3px;
-    }
-
-        .shoppingCart table tbody tr td > span.description {
-            font-weight: normal;
-            font-size: 10px;
-            text-overflow: ellipsis;
-            /* Required for text-overflow to do anything */
-            /*white-space: nowrap;*/
-            padding-top: 0;
-            margin: 0;
-            max-width: 94%;
-            display: block;
-            font-size-adjust: 0.58;
-        }
-
-.shoppingCart .delete {
-    cursor: pointer;
-}
-
 
 .floatRight {
     display: inline-block;
@@ -134,30 +129,4 @@ label[required]:after {
     height: 0;
     margin-left: 5px;
     top: 1px;
-}
-
-
-
-@media screen and (max-width: 600px) {
-    .ImageGrid > li {
-        /*margin-left: 11%;*/
-    }
-
-    iframe {
-        max-width: 85vw !important;
-    }
-
-    .content {
-        overflow: hidden;
-    }
-}
-
-@media screen and (max-width: 480px) {
-    .products > li {
-        width: 90vw;
-    }
-
-        .products > li > div > div {
-            display: inline-block;
-        }
 }

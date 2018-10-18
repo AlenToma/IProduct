@@ -223,8 +223,10 @@
         } else {
             if (addBefore === true) {
                 $(markup).prependTo(_.$slideTrack);
-            } else {
-                $(markup).appendTo(_.$slideTrack);
+			} else
+			{
+				$(_.$slideTrack).append(markup);
+                //$().appendTo();
             }
         }
 
@@ -439,11 +441,14 @@
 
         var _ = this;
 
-        if (_.options.arrows === true ) {
-
+		if(_.options.arrows === true)
+		{
+		
             _.$prevArrow = $(_.options.prevArrow).addClass('slick-arrow');
             _.$nextArrow = $(_.options.nextArrow).addClass('slick-arrow');
 
+
+			
             if( _.slideCount > _.options.slidesToShow ) {
 
                 _.$prevArrow.removeClass('slick-hidden').removeAttr('aria-hidden tabindex');

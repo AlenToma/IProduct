@@ -174,7 +174,7 @@
             if (settings.selectedPage >= settings.totalPages)
                 table.children("tfoot").find(".pager").find(".next").addClass("disabled");
 
-            table.children("tfoot").find(".pager").find("li:not('.selected'):not('disabled')").click(function () {
+            table.children("tfoot").find(".pager").find("li:not('.selected'):not('.disabled')").click(function () {
                 settings.selectedPage = parseInt($(this).attr("pageNumber"));
                 item.body();
             });
@@ -184,7 +184,8 @@
             var timeout = undefined;
             item.body = function () {
                 clearTimeout(timeout);
-                timeout = setTimeout(function () {
+				timeout = setTimeout(function ()
+				{
                     var tempSettings = {
                         sort: settings.sort,
                         sortColumn: settings.sortColumn,
@@ -193,8 +194,14 @@
                         selectedPage: settings.selectedPage,
                         searchText: settings.searchText
                     };
-                    var data = item.sort(settings.data(tempSettings), settings.sortColumn, settings.sort);
+					var data = settings.data(tempSettings);
+					if(data && data.totalPages !== undefined)
+					{
+						settings.totalPages = data.totalPages;
+						data = data.result;
+					}
 
+					data = item.sort(data, settings.sortColumn, settings.sort);
                     table.children("tbody").html("");
                     function getValue(col, object, asString) {
                         var v = undefined;
@@ -315,13 +322,15 @@
                             else th.find(".bg>i").addClass("asc");
                         }
 
-                        th.find("i").click(function () {
+						th.find("i").click(function ()
+						{
+						
                             if ($(this).hasClass("desc")) {
                                 settings.sort = "asc";
                             } else if ($(this).hasClass("asc")) {
                                 settings.sort = "desc";
-                            } else settings.sort = "asc";
-
+							} else settings.sort = "asc";
+							settings.selectedPage = 1;
                             settings.sortColumn = column.data;
                             item.header();
 

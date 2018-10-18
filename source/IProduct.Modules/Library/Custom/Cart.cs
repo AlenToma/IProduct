@@ -133,7 +133,7 @@ namespace IProduct.Modules.Library.Custom
                     ApplyUser(user.Id.Value);
             }
 
-            var prop = DeepCloner.GetFastDeepClonerProperties(invoice.GetType()).FirstOrDefault(x => string.Equals(x.Name, field, System.StringComparison.CurrentCultureIgnoreCase));
+            var prop = DeepCloner.GetFastDeepClonerProperties(invoice.GetType()).FirstOrDefault(x => string.Equals(x.Name, field, StringComparison.CurrentCultureIgnoreCase));
             if (prop != null)
                 prop.SetValue(invoice, value.ConvertValue(prop.PropertyType));
 

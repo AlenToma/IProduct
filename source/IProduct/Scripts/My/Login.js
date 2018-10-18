@@ -57,7 +57,7 @@
 		{
 			container.html("");
 			var user = container.get();
-			$(settings.connector).html(user.person.firstname + " " + user.person.lastname);
+			$(settings.connector).html(user.person.fullName);
 			//container.append("<span>" + user.email + " </span>");
 		};
 
