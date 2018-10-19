@@ -1,20 +1,25 @@
-﻿<div class="veryTop">
+﻿@*<div class="veryTop">
     <i class="cart"></i>
     <i class="fa fa-user" aria-hidden="true"></i>
-</div>
+</div>*@
 <div class="menuContainer">
     <a class="toggleMenu" href="#">Menu</a>
-    <nav class="nav">
+    <nav class="navMenu">
 
     </nav>
 </div>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function ()
+    {
+        var userData = $("<li/>", { "class": "float-right userData" })
+            .append($("<a/>")
+                .append('</i> <i class="fa fa-user" aria-hidden="true"></i><i class="fa fa-shopping-cart" aria-hidden="true">'));
+
         if (!shoppingCart)
             shoppingCart = $("body").shoppingCart({
                 get: '@Url.Action("GetCart", "Home")',
                 save: '@Url.Action("AddCart", "Home")',
-                connector: $(".veryTop > .cart"),
+                connector: userData.find(".fa-shopping-cart"),
                 image: '@Url.Action("Index", "Home", null, Request.Url.Scheme)',
                 display: "none"
             });
@@ -24,8 +29,13 @@
             signOut: '@Url.Action("SignOut", "Home")',
             get: '@Url.Action("GetcurrentUser", "Home")',
             homePage: '@Url.Action("index", "Home", null, Request.Url.Scheme)',
-            connector: ".fa-user"
+            connector: userData.find(".fa-user")
         });
+
+
+
+
+
         var user = loginView.get();
         if (user !== null && user) {
 
@@ -58,13 +68,13 @@
                 })
             }
 
-            $(".fa-user").contextMenu({
+            userData.find(".fa-user").contextMenu({
                 action: "left",
                 dataSource: datasource
             });
         }
 
-        $(".fa-user").click(function () {
+        userData.find(".fa-user").click(function () {
             var user = loginView.get();
             if (user !== null && user) {
 
@@ -72,17 +82,25 @@
             else window.location.href = '@Url.Action("Index", "Account", null, Request.Url.Scheme)';
         });
 
-        $(".cart").click(function () {
+        userData.find(".fa-shopping-cart").click(function () {
             window.location= '@Url.Action("ShoppingCart", "Home", null, Request.Url.Scheme)'
         });
-        var container = $(".nav").append("<ul></ul>");
-        function renderMenu(parent, item) {
-            if (item.children && item.children.length > 0) {
-                parent.children("a").attr("href", "#");
+
+
+        var container = $(".navMenu").append("<ul class='nav'></ul>");
+
+        function renderMenu(parent, item)
+        {
+            if(item.children && item.children.length > 0)
+            {
+                //parent.children("a").attr("href", "#").addClass("parent");
+                parent.children("a").addClass("parent");
+                parent.children("a").append('<i class="fa fa-caret-down"></i>');
                 var ul = $("<ul></ul>")
-                parent.addClass("nav-submenu")
+                //parent.children("a").addClass("parent");
                 parent.append(ul);
-                $.each(item.children, function () {
+                $.each(item.children, function ()
+                {
                     var url = '@Url.Action("index","Home")'
                     url += '?page=' + this.id;
                     var li = $("<li></li>").append("<a href='" + url + "'>" + this.name + " </a>");
@@ -95,15 +113,22 @@
         container.ax({
             url: '@Url.Action("Pages", "Home")',
             async: false,
-            success: function (data) {
-                $.each(data, function () {
+            success: function (data)
+            {
+                $.each(data, function ()
+                {
                     var url = '@Url.Action("index","Home")'
                     url += '?page=' + this.id;
-                    var li = $("<li></li>").append("<a href='" + url+"'>" + this.name + " </a>");
+                    var li = $("<li></li>").append("<a href='" + url + "'>" + this.name + " </a>");
                     container.children("ul").append(li);
                     renderMenu(li, this);
+
+
                 });
+                container.children("ul").append(userData);
+                adjustMenu(userData);
             }
         });
+
     });
 </script>

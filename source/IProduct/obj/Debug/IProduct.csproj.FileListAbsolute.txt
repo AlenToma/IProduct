@@ -110,8 +110,8 @@ D:\Projects\IProduct\source\IProduct\bin\System.Web.Razor.xml
 D:\Projects\IProduct\source\IProduct\bin\System.Web.WebPages.xml
 D:\Projects\IProduct\source\IProduct\bin\System.Web.WebPages.Deployment.xml
 D:\Projects\IProduct\source\IProduct\bin\System.Web.WebPages.Razor.xml
+D:\Projects\IProduct\source\IProduct\obj\Debug\IProduct.csprojAssemblyReference.cache
 D:\Projects\IProduct\source\IProduct\obj\Debug\IProduct.csproj.CoreCompileInputs.cache
 D:\Projects\IProduct\source\IProduct\obj\Debug\IProduct.csproj.CopyComplete
 D:\Projects\IProduct\source\IProduct\obj\Debug\IProject.dll
 D:\Projects\IProduct\source\IProduct\obj\Debug\IProject.pdb
-D:\Projects\IProduct\source\IProduct\obj\Debug\IProduct.csprojAssemblyReference.cache

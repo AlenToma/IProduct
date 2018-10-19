@@ -191,8 +191,10 @@ namespace IProduct.Modules
                 Bitmap srcBmp;
                 using (var ms = new MemoryStream(image))
                     srcBmp = new Bitmap(ms);
+
                 float ratio = 1;
                 float minSize = Math.Min(newHeight, newHeight);
+
 
                 if (srcBmp.Width > srcBmp.Height)
                 {

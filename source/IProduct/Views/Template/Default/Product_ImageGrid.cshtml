@@ -1,0 +1,46 @@
+﻿@*<div class="col-md-4">
+    <div class="thumbnail">
+        <img src="{Src}" alt="" class="img-responsive">
+        <div class="caption">
+            <h4 class="pull-right">{Price}</h4>
+            <h4><a href="{Url}">{Title}</a></h4>
+            <p>{Description}</p>
+        </div>
+        <div class="ratings">
+            <p>
+                <span class="glyphicon glyphicon-star"></span>
+                <span class="glyphicon glyphicon-star"></span>
+                <span class="glyphicon glyphicon-star"></span>
+                <span class="glyphicon glyphicon-star"></span>
+                <span class="glyphicon glyphicon-star"></span>
+                (15 reviews)
+            </p>
+        </div>
+        <div class="space-ten"></div>
+        <div class="btn-ground text-center">
+            <button type="button" class="btn btn-primary"><i class="fa fa-shopping-cart"></i> Add To Cart</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#product_view"><i class="fa fa-search"></i> Quick View</button>
+        </div>
+        <div class="space-ten"></div>
+    </div>
+</div>*@
+
+<div class="product-wrapper">
+        <a href="{Url}" class="image-Wrapper">
+            <img src="{Src}" />
+        </a>
+        <div class="text-container">
+            <a href="{Url}" class="product-link">
+                <div class="text-content">
+                    <h2 class="{Description}">{Title}</h2>
+                    <p class="description">{Description}</p>
+                </div>
+            </a>
+        </div>
+        <div class="box-bottom">
+            <div class="product-price">
+                <span class="Price">{Price}</span>
+            </div>
+            <button class="m-button float-right btn--addtoCart ">Buy</button>
+        </div>
+    </div>

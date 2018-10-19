@@ -13,17 +13,31 @@
     @Styles.Render("~/Content/custom")
     @Styles.Render("~/Content/site")
     @Scripts.Render("~/bundles/My")
+
     <script>
+
+        var global = {
+            templete: '@System.Configuration.ConfigurationManager.AppSettings["Template"]',
+            root: '@Url.Action("Index", "Home", null, Request.Url.Scheme)',
+            partial: function (name, selector)
+            {
+                var name = global.templete + name + ".cshtml".trim();
+                if(!selector)
+                    return Partial(name, undefined, true)[0].outerHTML;
+                else return $("<div/>").append(Partial(name, undefined, true)).children(selector)[0].outerHTML;
+            }
+        }
+
         var shoppingCart;
         var loginView;
-        function Partial(moduleName, callbeck) {
+        function Partial(moduleName, callbeck, fullPath) {
             var item = undefined;
             $("body").ax({
                 type: "GET",
                 url: '@Url.Action("GetModule", "Home")',
                 dataType: 'html',
                 async: (callbeck != undefined),
-                data: { partialName: "data/" + moduleName },
+                data: { partialName: (fullPath == undefined ? "data/" : "") + moduleName},
                 success: function (data) {
 
                     item = $(data);

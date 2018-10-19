@@ -20,7 +20,7 @@ namespace IProduct.Controllers
         {
             return View();
         }
-        public ActionResult Index(Guid? id = null)
+        public ActionResult Index(Guid? page = null)
         {
             /// test data
             //var products = DbContext.Get<IProduct.Modules.Library.Product>().LoadChildren().Execute();
@@ -34,8 +34,8 @@ namespace IProduct.Controllers
             //}
             //DbContext.SaveChanges();
 
-            if (id.HasValue)
-                return View(new GenericView<Pages>(DbContext.Get<Pages>().Where(x => x.Id == id && x.IsActive).LoadChildren().ExecuteFirstOrDefault()));
+            if (page.HasValue)
+                return View(new GenericView<Pages>(DbContext.Get<Pages>().Where(x => x.Id == page && x.IsActive).LoadChildren().ExecuteFirstOrDefault()));
             else
                 return View(new GenericView<Pages>(DbContext.Get<Pages>().Where(x => x.IsActive).OrderBy(x => x.Order).LoadChildren().ExecuteFirstOrDefault()));
         }

@@ -26,11 +26,12 @@ namespace IProduct.Controllers.Shared
             }
         }
 
-
+        [AllowAnonymous]
         [HttpGet]
         public ActionResult GetModule(string partialName)
         {
-            return PartialView("~/Views/" + partialName);
+            partialName = "~/Views/" + partialName;
+            return PartialView(partialName);
         }
 
 

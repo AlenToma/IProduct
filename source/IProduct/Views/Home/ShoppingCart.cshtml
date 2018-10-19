@@ -17,7 +17,8 @@
 
     $(document).ready(function () {
         var tabs = $(".wizard").tabs({
-            wizard: true,
+            wizard: false,
+            type: "collapse",
             onSelect: function (tab) {
                 if (tab.onSelect)
                     tab.onSelect(tab);

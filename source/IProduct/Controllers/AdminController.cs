@@ -277,7 +277,7 @@ namespace IProduct.Controllers
         [HttpPost]
         public ActionResult GetPages(TableTreeSettings settings)
         {
-            return DbContext.Search<Pages>(settings, x => x.Name.Contains(settings.SearchText) || x.Children.Any(a => a.Name.Contains(settings.SearchText))).ViewResult();
+            return DbContext.Search<Pages>(settings, x => (x.Name.Contains(settings.SearchText) || x.Children.Any(a => a.Name.Contains(settings.SearchText))) && !x.Parent_Id.HasValue).ViewResult();
         }
 
         #endregion

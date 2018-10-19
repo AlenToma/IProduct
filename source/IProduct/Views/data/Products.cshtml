@@ -16,6 +16,9 @@
             var tbSettings = { append: false, executed: false };
             var slider = undefined;
             var time;
+            var design = global.partial("Product_" + data.productShow);
+            if(data.productShow === "Table")
+                design = global.partial("Product_" + data.productShow, ".product-table-wrapper");
             var onScroll  = function ()
             {
                 if(tbSettings.executed)
@@ -37,8 +40,8 @@
                 {
                     var settings = $.extend({
                         result: null
-                    }, tbSettings);
-                    (section.children("div").length <= 0 ? section : section.children("div:last-child")).ax({
+                }, tbSettings);
+                (section.children("div").length <= 0 || tbSettings.append === false ? section : section.children("div:last-child")).ax({
                         url: '@Url.Action("GetProducts", "Home")',
                         data: JSON.stringify({ tbSettings: settings, categoriesId: categories }),
                         success: function (data)
@@ -60,6 +63,7 @@
                         section.html("");
                     if(data.productShow == "ImageGrid" || data.productShow == "Slider")
                     {
+
                         var divs = [];
                         $.each(tbSettings.result, function ()
                         {
@@ -69,19 +73,13 @@
                             var url = '@Url.Action("Product", "Home", null, Request.Url.Scheme)' + "?id=" + this.id;
                             if(x.images.length > 0)
                                 src = '@Url.Action("index", "Home", null, Request.Url.Scheme)' + x.images[0].images.fileThumpFullPath
-                            var div = $("<div/>", { "class": "product-wrapper", productId: x.id })
-                                .append($("<a/>", { href: url, "class": "image-Wrapper" }).append("<img src='" + src + "' />"))
-                                .append($("<div/>", { "class": "text-container" })
-                                    .append($("<a/>", { href: url, "class": "product-link" })
-                                        .append($("<div/>", { "class": "text-content" })
-                                            .append($("<h2/>", { "class": "title", title: description })
-                                                .html(x.name)).append($("<p/>", { "class": "description" })
-                                                    .html(description))))
-                                )
-                                .append($("<div/>", { "class": "box-bottom" })
-                                    .append($("<div/>", { "class": "product-price" })
-                                        .html("<span class='price'>" + this.price.formatMoney() + ":-" + "</span>"))
-                                    .append($("<button/>", { "class": "m-button float-right btn--addtoCart", html: "Buy" })));
+
+                            var div = $(design
+                                .translate("Url", url)
+                                .translate("Src", src)
+                                .translate("Title", x.name)
+                                .translate("Description", description)
+                                .translate("Price", this.price.formatMoney() + ":-"));
 
                             div.find(".m-button").click(function ()
                             {
@@ -119,24 +117,20 @@
 
                     } else if(data.productShow === "Table") // End of Image Grid & Slider and start of Table View
                     {
+
                         if(!tbSettings.append)
                         {
-                            var header = $("<div/>", { "class": "product-table-header" }).append(
-                                $('<div class="input-group mb-3">' +
-                                    '<div class="input-group-prepend">' +
-                                    '<label class="input-group-text" for="inputGroupSelect01">Sort after</label>' +
-                                    '</div>' +
-                                    '<select class="custom-select" id="inputGroupSelect01">' +
-                                    '<option value="" selected>Recommended</option>' +
-                                    '<option value = "Name" >Name </option > ' +
-                                    '<option value = "Price" > Price </option > ' +
-                                    '</select>' +
-                                    ' </div>'));
+                            var header = $(global.partial("Product_" + data.productShow, ".product-table-header")
+                                .translate("Item_Text_0,Item_Value_0", "Recommended")
+                                .translate("Item_Text_1,Item_Value_1", "Name")
+                                .translate("Item_Text_2,Item_Value_2", "Price")
+                                .translate("Selected", "Recommended"));
+
                             if(!isNullOrEmpty(tbSettings.sortColumn))
-                                header.find("select").val(tbSettings.sortColumn);
-                            header.find("select").change(function ()
+                                header.find(".dropbtn").attr("value", tbSettings.sortColumn);
+                            header.find(".dropdown-menu a").click(function ()
                             {
-                                tbSettings.sortColumn = header.find("select").val();
+                                tbSettings.sortColumn = $(this).attr("value");
                                 tbSettings.selectedPage = 1;
                                 tbSettings.append = false;
                                 loadProducts();
@@ -154,17 +148,13 @@
                             var url = '@Url.Action("Product", "Home", null, Request.Url.Scheme)' + "?id=" + this.id;
                             if(x.images.length > 0)
                                 src = '@Url.Action("index", "Home", null, Request.Url.Scheme)' + x.images[0].images.fileThumpFullPath;
-                            var div = $("<div/>", { "class": "product-table-wrapper" })
-                                .append($("<a/>", { href:url, "class": "image-Wrapper", html: "<img src='" + src + "' />" }))
-                                .append($("<a/>", { href: url, "class": "text-container" })
-                                    .append($("<div/>", { "class": "text-content" })
-                                        .append($("<h2/>", { html: x.name, title: description }))
-                                        .append($("<p/>", { "class": "description", html: description }))))
 
-                                .append($("<div/>", { "class": "box-bottom" })
-                                    .append($("<div/>", { "class": "product-price" })
-                                        .html("<span class='price'>" + this.price.formatMoney() + ":-" + "</span>"))
-                                    .append($("<button/>", { "class": "m-button float-right btn--addtoCart", html: "Buy" })));
+                            var div = $(design
+                                .translate("Url", url)
+                                .translate("Src", src)
+                                .translate("Title", x.name)
+                                .translate("Description", description)
+                                .translate("Price", this.price.formatMoney() + ":-"));
 
                             div.find(".m-button").click(function ()
                             {

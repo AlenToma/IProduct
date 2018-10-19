@@ -74,6 +74,10 @@ a {
         left: -9999px;
     }
 
+    .nav li:not(.float-right) a:hover {
+        color: black;
+    }
+
     .nav > li.hover > ul {
         left: 0;
     }
@@ -97,8 +101,39 @@ a {
         border-top: 1px solid #1d7a62;
     }
 
+    .nav .parent i {
+        position: absolute;
+        left: 87%;
+        top: 35%;
+    }
+
+    .nav li li .parent i {
+        display: none;
+    }
+
+    .nav li.float-right a{
+        background-color:inherit !important;
+        cursor:pointer;
+    }
+        .nav li.float-right a i {
+            margin-left: 7px;
+        }
+
+        .nav li.float-right a i:before {
+            position: relative;
+            left: -3px;
+        }
+
+        .nav li.float-right a i.fa-user:before {
+            top:-2px;
+        }
+
 @media screen and (max-width: 768px) {
     .active {
+        display: block;
+    }
+
+    .nav li li .parent i {
         display: block;
     }
 
@@ -115,6 +150,7 @@ a {
         background-repeat: no-repeat;
         background-position: 95% 50%;
     }
+
 
     .nav ul {
         display: block;

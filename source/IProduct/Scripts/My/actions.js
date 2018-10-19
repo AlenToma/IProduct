@@ -14,6 +14,23 @@ Number.prototype.formatMoney = function (places, symbol, thousand, decimal)
 	return symbol + negative + (j ? i.substr(0, j) + thousand : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousand) + (places ? decimal + Math.abs(number - i).toFixed(places).slice(2) : "");
 };
 
+
+String.prototype.translate = function (name, value)
+{
+	var result = this;
+	var names = name.split(",");
+	for(var i = 0; i <= names.length - 1; i++)
+	{
+		if(isNullOrEmpty(names[i]))
+			continue;
+		name = "{" + names[i].trim() + "}";
+		var esc = this.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+		var reg = new RegExp(name, 'ig');
+		result = result.replace(reg, value);
+	}
+	return result;
+};
+
 /// make a button act like a link
 function toLocation(item)
 {

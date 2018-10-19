@@ -149,7 +149,7 @@
     /*Sign sup Forms----------------------------------------------------------------------------------------------*/
 
 .user-form {
-    width: 581px;
+    width:100%;
     display: block;
     position: relative;
     overflow: hidden;

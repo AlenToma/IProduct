@@ -39,38 +39,19 @@
         data: "name",
         header: "Name"
     },
-    {
-        data: "order",
-        header:"Order",
-        sortable: true
-    },
-    {
-        header: "Parent",
-        data: function (item) {
-            var result = undefined;
-            if (isNullOrEmpty(item.parent_Id))
-                return "";
-            $(".pages").ax({
-                url: '@Url.Action("GetPagesComboBoxItems", "Admin")',
-                data: JSON.stringify({ value: item.parent_Id }),
-                async: false,
-                success: function (data) {
-                    result = data[0];
-                }
-            });
-
-            if (result)
-                return result.name;
-        },
-        sortable: false
+        {
+            data: "order",
+            header: "Order",
+            sortable: true
         }, {
-        data: function (d) {
-            if (d.isActive)
-                return "YES";
-            return "NO";
-        },
-        header: "IsVisible",
-        sortable: false
+            data: function (d)
+            {
+                if(d.isActive)
+                    return "YES";
+                return "NO";
+            },
+            header: "IsVisible",
+            sortable: false
         }];
 
     var pages = $(".pages").treeView({
