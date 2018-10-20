@@ -11,7 +11,8 @@
 		}, options);
 		var container = $(this);
 		var ini = false;
-		container.attr("title", "Right click to edit");
+		if(settings.action)
+			container.attr("title", "Right click to edit");
 		function buildContext(e)
 		{
 			$(".contextMenu").remove();
@@ -63,10 +64,8 @@
 						});
 						li.append(y);
 					}
-
 					parent.append(li);
 				}
-
 
 				if(x.children && x.children.length > 0)
 					div.addClass("hasChildren");
@@ -106,19 +105,16 @@
 					{
 						context.remove();
 						iFrame.find("body").find(".contextMenu").remove();
-
 					}
 
 				});
 			}
 
 			context.slideDown("slow");
-			context.width(Math.max.apply(Math,
-				$.map(context.find("div"),
-					function (o)
-					{
-						return o.getBoundingClientRect().width;
-					})));
+			context.width(Math.max.apply(Math, $.map(context.find("div"), function (o)
+			{
+				return o.getBoundingClientRect().width;
+			})));
 			context.children(".contextItem").css("max-width", context.width() - (context.children(".contextItem").outerWidth(true) - context.width()));
 			ini = true;
 		}
@@ -130,6 +126,7 @@
 				$(".contextMenu").remove();
 
 		});
+
 		if(settings.action === "right")
 		{
 			container.bind("contextmenu", function (e)
@@ -137,6 +134,7 @@
 				buildContext(e);
 				return false;
 			});
+
 		} else
 		{
 			container.bind("click", function (e)
