@@ -3,7 +3,7 @@
 
 	jQuery.fn.center = function (parent)
 	{
-		var w = !parent || $(parent).prop("tagName") == "BODY" ? $(window) : $(parent)
+		var w = !parent || $(parent).prop("tagName") === "BODY" ? $(window) : $(parent);
 		this.css({
 			'position': 'absolute',
 			'top': Math.abs(((w.height() - $(this).outerHeight()) / 2) + w.scrollTop()),
@@ -25,7 +25,7 @@
 			contentLoader: false // this is only for debug
 		}, options);
 		settings.timestamp = new Date().getTime().toString();
-		var loader = $("<div class='loader " + settings.timestamp + "'><img src='" + (typeof global !== 'undefined' && global.root ? global.root : "" )+"Content/Image/Gear.gif' /></div>").hide();
+		var loader = $("<div class='loader " + settings.timestamp + "'><img src='" + (typeof global !== 'undefined' && global.root ? global.root : "") + "Content/Image/Gear.gif' /></div>").hide();
 		var x = $(this);
 		if(settings.loader)
 		{
@@ -59,6 +59,7 @@
 		{
 			clearTimeout(timeout);
 			$("." + settings.timestamp).remove();
+			var status = typeof jqXHR === 'string' ? jqXHR : ("status code:" + jqXHR.status);
 			if(textStatus === "parsererror" || jqXHR.status === 0)
 			{
 				st.success();
@@ -76,15 +77,14 @@
 					window.console.log('errorThrown:');
 					window.console.log(errorThrown);
 					if($("body").dialog === undefined)
-						alert('status code: ' + jqXHR.status + '\n errorThrown: ' + errorThrown + '\n jqXHR.responseText:' + jqXHR.responseText);
+						alert('status code: ' + status + '\n errorThrown: ' + errorThrown + '\n jqXHR.responseText:' + jqXHR.responseText);
 					else
 						$("body").dialog({
 							title: "Error has occurred. Please contact the administrator. ",
-							data: $("<div></div>").html('<p>status code: ' + jqXHR.status + '</p><p>errorThrown: ' + errorThrown + '</p><p>jqXHR.responseText:</p><div>' + jqXHR.responseText + '</div>')
+							data: $("<div></div>").html('<p>' + status + '</p><p>errorThrown: ' + errorThrown + '</p><p>jqXHR.responseText:</p><div>' + jqXHR.responseText + '</div>')
 						}).Show();
 				}
 			}
-
 		};
 		$.ajax(st);
 	};

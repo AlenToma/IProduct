@@ -2,7 +2,7 @@
   "version": 3,
   "targets": {
     ".NETFramework,Version=v4.5.1": {
-      "EntityWorker.Core/2.3.6": {
+      "EntityWorker.Core/2.3.7": {
         "type": "package",
         "dependencies": {
           "System.Data.SqlClient": "4.5.0"
@@ -19,11 +19,11 @@
           "lib/net451/EntityWorker.Core.dll": {}
         }
       },
-      "Microsoft.AspNet.Mvc/5.2.4": {
+      "Microsoft.AspNet.Mvc/5.2.6": {
         "type": "package",
         "dependencies": {
-          "Microsoft.AspNet.Razor": "[3.2.4, 3.3.0)",
-          "Microsoft.AspNet.WebPages": "[3.2.4, 3.3.0)"
+          "Microsoft.AspNet.Razor": "[3.2.6, 3.3.0)",
+          "Microsoft.AspNet.WebPages": "[3.2.6, 3.3.0)"
         },
         "compile": {
           "lib/net45/System.Web.Mvc.dll": {}
@@ -32,7 +32,7 @@
           "lib/net45/System.Web.Mvc.dll": {}
         }
       },
-      "Microsoft.AspNet.Razor/3.2.4": {
+      "Microsoft.AspNet.Razor/3.2.6": {
         "type": "package",
         "compile": {
           "lib/net45/System.Web.Razor.dll": {}
@@ -41,10 +41,10 @@
           "lib/net45/System.Web.Razor.dll": {}
         }
       },
-      "Microsoft.AspNet.WebPages/3.2.4": {
+      "Microsoft.AspNet.WebPages/3.2.6": {
         "type": "package",
         "dependencies": {
-          "Microsoft.AspNet.Razor": "[3.2.4, 3.3.0)",
+          "Microsoft.AspNet.Razor": "[3.2.6, 3.3.0)",
           "Microsoft.Web.Infrastructure": "1.0.0"
         },
         "compile": {
@@ -107,12 +107,12 @@
     }
   },
   "libraries": {
-    "EntityWorker.Core/2.3.6": {
-      "sha512": "cEJOhM2LUHojmoppMk4YzwytVNIuflB+iaO+dNmaE+WPAve7yg8DZz2eN5g4x5B4lUQ/A4SkEUE8aJLhoKtxVw==",
+    "EntityWorker.Core/2.3.7": {
+      "sha512": "Jtwe/gmWwPQNj+xg9XKPKI8yn+Sdv8gsH+X4cIKEiP4+dxi7uOW2QAhWmTn8PnFe0J6UOQxQDwP2O7i1/Am6tA==",
       "type": "package",
-      "path": "entityworker.core/2.3.6",
+      "path": "entityworker.core/2.3.7",
       "files": [
-        "entityworker.core.2.3.6.nupkg.sha512",
+        "entityworker.core.2.3.7.nupkg.sha512",
         "entityworker.core.nuspec",
         "lib/net451/EntityWorker.Core.dll",
         "lib/net451/EntityWorker.Core.runtimeconfig.json",
@@ -125,36 +125,36 @@
         "lib/netstandard2.0/EntityWorker.Core.xml"
       ]
     },
-    "Microsoft.AspNet.Mvc/5.2.4": {
-      "sha512": "aBSENa9s0KnB/Oh9D94l/g1BQKcjX3Ra6NFmWMWFmCW7diglEHoGOpSozX4lcYdTq/HDGLHfkEFbRLD/Pu6MMQ==",
+    "Microsoft.AspNet.Mvc/5.2.6": {
+      "sha512": "OnH+WDHIv4d5lpYTsYr2HNph149N+Bw+DxjUEqpfODcx2Wlktnn52YFr7st7ur5XaJnMXj5BtMJ8k2oEs5JreA==",
       "type": "package",
-      "path": "microsoft.aspnet.mvc/5.2.4",
+      "path": "microsoft.aspnet.mvc/5.2.6",
       "files": [
         ".signature.p7s",
         "Content/Web.config.install.xdt",
         "Content/Web.config.uninstall.xdt",
         "lib/net45/System.Web.Mvc.dll",
         "lib/net45/System.Web.Mvc.xml",
-        "microsoft.aspnet.mvc.5.2.4.nupkg.sha512",
+        "microsoft.aspnet.mvc.5.2.6.nupkg.sha512",
         "microsoft.aspnet.mvc.nuspec"
       ]
     },
-    "Microsoft.AspNet.Razor/3.2.4": {
-      "sha512": "XIqwE6RU3Wx5lzxjHakGjZ6AxePlEY8oxAt99YOjY49tzjChZGDWia807YQr1w/sTtQo1cvfcQqvMs3yKWgXrg==",
+    "Microsoft.AspNet.Razor/3.2.6": {
+      "sha512": "ov8Ujr3EgiZym1Ftky+jPshC8datSXY/6r9drlM3ThR7QIMN85gZCBZ5TsQXghcKpBiaIxRZdzXTU5/ztLuZHg==",
       "type": "package",
-      "path": "microsoft.aspnet.razor/3.2.4",
+      "path": "microsoft.aspnet.razor/3.2.6",
       "files": [
         ".signature.p7s",
         "lib/net45/System.Web.Razor.dll",
         "lib/net45/System.Web.Razor.xml",
-        "microsoft.aspnet.razor.3.2.4.nupkg.sha512",
+        "microsoft.aspnet.razor.3.2.6.nupkg.sha512",
         "microsoft.aspnet.razor.nuspec"
       ]
     },
-    "Microsoft.AspNet.WebPages/3.2.4": {
-      "sha512": "JCFFKgRDcxyVEELCx/1D8AzF0j0N+hagGXXBmp+NFffF6O0pWA9aXugJqUm0SDvgOH9RCNU0YzyoHa4X+Lsw7w==",
+    "Microsoft.AspNet.WebPages/3.2.6": {
+      "sha512": "y6YTVXUIG6dgXOQrOICR0Z9B+Mu49wzT0SFBLL+j182FLqrAgLAyMrlRNycSmddus9GLvW2ZvtXwUp8PIU3fzQ==",
       "type": "package",
-      "path": "microsoft.aspnet.webpages/3.2.4",
+      "path": "microsoft.aspnet.webpages/3.2.6",
       "files": [
         ".signature.p7s",
         "Content/Web.config.install.xdt",
@@ -167,7 +167,7 @@
         "lib/net45/System.Web.WebPages.Razor.xml",
         "lib/net45/System.Web.WebPages.dll",
         "lib/net45/System.Web.WebPages.xml",
-        "microsoft.aspnet.webpages.3.2.4.nupkg.sha512",
+        "microsoft.aspnet.webpages.3.2.6.nupkg.sha512",
         "microsoft.aspnet.webpages.nuspec"
       ]
     },
@@ -307,8 +307,8 @@
   },
   "projectFileDependencyGroups": {
     ".NETFramework,Version=v4.5.1": [
-      "EntityWorker.Core >= 2.3.6",
-      "Microsoft.AspNet.Mvc >= 5.2.4"
+      "EntityWorker.Core >= 2.3.7",
+      "Microsoft.AspNet.Mvc >= 5.2.6"
     ]
   },
   "packageFolders": {
@@ -356,11 +356,11 @@
         "dependencies": {
           "EntityWorker.Core": {
             "target": "Package",
-            "version": "[2.3.6, )"
+            "version": "[2.3.7, )"
           },
           "Microsoft.AspNet.Mvc": {
             "target": "Package",
-            "version": "[5.2.4, )"
+            "version": "[5.2.6, )"
           }
         }
       }

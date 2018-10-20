@@ -11,7 +11,7 @@
 			image: undefined,
 			connector: undefined, // its a top menu shopping cart,
 			display: "block",
-			itemCount: 0
+			itemCount: 0,
 		}, options);
 
 		var container = $("<div></div>").addClass("shoppingCart");
@@ -68,27 +68,25 @@
 								'</div>' +
 								'</div > ';
 
-							
+
 							var filethumpfullpath = "";
 							if(this.images !== null)
 								filethumpfullpath = this.images[0].images.fileThumpFullPath;
 							src = settings.image + filethumpfullpath;
+							var url = settings.image + "/Home/Product?id=" + x.id;
 
 							var tr = $("<tr/>")
 								.append($("<td/>", { "data-the": "Product" })
 									.append($("<div/>", { "class": "row" })
 										.append($("<div/>", { "class": "col-sm-2" })
-											.append($("<img style='width: 92%;' src='" + src + "' class='img-responsiv' />")))
+											.append($("<img style='width: 92%;' href='" + url + "' src='" + src + "' class='img-responsiv' />")))
 										.append($("<div/>", { "class": "col-sm-10 text-content" })
-											.append($("<h2/>", { "class": "nomargin", html: x.name }))
-											.append($("<p/>", { html: (isNullOrEmpty(this.description) ? "" : this.description) })))));
+											.append($("<h2/>", { "class": "nomargin", href: url, html: x.name }))
+											.append($("<p/>", { href: url, html: (isNullOrEmpty(this.description) ? "" : this.description) })))));
 							tr.append($("<td/>", { "data-th": "Price", html: this.price.formatMoney() + ":-" }));
-
 							tr.append($("<td/>", { "data-th": "Quantity" })
 								.append(input));
-
 							tr.append($("<td/>", { "data-th": "Subtotal", html: (this.price * info.v).formatMoney() + ":-" }));
-
 							tr.append($("<td/>", { "class": "action", "data-th": "" })
 								.append($('<button class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>')));
 
@@ -110,7 +108,6 @@
 										container.load();
 									}
 								}).Show();
-
 							});
 
 							tr.find('.btn[data-type="plus"]').click(function ()
@@ -130,10 +127,9 @@
 						.append($("<tr/>")
 							.append($("<td/>").append($("<a/>", { "class": "btn btn-warning", html: "Continue Shopping" }).prepend('<i class="fa fa-angle-left"></i>')))
 							.append($("<td/>", { "class": "hidden-xs" }))
-							.append($("<td/>", { "colspan": "2", style:"text-align: right;", "class": "hidden-xs text-center" }).append("<strong>Total " + totalSum.formatMoney() + ":-</strong>"))
+							.append($("<td/>", { "colspan": "2", style: "text-align: right;", "class": "hidden-xs text-center" }).append("<strong>Total " + totalSum.formatMoney() + ":-</strong>"))
 							.append($("<td/>", { html: '<a href="#" class="btn btn-success btn-block">Checkout <i class="fa fa-angle-right"></i></a>' })));
-
-					//table.find(".totalSum").html(totalSum.formatMoney() + ":-");
+					toLocation($(":not([href=''])"));
 				}
 			});
 		};

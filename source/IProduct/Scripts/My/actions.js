@@ -72,21 +72,21 @@ function isNullOrEmpty(val)
 
 function Sort(data, column, direction)
 {
-	if(direction == "none")
+	if(direction === "none")
 		return data;
 	return data.sort(function (row, rowb)
 	{
-		var isInt = !(typeof row[column] == "string")
+		var isInt = !(typeof row[column] === "string");
 		var textA = row[column];
 		var textB = rowb[column];
 		if(!isInt)
 		{
-			if(direction == "desc")
+			if(direction === "desc")
 				return textA < textB ? -1 : 1;
 			else return textA < textB ? 1 : -1;
 		} else
 		{
-			if(direction == "desc")
+			if(direction === "desc")
 				return textB - textA;
 			else return textA - textB;
 		}

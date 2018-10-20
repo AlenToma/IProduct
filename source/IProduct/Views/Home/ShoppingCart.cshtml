@@ -49,7 +49,7 @@
             var invoice = shoppingCart.invoice();
             account.content.find("input").each(function () {
                 var name = $(this).attr("name");
-                if (name == "password" && invoice.billinguser != undefined) {
+                if (name == "password" && invoice.billingUser != undefined) {
                     $(this).parent().remove();
                 }
 
@@ -60,7 +60,7 @@
             });
 
         } else {
-            $(".wizard").html("<h1>Empty</h1>");
+            $(".wizard").html("<h2>Empty</h2>");
             $(".profile").remove();
             $(".invoice").remove();
         }

@@ -1,17 +1,27 @@
-﻿(function ($) {
+﻿(function ($)
+{
 
-    $.fn.loginView = function (options) {
+	$.fn.loginView = function (options)
+	{
 
-        // This is the easiest way to have default options.
-        var settings = $.extend({
-            signIn: undefined,
-            signOut: undefined,
-            get: undefined,
-            homePage: undefined,
-            connector: undefined
-        }, options);
+		// This is the easiest way to have default options.
+		var settings = $.extend({
+			signIn: undefined,
+			signOut: undefined,
+			get: undefined,
+			homePage: undefined,
+			connector: undefined,
+			userProfile: undefined,
+			adminPanel: undefined
+		}, options);
 
-        var container = $(this);
+		var container = $(this);
+
+
+
+
+
+
 		container.get = function ()
 		{
 			var result = null;
@@ -20,7 +30,7 @@
 				async: false,
 				success: function (data)
 				{
-					if(data !== null && data.id != undefined)
+					if(data !== null && data.id !== undefined)
 						result = data;
 
 				}
@@ -28,12 +38,13 @@
 			return result;
 		};
 
-        container.isLogedIn = function () {
-            var user = container.get();
-            if (user === null || !user)
-                return false;
-            else return true;
-        }
+		container.isLogedIn = function ()
+		{
+			var user = container.get();
+			if(user === null || !user)
+				return false;
+			else return true;
+		};
 
 		container.load = function ()
 		{
@@ -83,10 +94,61 @@
 			});
 		};
 
-        if (!container.isLogedIn())
-            container.load();
-        else container.loadLogedInView();
+		if(container.isLogedIn())
+		{
+			//container.load();
+			container.loadLogedInView();
+			if(settings.connector !== undefined)
+			{
+				var user = container.get();
+				var datasource = [{
+					text: $("<span/>", { html: "Logout", "class": "fa fa-power-off" }),
+					click: function ()
+					{
+						$("body").ax({
+							url: settings.signOut,
+							async: false,
+							success: function (data)
+							{
+								window.location = settings.signIn;
+							}
+						});
+					}
+				}, {
+					text: $("<span/>", { html: "Profile", "class": "fa fa-user" }),
+					click: function ()
+					{
+						window.location.href = settings.userProfile + "?Id=" + user.id;
+					}
+				}
+				];
+				if(user.role.roleType === "Administrator")
+				{
+					datasource.push({
+						text: $("<span/>", { html: "Admin Panel", "class": "fa fa-user-secret" }),
+						click: function ()
+						{
+							window.location = settings.adminPanel;
+						}
+					});
+				}
+				$(settings.connector).contextMenu({
+					action: "left",
+					dataSource: datasource
+				});
+			}
+		}
+		else
+		{
+			$(settings.connector).click(function ()
+			{
+				window.location = settings.signIn;
+			});
+		}
 
-        return container;
-    }
+
+
+
+		return container;
+	};
 }(jQuery));

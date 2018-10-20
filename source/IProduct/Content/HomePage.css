@@ -9,6 +9,12 @@
     text-align: left;
     height: auto;
 }
+
+*[href]:not([href='']) {
+    cursor: pointer;
+}
+
+
 /* Flex-related code */
 .flex {
     display: flex;

@@ -114,24 +114,6 @@ namespace IProduct.Modules
             return null;
         }
 
-        enum ImageFileType
-        {
-            Undefined, // Unknown, None, etc. whatever you like
-            Jpeg,
-            Jpg = Jpeg,
-            Png,
-            MemoryBmp,
-            Bmp,
-            Emf,
-            Wmf,
-            Gif,
-            Tiff,
-            Exif,
-            Icon,
-            TiF
-
-        }
-
         /// <summary>
         /// Validate if path is a supported Image
         /// </summary>

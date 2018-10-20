@@ -42,7 +42,7 @@
 
 .contextMenu .contextItem {
     width: 100%;
-    display: inline-block;
+    display: flex;
     color: #4e4d4d;
     font-size: 12px;
     cursor: pointer;
@@ -50,9 +50,17 @@
 }
 
     .contextMenu .contextItem > span {
-        display: inline-block;
         width: 96%;
-        padding: 6px;
+        display: block;
+        clear: both;
+        color: #545454;
+        border-bottom: 0;
+        font-size: 12px;
+        padding: 6px 20px;
+    }
+
+    .contextMenu .contextItem .fa:before {
+        padding-right: 5px;
     }
 
 
@@ -60,7 +68,7 @@
         display: inline-block;
         background: #337ab7;
         color: white;
-        width:100%;
+        width: 100%;
     }
 
     .contextMenu .contextItem:hover > .contextsubItem {

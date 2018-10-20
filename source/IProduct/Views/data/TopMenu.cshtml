@@ -1,11 +1,6 @@
-﻿@*<div class="veryTop">
-    <i class="cart"></i>
-    <i class="fa fa-user" aria-hidden="true"></i>
-</div>*@
-<div class="menuContainer">
+﻿<div class="menuContainer">
     <a class="toggleMenu" href="#">Menu</a>
     <nav class="navMenu">
-
     </nav>
 </div>
 <script>
@@ -13,7 +8,7 @@
     {
         var userData = $("<li/>", { "class": "float-right userData" })
             .append($("<a/>")
-                .append('</i> <i class="fa fa-user" aria-hidden="true"></i><i class="fa fa-shopping-cart" aria-hidden="true">'));
+                .append('</i><i class="fa fa-user" aria-hidden="true"></i><i class="fa fa-shopping-cart" aria-hidden="true">'));
 
         if (!shoppingCart)
             shoppingCart = $("body").shoppingCart({
@@ -25,61 +20,13 @@
             });
 
         loginView = $("<div></div>").loginView({
-            signIn: '@Url.Action("SignIn", "Home")',
-            signOut: '@Url.Action("SignOut", "Home")',
+            signIn: '@Url.Action("Index", "Account", null, Request.Url.Scheme)',
+            signOut: '@Url.Action("SignOut", "Home", null, Request.Url.Scheme)',
             get: '@Url.Action("GetcurrentUser", "Home")',
+            userProfile: '@Url.Action("UserProfile", "Account", null, Request.Url.Scheme)',
+            adminPanel:  '@Url.Action("Index", "Admin", null, Request.Url.Scheme)',
             homePage: '@Url.Action("index", "Home", null, Request.Url.Scheme)',
-            connector: userData.find(".fa-user")
-        });
-
-
-
-
-
-        var user = loginView.get();
-        if (user !== null && user) {
-
-            var datasource = [{
-                text: "Logout",
-                click: function () {
-                    $("body").ax({
-                        url: '@Url.Action("SignOut", "Home")',
-                        async: false,
-                        success: function (data) {
-                            window.location = '@Url.Action("Index", "Account", null, Request.Url.Scheme)';
-                        }
-                    });
-                }
-            }, {
-                    text: "Profile",
-                    click: function ()
-                    {
-                        window.location.href = '@Url.Action("UserProfile", "Account", null, Request.Url.Scheme)' + "?Id=" + user.id;
-                    }
-            }
-            ];
-
-            if (user.role.roleType == "Administrator") {
-                datasource.push({
-                    text: "AdminPanel",
-                    click: function () {
-                        window.location = '@Url.Action("Index", "Admin", null, Request.Url.Scheme)';
-                    }
-                })
-            }
-
-            userData.find(".fa-user").contextMenu({
-                action: "left",
-                dataSource: datasource
-            });
-        }
-
-        userData.find(".fa-user").click(function () {
-            var user = loginView.get();
-            if (user !== null && user) {
-
-            }
-            else window.location.href = '@Url.Action("Index", "Account", null, Request.Url.Scheme)';
+            connector: userData.find(".fa-user"),
         });
 
         userData.find(".fa-shopping-cart").click(function () {
@@ -93,11 +40,9 @@
         {
             if(item.children && item.children.length > 0)
             {
-                //parent.children("a").attr("href", "#").addClass("parent");
                 parent.children("a").addClass("parent");
                 parent.children("a").append('<i class="fa fa-caret-down"></i>');
                 var ul = $("<ul></ul>")
-                //parent.children("a").addClass("parent");
                 parent.append(ul);
                 $.each(item.children, function ()
                 {

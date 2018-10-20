@@ -24,5 +24,23 @@ namespace IProduct.Modules
 
     public enum LogLevel { Low, All }
 
+    public enum ImageFileType
+    {
+        Undefined, // Unknown, None, etc. whatever you like
+        Jpeg,
+        Jpg = Jpeg,
+        Png,
+        MemoryBmp,
+        Bmp,
+        Emf,
+        Wmf,
+        Gif,
+        Tiff,
+        Exif,
+        Icon,
+        TiF
+
+    }
+
 
 }
