@@ -87,11 +87,11 @@
 					iFrame = undefined;
 			} catch(ee)
 			{
-
+				// Ignore
 			}
 			context.css({
-				left: e.pageX,
-				top: e.pageY
+				left: e.pageX - 16,
+				top: e.pageY + 25
 			});
 			if(!iFrame)
 				$("body").append(context);
@@ -130,7 +130,7 @@
 				$(".contextMenu").remove();
 
 		});
-		if(settings.action == "right")
+		if(settings.action === "right")
 		{
 			container.bind("contextmenu", function (e)
 			{
@@ -147,6 +147,6 @@
 		}
 
 		return container;
-	}
+	};
 
 }(jQuery));
