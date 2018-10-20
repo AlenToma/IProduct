@@ -1,18 +1,14 @@
-﻿using EntityWorker.Core.Helper;
-using IProduct.Modules.Data;
-using IProduct.Modules.Library;
+﻿using IProduct.Modules.Data;
 using IProduct.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.Security;
+using IProduct.Modules;
+using System.IO;
 
 namespace IProduct.Controllers.Shared
 {
 
-    public class SharedController : Controller , IProduct.Modules.Interface.IController
+    public class SharedController : Controller, IProduct.Modules.Interface.IController
     {
         private DbContext dbContext;
         public bool ExceptionHandled { get; set; }
@@ -34,18 +30,24 @@ namespace IProduct.Controllers.Shared
             return PartialView(partialName);
         }
 
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult Template(string path)
+        {
+            return Content(System.IO.File.ReadAllText(Server.MapPath(path)));
+        }
 
         [HttpPost]
-        public string GetcurrentUser()
+        public ActionResult GetcurrentUser()
         {
             using (var manager = new UserManager())
             {
                 var user = manager.GetCurrentUser();
                 if (user == null)
-                    return "[]";
+                    return Json(new { });
                 if (SessionHelper.Cart._user == null)
                     SessionHelper.Cart.ApplyUser(user.Id.Value);
-                return user.ToJson();
+                return user.ViewResult();
             }
         }
 

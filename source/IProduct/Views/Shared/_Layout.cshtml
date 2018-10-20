@@ -22,9 +22,22 @@
             partial: function (name, selector)
             {
                 var name = global.templete + name + ".cshtml".trim();
+                var item = undefined;
+                $("body").ax({
+                    type: "GET",
+                    url: '@Url.Action("Template", "Home")',
+                    dataType: 'html',
+                    async: false,
+                    data: { path: name },
+                    success: function (data)
+                    {
+                        item = data;
+                    }
+                });
+
                 if(!selector)
-                    return Partial(name, undefined, true)[0].outerHTML;
-                else return $("<div/>").append(Partial(name, undefined, true)).children(selector)[0].outerHTML;
+                    return item;
+                else return $("<div/>").append(item).children(selector)[0].outerHTML;
             }
         }
 
@@ -37,7 +50,7 @@
                 url: '@Url.Action("GetModule", "Home")',
                 dataType: 'html',
                 async: (callbeck != undefined),
-                data: { partialName: (fullPath == undefined ? "data/" : "") + moduleName},
+                data: { partialName: (fullPath == undefined ? "data/" : "") + moduleName },
                 success: function (data) {
 
                     item = $(data);

@@ -96,7 +96,6 @@
 
 		if(container.isLogedIn())
 		{
-			//container.load();
 			container.loadLogedInView();
 			if(settings.connector !== undefined)
 			{
@@ -122,6 +121,7 @@
 					}
 				}
 				];
+
 				if(user.role.roleType === "Administrator")
 				{
 					datasource.push({
@@ -132,6 +132,7 @@
 						}
 					});
 				}
+
 				$(settings.connector).contextMenu({
 					action: "left",
 					dataSource: datasource
@@ -145,9 +146,6 @@
 				window.location = settings.signIn;
 			});
 		}
-
-
-
 
 		return container;
 	};

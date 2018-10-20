@@ -17,7 +17,7 @@ Number.prototype.formatMoney = function (places, symbol, thousand, decimal)
 
 String.prototype.translate = function (name, value)
 {
-	var result = this;
+	var result = this.toString();
 	var names = name.split(",");
 	for(var i = 0; i <= names.length - 1; i++)
 	{
