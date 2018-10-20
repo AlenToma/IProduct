@@ -11,7 +11,7 @@
 		}, options);
 		var container = $(this);
 		var ini = false;
-		if(settings.action)
+		if(settings.action === "right")
 			container.attr("title", "Right click to edit");
 		function buildContext(e)
 		{
