@@ -1,2 +1,0 @@
-Error:2018-10-21 06:06:01 - A public action method 'GetCart' was not found on controller 'IProduct.Controllers.HomeController'.
-Error:2018-10-21 06:06:49 - A public action method 'GetCart' was not found on controller 'IProduct.Controllers.HomeController'.

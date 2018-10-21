@@ -26,6 +26,13 @@
 				}));
 			}
 		});
+		this.componentDidUpdate();
+	}
+
+	componentDidUpdate() {
+		var $this = $(ReactDOM.findDOMNode(this));
+		if ($this)
+			toLocation($($this).find(":not([href=''])"));
 	}
 
 	render() {
@@ -115,6 +122,7 @@
 				{this.state.data.products.map(d => {
 
 					const url = x.state.image + '/Home/Product?id=' + d.id;
+					const src = x.state.image + d.images[0].images.fileThumpFullPath;
 					const description = isNullOrEmpty(d.description) ? "" : d.description;
 					const info = $.grep(x.state.data.productTotalInformations, function (a) { return a.k === d.id })[0];
 					totalSum += d.price * info.v;
@@ -122,7 +130,7 @@
 						<td data-the="Product">
 							<div className="row">
 								<div className="col-sm-2">
-									<img style={{ width: '100%' }} className="img-responsiv" href={url} src={x.state.image + d.images[0].images.fileThumpFullPath} />
+									<img style={{ width: '100%' }} className="img-responsiv" href={url} src={src} />
 								</div>
 								<div className="col-sm-10 text-content">
 									<h2 href={url} className="nomargin">{d.name}</h2>

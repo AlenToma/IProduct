@@ -1,2 +1,0 @@
-Error:2018-10-20 12:01:53 - A public action method 'test' was not found on controller 'IProduct.Controllers.HomeController'.
-Error:10/20/2018 12:01:53 PM - An item with the same key has already been added.
