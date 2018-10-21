@@ -26,7 +26,6 @@
 				}));
 			}
 		});
-		this.componentDidUpdate();
 	}
 
 	componentDidUpdate() {
@@ -68,7 +67,6 @@
 
 		// Get the total product 
 		x.count = function () {
-			x.componentDidMount();
 			return x.state.count;
 		};
 
@@ -105,7 +103,6 @@
 		if (this.state.display === "none")
 			return (<div style={{ display: 'none' }} />);
 
-
 		header = (
 			<thead>
 				<tr>
@@ -116,11 +113,9 @@
 					<th />
 				</tr>
 			</thead>);
-
 		var body = (
 			<tbody>
 				{this.state.data.products.map(d => {
-
 					const url = x.state.image + '/Home/Product?id=' + d.id;
 					const src = x.state.image + d.images[0].images.fileThumpFullPath;
 					const description = isNullOrEmpty(d.description) ? "" : d.description;
@@ -183,7 +178,6 @@
 								<a className="btn btn-warning">
 									<i className="fa fa-angle-left" />
 									Continue Shopping
-
 								</a>
 							</td>
 							<td className="hidden-xs" />
