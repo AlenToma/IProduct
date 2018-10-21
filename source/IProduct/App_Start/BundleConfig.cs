@@ -1,5 +1,6 @@
 ﻿using System.Web;
 using System.Web.Optimization;
+using System.Web.Optimization.React;
 
 namespace IProduct
 {
@@ -30,6 +31,9 @@ namespace IProduct
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",
                       "~/Content/jquery-ui.css"));
+
+            bundles.Add(new BabelBundle("~/bundles/JSX").Include("~/Scripts/react/src/ShoppingCart.jsx"));
+
 
             bundles.Add(new StyleBundle("~/Content/custom").Include(
                       "~/Content/custom/tabs.css",

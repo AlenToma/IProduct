@@ -3,6 +3,8 @@
     <nav class="navMenu">
     </nav>
 </div>
+
+
 <script>
     $(document).ready(function ()
     {
@@ -11,13 +13,14 @@
                 .append('</i><i class="fa fa-user" aria-hidden="true"></i><i class="fa fa-shopping-cart" aria-hidden="true">'));
 
         if (!shoppingCart)
-            shoppingCart = $("body").shoppingCart({
+            shoppingCart = ReactDOM.render(React.createElement(ShoppingCart,
+            {
                 get: '@Url.Action("GetCart", "Home")',
                 save: '@Url.Action("AddCart", "Home")',
                 connector: userData.find(".fa-shopping-cart"),
                 image: '@Url.Action("Index", "Home", null, Request.Url.Scheme)',
-                display: "none"
-            });
+                    display: "none"
+                }), $("<div/>")[0]);
 
         loginView = $("<div></div>").loginView({
             signIn: '@Url.Action("Index", "Account", null, Request.Url.Scheme)',

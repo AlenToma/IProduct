@@ -1,8 +1,22 @@
-﻿<div class="crt">
+﻿@using IProduct.Models;
 
-</div>
+
+@Html.JSX("shoppingCart = ShoppingCart", new
+    {
+        get = @Url.Action("GetCart", "Home", null, Request.Url.Scheme),
+        save = @Url.Action("AddCart", "Home", null, Request.Url.Scheme),
+        field = @Url.Action("UpdateField", "Home"),
+        connector = ".userData a .fa-shopping-cart",
+        image = @Url.Action("index", "Home", null, Request.Url.Scheme),
+        display = "block"
+    })
+
+
+
 <script>
-    $(document).ready(function () {
+    @*$(document).ready(function () {
+
+
         shoppingCart = $(".crt").shoppingCart({
             get: '@Url.Action("GetCart", "Home")',
             save: '@Url.Action("AddCart", "Home")',
@@ -12,5 +26,14 @@
             display: "block"
         });
 
-    });
+        var data = ReactDOM.render(React.createElement(ShoppingCart,
+            {
+                get: '@Url.Action("GetCart", "Home")',
+                save: '@Url.Action("AddCart", "Home")',
+                connector: "",
+                image: '@Url.Action("Index", "Home", null, Request.Url.Scheme)',
+                display: "none"
+            }),
+            document.getElementById('content'));
+    });*@
 </script>

@@ -1,0 +1,23 @@
+﻿<div id="content">asdasdasd</div>
+
+
+@*<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react-dom.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/remarkable/1.7.1/remarkable.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.6.0/prop-types.js"></script>
+
+@Scripts.Render("~/bundles/JSX")*@
+<script>
+    //ReactDOM.render(React.createElement(ShoppingList, { name : 'Chris' }), document.getElementById('content'));
+   var data= ReactDOM.render(React.createElement(ShoppingCart,
+        {
+          get: '@Url.Action("GetCart", "Home")',
+          save: '@Url.Action("AddCart", "Home")',
+          connector:"",
+          image: '@Url.Action("Index", "Home", null, Request.Url.Scheme)',
+          display: "none"
+        }),
+        document.getElementById('content'));
+
+
+</script>

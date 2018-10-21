@@ -20,6 +20,11 @@ namespace IProduct.Controllers
         {
             return View();
         }
+        public ActionResult Test()
+        {
+            return View();
+        }
+
         public ActionResult Index(Guid? page = null)
         {
             /// test data

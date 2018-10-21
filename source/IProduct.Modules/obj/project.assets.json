@@ -172,10 +172,11 @@
       ]
     },
     "Microsoft.Web.Infrastructure/1.0.0": {
-      "sha512": "FNmvLn5m2LTU/Rs2KWVo0SIIh9Ek+U0ojex7xeDaSHw/zgEP77A8vY5cVWgUtBGS8MJfDGNn8rpXJWEIQaPwTg==",
+      "sha512": "n53z4bxLI6bly1tt4NzQx9vShfiEh3IB23vKVTFfKUOfUhbgoynhZMzn3aezHwTWUzxBmCe6j6hKHFYqDC9q9Q==",
       "type": "package",
       "path": "microsoft.web.infrastructure/1.0.0",
       "files": [
+        ".signature.p7s",
         "lib/net40/Microsoft.Web.Infrastructure.dll",
         "microsoft.web.infrastructure.1.0.0.nupkg.sha512",
         "microsoft.web.infrastructure.nuspec"
@@ -231,7 +232,7 @@
       ]
     },
     "System.Data.SqlClient/4.5.0": {
-      "sha512": "q6xYImrsNz+WZCa4/zvgUUihMQUxdI3S6e2gPsCA8TB8Ott7/frxxoeIoyjp3dsmvolA9StFD/Ib6tDPf5sHVA==",
+      "sha512": "ap20AC4BNIEo9GGJAYjjZWCutPOP70bXtFpJ3Bl1LpFY+8bdFtFITads/5CYeTMyJAH/fCrQsIcKWnwotATSdg==",
       "type": "package",
       "path": "system.data.sqlclient/4.5.0",
       "files": [
