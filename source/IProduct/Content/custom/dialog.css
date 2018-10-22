@@ -6,10 +6,11 @@
     border: 1px solid #CCC;
     background: white !important;
     overflow: hidden;
-
+    max-height: 96vh;
+    max-width: 96vw;
 }
 
-    .dialog > div {
+    .dialog > div:not(.ui-resizable-handle) {
         display: block;
         width: 100%;
         overflow: auto;
@@ -17,6 +18,14 @@
         padding-bottom: 20px;
         max-height: 93vh;
         overflow-y: auto;
+    }
+
+
+    .dialog > .ui-resizable-handle {
+        text-indent: 0 !important;
+        font-size: 8px;
+        top: 0;
+        right: -8px;
     }
 
 .dialogDim {
@@ -39,6 +48,9 @@
     .dialog > div > table > tbody > tr > td {
         vertical-align: top;
     }
+        .dialog > div > table > tbody > tr > td:first-child {
+            padding: 9px;
+        }
 
     .dialog > div > table > tbody > tr:last-child > td {
         vertical-align: bottom !important;

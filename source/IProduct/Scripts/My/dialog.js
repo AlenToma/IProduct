@@ -1,8 +1,6 @@
-﻿(function ($)
-{
+﻿(function ($) {
 
-	$.fn.dialog = function (options)
-	{
+	$.fn.dialog = function (options) {
 
 		// This is the easiest way to have default options.
 		var settings = $.extend({
@@ -26,25 +24,22 @@
 		var item = {};
 		var dialogDim = undefined;
 		var container = $(this);
-		if(!settings.title || settings.title === "")
+		if (!settings.title || settings.title === "")
 			settings.title = "	&#160;";
-		var div = $("<div class='dialog'><h1>" +settings.title + "<span class='close'>" + settings.closeText + "</span></h1><div><table><tr> <td></td>  </tr><tr><td style='height:11px'></td></tr></table></div></div>");
-		$.each(settings.buttons, function ()
-		{
+		var div = $("<div class='dialog'><h1>" + settings.title + "<span class='close'>" + settings.closeText + "</span></h1><div><table><tr> <td></td>  </tr><tr><td style='height:11px'></td></tr></table></div></div>");
+		$.each(settings.buttons, function () {
 			var x = this;
-			var span = $("<span></span>").html(this.text).click(function ()
-			{
+			var span = $("<span></span>").html(this.text).click(function () {
 				var result = x.click();
-				if(result == undefined || result == true)
+				if (result == undefined || result == true)
 					item.Hide();
 			});
 
 			div.find("h1").append(span);
 		})
 
-		item.getDilogDim = function ()
-		{
-			if(dialogDim)
+		item.getDilogDim = function () {
+			if (dialogDim)
 				return dialogDim;
 			dialogDim = $("<div class='dialogDim'></div>");
 			settings.zIndex += $(".dialog").length * 2;
@@ -52,64 +47,57 @@
 			settings.zIndex++;
 		}
 
-		item.Hide = function ()
-		{
-			if(!settings.removable)
-			{
-				if(div.slideUp)
-				{
+		item.Hide = function () {
+			if (!settings.removable) {
+				if (div.slideUp) {
 					dialogDim.slideUp("slow");
 					div.slideUp("slow");
 				}
-				else
-				{
+				else {
 					dialogDim.hide("slow");
 					div.hide("slow");
 				}
 
-			} else
-			{
+			} else {
 				dialogDim.remove();
 				div.remove();
 			}
 			return item;
 		};
 
-		item.Show = function ()
-		{
+		item.Show = function () {
 
-			if(div.slideDown)
-			{
+			if (div.slideDown) {
 				dialogDim.slideDown("fast");
 				div.slideDown("fast");
 			}
-			else
-			{
+			else {
 				dialogDim.show("fast");
 				div.show("fast");
 			}
 
 
-			if(div.draggable && settings.draggable)
+			if (div.draggable && settings.draggable)
 				div.draggable({ scroll: true, handle: div.find("h1:first-child") });
 			div.center(container);
 
-			$(window).bind("resize", function ()
-			{
+			$(window).bind("resize", function () {
 				div.center(container);
 			});
 
-			if(settings.width)
-				div.children("div").width(settings.width);
-			if(settings.height)
-				div.children("div").height(settings.height);
-			if(settings.onShow)
+			if (settings.width)
+				div.children("div:not(.ui-resizable-handle)").width(settings.width);
+			if (settings.height)
+				div.children("div:not(.ui-resizable-handle)").height(settings.height);
+			if (settings.onShow)
 				settings.onShow(settings);
+
+			div.center(container);
+		
 			return item;
 		}
 
-		item.Build = function ()
-		{
+		item.Build = function () {
 			item.getDilogDim();
 			div.css("z-index", settings.zIndex);
 			div.hide();
@@ -117,43 +105,47 @@
 			container.prepend(dialogDim).prepend(div);
 			div.find("tr:first-child").find("td").append(settings.data);
 
-			if(settings.onConfirm)
-			{
+			if (settings.onConfirm) {
 				div.find("tr").last().find("td").first().append("<span>" + settings.cancelText + "</span>");
-				div.find("tr").last().find("td").first().find("span").click(function ()
-				{
+				div.find("tr").last().find("td").first().find("span").click(function () {
 					var res = settings.onCancel(settings);
-					if(res == undefined || res == true)
+					if (res === undefined || res === true)
 						item.Hide();
 				});
 
 				div.find("tr").last().find("td").first().append("<span>" + settings.confirmText + "</span>");
 
-				div.find("tr").last().find("td").first().find("span:last-child").click(function ()
-				{
+				div.find("tr").last().find("td").first().find("span:last-child").click(function () {
 					var res = settings.onConfirm(settings);
-					if(res == undefined || res == true)
+					if (res === undefined || res === true)
 						item.Hide();
 				});
 			} /*else div.children("div").children("table").children("tbody").children("tr").last().remove();*/
 
-			if(settings.screan)
-			{
+			if (settings.screan) {
 				div.css({ width: "90%", height: "90%" });
 
 			}
 
-			div.find(".close").click(function ()
-			{
+			div.find(".close").click(function () {
 				var res = settings.onCancel(settings);
-				if(res == undefined || res == true)
+				if (res === undefined || res === true)
 					item.Hide();
 
 			});
-		}
 
-		item.find = function (filter)
-		{
+			if (div.resizable && div.find(".ui-resizable-handle").length <= 0) {
+				div.resizable({
+					containment: container
+				});
+
+				div.find(".ui-resizable-e,.ui-resizable-s").remove();
+
+				div.find(".ui-resizable-handle").append('<i class="fa fa-arrows-alt" aria-hidden="true"></i>');
+			}
+		};
+
+		item.find = function (filter) {
 			return div.find(filter);
 		}
 		item.Build();

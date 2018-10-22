@@ -27,7 +27,7 @@
 </div>
 
 <div id="productsTabs">
-    <div class="itemContainer filebrowser">
+    <div class="">
         <div class="product-tabs">
             <div class="addedTabs">
 
@@ -44,13 +44,12 @@
             </div>
         </div>
     </div>
+    <div class="productImages">
+    </div>
 </div>
 
 <div id="productProperties">
-    <div class="itemContainer filebrowser">
-        <h1>Images<span>Add Image</span></h1>
-        <ul class="itemContainer images files"></ul>
-    </div>
+
     <div class="form-group">
         <label>
             Description:
@@ -107,8 +106,6 @@
     var properties = producttab.add($("#productProperties"), "Properties", "Properties");
 
     var productsettings = producttab.add($("#productSettings"), "Settings", "Settings");
-
-
 
 
 
@@ -229,8 +226,6 @@
             tab: {name: "", content: ""}, edit: false, content: "" }
 
         general.content.find(".content").val(item.content)
-        //tinyMCE.DOM.setHTML('productContent', item.content);
-
 
         function loadHtmlEditor() {
             bindHtmlEditor(".htmleditor", '@Url.Action("FileBrowser")', function (editor) {
@@ -258,27 +253,7 @@
 
 
 
-        properties.content.find("div.itemContainer h1").find("span").click(function () {
-            var dialog = $("body").first().dialog({
-                title: "File browser",
-                screan: false,
-                width: 600,
-                height: 600,
-                data: Partial("FileBrowser.cshtml"),
-                onCancel: function () {
-                    loadHtmlEditor();
-                }
-            }).Show();
 
-            browserSettings.onSelect = function (x, src) {
-                var y = { images: x };
-                if (!item.images)
-                    item.images = [];
-
-                item.images.push(y);
-                loadProductImages();
-                }
-        });
 
 
 
@@ -340,8 +315,51 @@
             });
 
         function loadProductImages() {
-            properties.content.find("ul.itemContainer").html("");
-            $.each($.grep(item.images, function (m) { return m.object_Status != "Removed" }), function (i, a) {
+            productsTabs.content.find(".productImages").html("");
+            var img = productsTabs.content.find(".productImages").treeView({
+                header: "Manage Products-Images",
+                columns: [{
+                    data: function (i) {
+                        var src = '@Url.Action("Index", "Home", null, Request.Url.Scheme)' + i.images.fileFullPath
+                        return "<img style='width:103px;' src='" + src + "' />";
+                    },
+                    header: "Image",
+                    sortable: false
+                }],
+                onDelete: function (i) {
+                    i.object_Status = "Removed";
+                    img.body();
+                },
+                buttons: [{
+                    text: "Add image", click: function () {
+                        var dialog = $("body").first().dialog({
+                            title: "File browser",
+                            screan: false,
+                            width: 600,
+                            height: 600,
+                            data: Partial("FileBrowser.cshtml"),
+                            onCancel: function () {
+                                loadHtmlEditor();
+                            }
+                        }).Show();
+
+                        browserSettings.onSelect = function (x, src) {
+                            var y = { images: x };
+                            if (!item.images)
+                                item.images = [];
+
+                            item.images.push(y);
+                            img.body();
+                        }
+                    }
+                }],
+                data: function (settings) {
+                    return $.grep(item.images, function (m) { return m.object_Status != "Removed" });
+                },
+                searchEnable: false
+            });
+
+            @*$.each($.grep(item.images, function (m) { return m.object_Status != "Removed" }), function (i, a) {
                 var x = this;
                 var src = '@Url.Action("Index", "Home", null, Request.Url.Scheme)' + this.images.fileFullPath
                 var li = $("<li title='" + this.images.friendlyName + "'></li>")
@@ -375,7 +393,7 @@
                 });
 
 
-            });
+            });*@
         }
 
         loadProductImages();

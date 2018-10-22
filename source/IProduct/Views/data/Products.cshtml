@@ -71,15 +71,22 @@
                             var src = "/Content/Image/info.png";
                             var description = isNullOrEmpty(this.description) ? "" : this.description;
                             var url = '@Url.Action("Product", "Home", null, Request.Url.Scheme)' + "?id=" + this.id;
-                            if(x.images.length > 0)
-                                src = '@Url.Action("index", "Home", null, Request.Url.Scheme)' + x.images[0].images.fileThumpFullPath
+                            var images = "";
+                            if (x.images.length > 0) {
+                                $.each(x.images, function () {
+                                    src = '@Url.Action("index", "Home", null, Request.Url.Scheme)' + this.images.fileThumpFullPath;
+                                    images += "<img src='" + src + "' />";
+                                });
+                            }
 
                             var div = $(design
                                 .translate("Url", url)
-                                .translate("Src", src)
+                                .translate("Images", images)
                                 .translate("Title", x.name)
                                 .translate("Description", description)
                                 .translate("Price", this.price.formatMoney() + ":-"));
+
+
 
                             div.find(".m-button").click(function ()
                             {
@@ -90,6 +97,8 @@
                                 divs.push($("<div/>").append(div));
                             else divs.push(div);
                         });
+
+
 
                         if(data.productShow === "Slider" && slider != undefined)
                         {
@@ -115,6 +124,20 @@
                                 time= setTimeout(onScroll, 0);
                             });
                         }
+
+                        $(divs).each(function () {
+                            $(this).find(".image-Wrapper").slick({
+                                slidesToShow: 1,
+                                slidesToScroll: 1,
+                                dots: false,
+                                infinite: true,
+                                speed: 500,
+                                fade: true,
+                                centerMode: true,
+                                cssEase: 'linear',
+                            });
+                        });
+
 
                     } else if(data.productShow === "Table") // End of Image Grid & Slider and start of Table View
                     {
@@ -149,10 +172,18 @@
                             var url = '@Url.Action("Product", "Home", null, Request.Url.Scheme)' + "?id=" + this.id;
                             if(x.images.length > 0)
                                 src = '@Url.Action("index", "Home", null, Request.Url.Scheme)' + x.images[0].images.fileThumpFullPath;
+                            var images = "";
+                            if (x.images.length > 0) {
+                                $.each(x.images, function () {
+                                    src = '@Url.Action("index", "Home", null, Request.Url.Scheme)' + this.images.fileThumpFullPath;
+                                    images += "<img src='" + src + "' />";
+                                });
+                            }
+
 
                             var div = $(design
                                 .translate("Url", url)
-                                .translate("Src", src)
+                                .translate("Images", images)
                                 .translate("Title", x.name)
                                 .translate("Description", description)
                                 .translate("Price", this.price.formatMoney() + ":-"));
@@ -164,6 +195,22 @@
                             section.append(div);
 
                         });
+                        setTimeout(function () {
+
+
+                            section.children("div").each(function () {
+                                $(this).find(".image-Wrapper").slick({
+                                    slidesToShow: 1,
+                                    slidesToScroll: 1,
+                                    dots: false,
+                                    infinite: true,
+                                    speed: 500,
+                                    fade: true,
+                                    centerMode: true,
+                                    cssEase: 'linear',
+                                });
+                            });
+                        }, 200);
                     } // end of table view
                     btnLoadable();
                     tbSettings.append = true;

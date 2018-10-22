@@ -28,7 +28,7 @@
 				else
 					div.html($("<span></span>").append(x.text));
 
-				div.children("span").click(function ()
+				(div.find("span"), div).click(function ()
 				{
 					if(x.click)
 						x.click();

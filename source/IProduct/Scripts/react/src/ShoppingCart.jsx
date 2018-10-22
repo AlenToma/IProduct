@@ -92,8 +92,8 @@
 		$.each(x.state.data.productTotalInformations, function () {
 			total += this.v;
 		});
-		x.state.count = total;
 
+		x.state.count = total;
 		if (x.state.connector) {
 			if (x.state.data.products.length > 0)
 				$(x.state.connector).html("(" + total + ")");

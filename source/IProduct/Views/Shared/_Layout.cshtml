@@ -79,7 +79,6 @@
             }).Show();
         }
 
-
         function btnLoadable()
         {
             $(".m-button:not(.loadable)").click(function ()
@@ -88,7 +87,7 @@
                 if(x.find(".fa-circle-o-notch").length <= 0)
                 {
                     x.addClass("loadable");
-                    x.prepend($("<i/>", { "class": "fa fa-circle-o-notch fa-spin" }));
+                    x.prepend($("<i/>", { "class": "fa fa-circle-o-notch fa-spin" }).css({ position: "absolute", left: "8px", top:"8px" }));
                     setTimeout(function ()
                     {
                         x.find(".fa-circle-o-notch").remove();

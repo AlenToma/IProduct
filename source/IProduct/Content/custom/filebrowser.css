@@ -15,6 +15,7 @@
         height: 100%;
         list-style: none;
         margin-top: 8px;
+        overflow:hidden;
     }
 
     .filebrowser > .files {
@@ -98,6 +99,7 @@
         overflow: hidden;
         background: #00a0d0;
         height: 37px;
+        margin:0;
     }
 
 /*.btn {

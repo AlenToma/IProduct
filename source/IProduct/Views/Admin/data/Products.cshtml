@@ -53,7 +53,7 @@
             header: "Categories",
             data: function (item) {
                 var value = "";
-                $.each(item.productcategories, function () {
+                $.each(item.productCategories, function () {
                     value += this.category.name + ",";
                 });
                 if (value.length > 2)

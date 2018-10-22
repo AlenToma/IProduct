@@ -1,8 +1,7 @@
 ﻿// Extend the default Number object with a formatMoney() method:
 // usage: someVar.formatMoney(decimalPlaces, symbol, thousandsSeparator, decimalSeparator)
 // defaults: (2, "$", ",", ".")
-Number.prototype.formatMoney = function (places, symbol, thousand, decimal)
-{
+Number.prototype.formatMoney = function (places, symbol, thousand, decimal) {
 	var number = this || 0;
 	places = !isNaN(places = Math.abs(places)) ? places : 0;
 	symbol = symbol !== undefined ? symbol : "";
@@ -15,13 +14,11 @@ Number.prototype.formatMoney = function (places, symbol, thousand, decimal)
 };
 
 
-String.prototype.translate = function (name, value)
-{
+String.prototype.translate = function (name, value) {
 	var result = this.toString();
 	var names = name.split(",");
-	for(var i = 0; i <= names.length - 1; i++)
-	{
-		if(isNullOrEmpty(names[i]))
+	for (var i = 0; i <= names.length - 1; i++) {
+		if (isNullOrEmpty(names[i]))
 			continue;
 		name = "{" + names[i].trim() + "}";
 		var esc = this.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
@@ -32,69 +29,59 @@ String.prototype.translate = function (name, value)
 };
 
 /// make a button act like a link
-function toLocation(item)
-{
-	$(item).each(function ()
-	{
+function toLocation(item) {
+	$(item).each(function () {
 		var location = $(this).attr("href");
-		if(location && location !== "")
-			$(this).click(function ()
-			{
+		if (location && location !== "")
+			$(this).click(function () {
 				window.location.href = location;
 			});
 	});
 }
 
-function formatDate(date, incTime)
-{
-	if(date === null)
+function formatDate(date, incTime) {
+	if (date === null)
 		return "";
 
-	if(typeof date === "string")
+	if (typeof date === "string")
 		date = new Date(date);
 	var day = (date.getDate() <= 9 ? "0" + date.getDate() :
 		date.getDate());
 	var month = (date.getMonth() + 1 <= 9 ? "0" +
 		(date.getMonth() + 1) : (date.getMonth() + 1));
 	var dateString = date.getFullYear() + "-" + month + "-" + day + " " + (incTime ? date.getHours() + ":" + date.getMinutes() : "");
-	//var dateString = day + "-" + month + "-" + date.getFullYear() + " " + (incTime ? date.getHours() + ":" + date.getMinutes() : "");
-
-	return dateString;
+	if (!isNaN(new Date(dateString)))
+		return dateString;
+	return "";
 }
 
-function isNullOrEmpty(val)
-{
-	if(!val || val === null || val === "")
+function isNullOrEmpty(val) {
+	if (!val || val === null || val === "")
 		return true;
 	else return false;
 }
 
 
-function Sort(data, column, direction)
-{
-	if(direction === "none")
+function Sort(data, column, direction) {
+	if (direction === "none")
 		return data;
-	return data.sort(function (row, rowb)
-	{
+	return data.sort(function (row, rowb) {
 		var isInt = !(typeof row[column] === "string");
 		var textA = row[column];
 		var textB = rowb[column];
-		if(!isInt)
-		{
-			if(direction === "desc")
+		if (!isInt) {
+			if (direction === "desc")
 				return textA < textB ? -1 : 1;
 			else return textA < textB ? 1 : -1;
-		} else
-		{
-			if(direction === "desc")
+		} else {
+			if (direction === "desc")
 				return textB - textA;
 			else return textA - textB;
 		}
 	});
 };
 
-function bindHtmlEditor(selector, browserUrl, change)
-{
+function bindHtmlEditor(selector, browserUrl, change) {
 	tinyMCE.remove();
 	$(".mce-tinymce").remove();
 	$(selector).show();
@@ -121,17 +108,14 @@ function bindHtmlEditor(selector, browserUrl, change)
 			{ title: 'Test template 1', content: 'Test 1' },
 			{ title: 'Test template 2', content: 'Test 2' }
 
-		], init_instance_callback: function (editor)
-		{
-			editor.on('Change', function (e)
-			{
-				if(change)
+		], init_instance_callback: function (editor) {
+			editor.on('Change', function (e) {
+				if (change)
 					change(editor);
 
 			});
 		},
-		file_browser_callback: function (field_name, url, type, win)
-		{
+		file_browser_callback: function (field_name, url, type, win) {
 			var filebrowser = browserUrl;
 			filebrowser += ((filebrowser.indexOf("?") < 0) ? "?type=" + type : "&type=" + type) + "&t=" + new Date().toString();
 			tinymce.activeEditor.windowManager.open({
@@ -151,11 +135,10 @@ function bindHtmlEditor(selector, browserUrl, change)
 		]
 	});
 
-	$(selector).each(function ()
-	{
+	$(selector).each(function () {
 		var id = $(this).attr("id");
 		var html = $(this).val();
-		if(!isNullOrEmpty(id))
+		if (!isNullOrEmpty(id))
 			tinyMCE.DOM.setHTML(id, html);
 	});
 }

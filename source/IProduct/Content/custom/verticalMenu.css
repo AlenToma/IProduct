@@ -26,9 +26,9 @@
         .verticlaMenu li.hasChildren > line {
             content: '';
             position: absolute;
-            top: -18px;
-            width: 3%;
-            height: 29px;
+            top: -8px;
+            width: 4%;
+            height: 22px;
             right: auto;
             left: -2.5%;
             border-bottom: 1px solid #ccc;
